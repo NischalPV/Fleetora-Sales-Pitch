@@ -59,8 +59,8 @@ function FlipCard({
             >
                 {/* Front Face */}
                 <div
-                    className="absolute inset-0 h-full w-full overflow-hidden rounded-xl shadow-lg bg-gray-200"
-                    style={{ backfaceVisibility: "hidden" }}
+                    className="absolute inset-0 h-full w-full overflow-hidden rounded-xl bg-gray-800"
+                    style={{ backfaceVisibility: "hidden", boxShadow: "0 0 20px rgba(59,130,246,0.3)" }}
                 >
                     <img
                         src={src}
@@ -116,7 +116,11 @@ const IMAGES = [
 // Helper for linear interpolation
 const lerp = (start: number, end: number, t: number) => start * (1 - t) + end * t;
 
-export default function IntroAnimation() {
+interface IntroAnimationProps {
+    onComplete?: () => void;
+}
+
+export default function IntroAnimation({ onComplete }: IntroAnimationProps) {
     const [introPhase, setIntroPhase] = useState<AnimationPhase>("scatter");
     const [containerSize, setContainerSize] = useState({ width: 0, height: 0 });
     const containerRef = useRef<HTMLDivElement>(null);
@@ -149,6 +153,7 @@ export default function IntroAnimation() {
     // --- Virtual Scroll Logic ---
     const virtualScroll = useMotionValue(0);
     const scrollRef = useRef(0); // Keep track of scroll value without re-renders
+    const completedRef = useRef(false);
 
     useEffect(() => {
         const container = containerRef.current;
@@ -158,9 +163,16 @@ export default function IntroAnimation() {
             // Prevent default to stop browser overscroll/bounce
             e.preventDefault();
 
+            if (completedRef.current) return;
+
             const newScroll = Math.min(Math.max(scrollRef.current + e.deltaY, 0), MAX_SCROLL);
             scrollRef.current = newScroll;
             virtualScroll.set(newScroll);
+
+            if (newScroll >= MAX_SCROLL && !completedRef.current) {
+                completedRef.current = true;
+                onComplete?.();
+            }
         };
 
         // Touch support
@@ -169,6 +181,8 @@ export default function IntroAnimation() {
             touchStartY = e.touches[0].clientY;
         };
         const handleTouchMove = (e: TouchEvent) => {
+            if (completedRef.current) return;
+
             const touchY = e.touches[0].clientY;
             const deltaY = touchStartY - touchY;
             touchStartY = touchY;
@@ -176,6 +190,11 @@ export default function IntroAnimation() {
             const newScroll = Math.min(Math.max(scrollRef.current + deltaY, 0), MAX_SCROLL);
             scrollRef.current = newScroll;
             virtualScroll.set(newScroll);
+
+            if (newScroll >= MAX_SCROLL && !completedRef.current) {
+                completedRef.current = true;
+                onComplete?.();
+            }
         };
 
         // Attach listeners to container instead of window for portability
@@ -255,13 +274,8 @@ export default function IntroAnimation() {
         };
     }, [smoothMorph, smoothScrollRotate, smoothMouseX]);
 
-    // --- Content Opacity ---
-    // Fade in content when arc is formed (morphValue > 0.8)
-    const contentOpacity = useTransform(smoothMorph, [0.8, 1], [0, 1]);
-    const contentY = useTransform(smoothMorph, [0.8, 1], [20, 0]);
-
     return (
-        <div ref={containerRef} className="relative w-full h-full bg-[#FAFAFA] overflow-hidden">
+        <div ref={containerRef} className="relative w-full h-full bg-[#0f172a] overflow-hidden">
             {/* Container */}
             <div className="flex h-full w-full flex-col items-center justify-center perspective-1000">
 
@@ -271,36 +285,32 @@ export default function IntroAnimation() {
                         initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
                         animate={introPhase === "circle" && morphValue < 0.5 ? { opacity: 1 - morphValue * 2, y: 0, filter: "blur(0px)" } : { opacity: 0, filter: "blur(10px)" }}
                         transition={{ duration: 1 }}
-                        className="text-2xl font-medium tracking-tight text-gray-800 md:text-4xl"
+                        className="text-2xl font-medium tracking-tight text-slate-100 md:text-4xl"
                     >
-                        The future is built on AI.
+                        The operations brain for modern car rental.
                     </motion.h1>
                     <motion.p
                         initial={{ opacity: 0 }}
                         animate={introPhase === "circle" && morphValue < 0.5 ? { opacity: 0.5 - morphValue } : { opacity: 0 }}
                         transition={{ duration: 1, delay: 0.2 }}
-                        className="mt-4 text-xs font-bold tracking-[0.2em] text-gray-500"
+                        className="mt-4 text-xs font-bold tracking-[0.2em] text-slate-500"
                     >
-                        SCROLL TO EXPLORE
+                        SCROLL TO BEGIN
                     </motion.p>
                 </div>
 
-                {/* Arc Active Content (Fades in) */}
-                <motion.div
-                    style={{ opacity: contentOpacity, y: contentY }}
-                    className="absolute top-[10%] z-10 flex flex-col items-center justify-center text-center pointer-events-none px-4"
-                >
-                    <h2 className="text-3xl md:text-5xl font-semibold text-gray-900 tracking-tight mb-4">
-                        Explore Our Vision
-                    </h2>
-                    <p className="text-sm md:text-base text-gray-600 max-w-lg leading-relaxed">
-                        Discover a world where technology meets creativity. <br className="hidden md:block" />
-                        Scroll through our curated collection of innovations designed to shape the future.
-                    </p>
-                </motion.div>
-
                 {/* Main Container */}
                 <div className="relative flex items-center justify-center w-full h-full">
+                    {introPhase === "circle" && (
+                        <div
+                            className="absolute rounded-full pointer-events-none"
+                            style={{
+                                width: Math.min(containerSize.width, containerSize.height) * 0.8,
+                                height: Math.min(containerSize.width, containerSize.height) * 0.8,
+                                background: "radial-gradient(circle, rgba(59,130,246,0.08) 0%, transparent 70%)",
+                            }}
+                        />
+                    )}
                     {IMAGES.slice(0, TOTAL_IMAGES).map((src, i) => {
                         let target = { x: 0, y: 0, rotation: 0, scale: 1, opacity: 1 };
 
