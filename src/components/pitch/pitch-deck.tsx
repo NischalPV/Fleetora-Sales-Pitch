@@ -5,6 +5,7 @@ import { ProgressBar } from "./shared/progress-bar";
 import { HeroScreen } from "./screens/01-hero";
 import { StoryScreen } from "./screens/02-story";
 import { DamageScreen } from "./screens/03-damage";
+import { RevealScreen } from "./screens/04-reveal";
 
 const TOTAL_SCREENS = 11;
 
@@ -81,10 +82,13 @@ export function PitchDeck() {
                 {/* Screen 3: The Damage */}
                 <DamageScreen />
 
-                {/* Screens 4-11: Placeholder sections */}
-                {Array.from({ length: 8 }, (_, i) => (
-                    <section key={i + 4} className="h-screen w-full snap-start flex items-center justify-center">
-                        <p className="text-slate-500 text-lg">Screen {i + 4}</p>
+                {/* Screen 4: The Reveal */}
+                <RevealScreen />
+
+                {/* Screens 5-11: Placeholder sections */}
+                {Array.from({ length: 7 }, (_, i) => (
+                    <section key={i + 5} className="h-screen w-full snap-start flex items-center justify-center">
+                        <p className="text-slate-500 text-lg">Screen {i + 5}</p>
                     </section>
                 ))}
             </div>
