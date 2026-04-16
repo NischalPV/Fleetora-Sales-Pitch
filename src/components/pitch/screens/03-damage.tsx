@@ -64,7 +64,7 @@ export function DamageScreen() {
     const { ref, isInView } = useInView(0.3);
 
     return (
-        <section ref={ref} className="h-screen w-full snap-start flex items-center justify-center px-8 relative overflow-hidden">
+        <section ref={ref} className="h-screen w-full flex items-center justify-center px-8 relative overflow-hidden">
             {/* Subtle gradient background */}
             <div className="absolute inset-0 bg-gradient-to-b from-white via-slate-50/50 to-white pointer-events-none" />
 

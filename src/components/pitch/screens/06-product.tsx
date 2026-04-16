@@ -276,7 +276,7 @@ export function ProductScreen() {
         <section
             ref={ref}
             onWheel={handleWheel}
-            className="h-screen w-full snap-start flex flex-col items-center justify-center px-8 gap-4"
+            className="h-screen w-full flex flex-col items-center justify-center px-8 gap-4"
         >
             <AnimatePresence mode="wait">
                 <motion.div

@@ -11,7 +11,7 @@ export function CloseScreen({ email = "sales@monexatech.com" }: CloseScreenProps
     const { ref, isInView } = useInView(0.3);
 
     return (
-        <section ref={ref} className="h-screen w-full snap-start flex flex-col items-center justify-center px-8">
+        <section ref={ref} className="h-screen w-full flex flex-col items-center justify-center px-8">
             <motion.div
                 initial={{ opacity: 0 }}
                 animate={isInView ? { opacity: 1 } : {}}

@@ -25,7 +25,7 @@ export function RoadmapScreen() {
     const { ref, isInView } = useInView(0.3);
 
     return (
-        <section ref={ref} className="h-screen w-full snap-start flex flex-col items-center justify-center px-8">
+        <section ref={ref} className="h-screen w-full flex flex-col items-center justify-center px-8">
             <motion.h2
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}

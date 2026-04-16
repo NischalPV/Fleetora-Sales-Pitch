@@ -163,7 +163,7 @@ export function FleetBrainScreen() {
     const { ref, isInView } = useInView(0.2);
 
     return (
-        <section ref={ref} className="h-screen w-full snap-start flex flex-col items-center justify-center px-8 relative overflow-hidden">
+        <section ref={ref} className="h-screen w-full flex flex-col items-center justify-center px-8 relative overflow-hidden">
             {/* Title */}
             <motion.h2
                 initial={{ opacity: 0, y: 20 }}

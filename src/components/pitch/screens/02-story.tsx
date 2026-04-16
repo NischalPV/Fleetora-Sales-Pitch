@@ -17,7 +17,7 @@ export function StoryScreen() {
     const { ref, isInView } = useInView(0.2);
 
     return (
-        <section ref={ref} className="h-screen w-full snap-start flex flex-col items-center justify-center px-8">
+        <section ref={ref} className="h-screen w-full flex flex-col items-center justify-center px-8">
             <div className="flex flex-col items-center gap-8 text-center max-w-3xl">
                 {LINES.map((line, i) => (
                     <motion.p

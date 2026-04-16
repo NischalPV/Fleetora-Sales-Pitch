@@ -71,7 +71,7 @@ export function PillarsScreen() {
         <section
             ref={ref}
             onWheel={handleWheel}
-            className="h-screen w-full snap-start flex flex-col items-center justify-center px-8 relative"
+            className="h-screen w-full flex flex-col items-center justify-center px-8 relative"
         >
             {/* Dot indicator */}
             <div className="absolute top-8 flex gap-2">

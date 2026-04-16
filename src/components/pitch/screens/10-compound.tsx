@@ -15,7 +15,7 @@ export function CompoundScreen() {
     const { ref, isInView } = useInView(0.3);
 
     return (
-        <section ref={ref} className="h-screen w-full snap-start flex items-center justify-center px-8">
+        <section ref={ref} className="h-screen w-full flex items-center justify-center px-8">
             <div className="flex flex-col md:flex-row items-center gap-12 md:gap-20 max-w-4xl">
                 <div className="w-64 h-48 md:w-80 md:h-56 shrink-0">
                     <svg viewBox="0 0 300 200" className="w-full h-full">
