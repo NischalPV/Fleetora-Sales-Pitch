@@ -10,10 +10,9 @@ interface GlowTextProps {
     delay?: number;
 }
 
-export function GlowText({ text, className = "", glowColor = "rgba(59,130,246,0.4)", active, delay = 0 }: GlowTextProps) {
+export function GlowText({ text, className = "", glowColor = "rgba(37,99,235,0.15)", active, delay = 0 }: GlowTextProps) {
     return (
         <div className="relative inline-block">
-            {/* Glow layer */}
             <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={active ? { opacity: 1, scale: 1 } : {}}
@@ -21,7 +20,6 @@ export function GlowText({ text, className = "", glowColor = "rgba(59,130,246,0.
                 className="absolute inset-0 blur-3xl -z-10"
                 style={{ background: `radial-gradient(ellipse, ${glowColor}, transparent 70%)` }}
             />
-            {/* Text */}
             <motion.span
                 initial={{ opacity: 0, scale: 0.8, filter: "blur(10px)" }}
                 animate={active ? { opacity: 1, scale: 1, filter: "blur(0px)" } : {}}
