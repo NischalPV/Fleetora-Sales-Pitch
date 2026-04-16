@@ -19,8 +19,8 @@ export function CompoundScreen() {
             <div className="flex flex-col md:flex-row items-center gap-12 md:gap-20 max-w-4xl">
                 <div className="w-64 h-48 md:w-80 md:h-56 shrink-0">
                     <svg viewBox="0 0 300 200" className="w-full h-full">
-                        <line x1="20" y1="180" x2="280" y2="180" stroke="#1e293b" strokeWidth="1" />
-                        <line x1="20" y1="180" x2="20" y2="10" stroke="#1e293b" strokeWidth="1" />
+                        <line x1="20" y1="180" x2="280" y2="180" stroke="#e2e8f0" strokeWidth="1" />
+                        <line x1="20" y1="180" x2="20" y2="10" stroke="#e2e8f0" strokeWidth="1" />
 
                         <motion.path
                             d={CURVE_PATH}
@@ -62,7 +62,7 @@ export function CompoundScreen() {
                             initial={{ opacity: 0, x: 20 }}
                             animate={isInView ? { opacity: 1, x: 0 } : {}}
                             transition={{ delay: 1 + i * 0.4, type: "spring", stiffness: 40, damping: 15 }}
-                            className="text-lg md:text-xl text-slate-300"
+                            className="text-lg md:text-xl text-slate-600"
                         >
                             {line}
                         </motion.p>
@@ -71,7 +71,7 @@ export function CompoundScreen() {
                         initial={{ opacity: 0, y: 10 }}
                         animate={isInView ? { opacity: 1, y: 0 } : {}}
                         transition={{ delay: 2.5, duration: 0.8 }}
-                        className="text-xl md:text-2xl font-semibold text-blue-400 mt-4"
+                        className="text-xl md:text-2xl font-semibold text-blue-600 mt-4"
                     >
                         Your competitors can&apos;t copy an advantage that compounds daily.
                     </motion.p>

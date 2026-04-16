@@ -8,7 +8,7 @@ interface HeroScreenProps {
 
 export function HeroScreen({ onComplete }: HeroScreenProps) {
     return (
-        <section className="h-screen w-full snap-start relative">
+        <section className="h-screen w-full snap-start relative bg-white">
             <IntroAnimation onComplete={onComplete} />
         </section>
     );

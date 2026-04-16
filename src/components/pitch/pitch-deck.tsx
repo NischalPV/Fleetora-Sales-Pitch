@@ -77,7 +77,7 @@ export function PitchDeck() {
             <ProgressBar scrollProgress={scrollProgress} />
             <div
                 ref={containerRef}
-                className="h-screen overflow-y-auto snap-y snap-mandatory"
+                className="h-screen overflow-y-auto snap-y snap-mandatory scroll-smooth"
                 style={{ scrollBehavior: "smooth" }}
             >
                 {/* Screen 1: Hero */}

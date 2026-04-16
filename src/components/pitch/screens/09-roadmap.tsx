@@ -30,7 +30,7 @@ export function RoadmapScreen() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.6 }}
-                className="text-3xl md:text-4xl font-bold text-slate-100 mb-16 text-center"
+                className="text-3xl md:text-4xl font-bold text-slate-900 mb-16 text-center"
             >
                 And we&apos;re just getting started.
             </motion.h2>
@@ -77,7 +77,7 @@ export function RoadmapScreen() {
                                     initial={{ opacity: 0 }}
                                     animate={isInView ? { opacity: 1 } : {}}
                                     transition={{ delay: 0.8 + i * 0.4 + j * 0.1 }}
-                                    className="text-sm text-slate-400"
+                                    className="text-sm text-slate-500"
                                 >
                                     {item}
                                 </motion.p>

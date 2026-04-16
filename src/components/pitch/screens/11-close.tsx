@@ -18,12 +18,12 @@ export function CloseScreen({ email = "sales@monexatech.com" }: CloseScreenProps
                 transition={{ duration: 1.5, ease: "easeOut" }}
                 className="flex flex-col items-center text-center gap-8"
             >
-                <p className="text-2xl font-bold tracking-tight text-slate-300">Fleetora</p>
-                <p className="text-xl text-slate-400 max-w-md leading-relaxed">
+                <p className="text-2xl font-bold tracking-tight text-slate-900">Fleetora</p>
+                <p className="text-xl text-slate-500 max-w-md leading-relaxed">
                     Built for the operators who refuse to run blind.
                 </p>
                 <div className="mt-8">
-                    <p className="text-sm text-slate-600">{email}</p>
+                    <p className="text-sm text-slate-400">{email}</p>
                 </div>
             </motion.div>
         </section>
