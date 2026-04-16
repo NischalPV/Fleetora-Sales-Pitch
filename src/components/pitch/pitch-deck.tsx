@@ -8,6 +8,7 @@ import { DamageScreen } from "./screens/03-damage";
 import { RevealScreen } from "./screens/04-reveal";
 import { PillarsScreen } from "./screens/05-pillars";
 import { ProductScreen } from "./screens/06-product";
+import { FleetBrainScreen } from "./screens/07-fleet-brain";
 
 const TOTAL_SCREENS = 11;
 
@@ -93,10 +94,13 @@ export function PitchDeck() {
                 {/* Screen 6: Product Showcase */}
                 <ProductScreen />
 
-                {/* Screens 7-11: Placeholder sections */}
-                {Array.from({ length: 5 }, (_, i) => (
-                    <section key={i + 7} className="h-screen w-full snap-start flex items-center justify-center">
-                        <p className="text-slate-500 text-lg">Screen {i + 7}</p>
+                {/* Screen 7: Fleet Brain */}
+                <FleetBrainScreen />
+
+                {/* Screens 8-11: Placeholder sections */}
+                {Array.from({ length: 4 }, (_, i) => (
+                    <section key={i + 8} className="h-screen w-full snap-start flex items-center justify-center">
+                        <p className="text-slate-500 text-lg">Screen {i + 8}</p>
                     </section>
                 ))}
             </div>
