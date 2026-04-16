@@ -4,12 +4,12 @@ import { motion } from "framer-motion";
 import { useInView } from "../shared/use-in-view";
 
 const LINES = [
-    { text: "It\u2019s Tuesday afternoon.", className: "text-3xl md:text-5xl font-semibold text-slate-100" },
-    { text: "Your busiest branch just turned away 3 customers. Meanwhile, 4 cars sit idle across town. Nobody knows.", className: "text-xl md:text-2xl text-slate-300 max-w-2xl" },
-    { text: "A walk-in at the counter has been waiting 20 minutes. Paper contract. Phone calls to verify credit.", className: "text-xl md:text-2xl text-slate-300 max-w-2xl" },
-    { text: "A corporate account is over-limit. The shared spreadsheet says otherwise.", className: "text-xl md:text-2xl text-slate-300 max-w-2xl" },
-    { text: "Your cheapest SUV is in the workshop. Nobody noticed it was due for service.", className: "text-xl md:text-2xl text-slate-300 max-w-2xl" },
-    { text: "\u2018Send two Tucsons to Airport tomorrow.\u2019 WhatsApp message. No trail. No tracking.", className: "text-xl md:text-2xl text-slate-300 max-w-2xl" },
+    { text: "It\u2019s Tuesday afternoon.", className: "text-3xl md:text-5xl font-semibold text-slate-900" },
+    { text: "Your busiest branch just turned away 3 customers. Meanwhile, 4 cars sit idle across town. Nobody knows.", className: "text-xl md:text-2xl text-slate-600 max-w-2xl" },
+    { text: "A walk-in at the counter has been waiting 20 minutes. Paper contract. Phone calls to verify credit.", className: "text-xl md:text-2xl text-slate-600 max-w-2xl" },
+    { text: "A corporate account is over-limit. The shared spreadsheet says otherwise.", className: "text-xl md:text-2xl text-slate-600 max-w-2xl" },
+    { text: "Your cheapest SUV is in the workshop. Nobody noticed it was due for service.", className: "text-xl md:text-2xl text-slate-600 max-w-2xl" },
+    { text: "\u2018Send two Tucsons to Airport tomorrow.\u2019 WhatsApp message. No trail. No tracking.", className: "text-xl md:text-2xl text-slate-600 max-w-2xl" },
     { text: "This is how most rental operations run today.", className: "text-2xl md:text-3xl font-semibold text-red-500" },
 ];
 

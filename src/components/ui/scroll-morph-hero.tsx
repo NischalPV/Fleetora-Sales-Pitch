@@ -59,8 +59,8 @@ function FlipCard({
             >
                 {/* Front Face */}
                 <div
-                    className="absolute inset-0 h-full w-full overflow-hidden rounded-xl bg-gray-800"
-                    style={{ backfaceVisibility: "hidden", boxShadow: "0 0 20px rgba(59,130,246,0.3)" }}
+                    className="absolute inset-0 h-full w-full overflow-hidden rounded-xl bg-white"
+                    style={{ backfaceVisibility: "hidden", boxShadow: "0 4px 20px rgba(0,0,0,0.08)" }}
                 >
                     <img
                         src={src}
@@ -72,7 +72,7 @@ function FlipCard({
 
                 {/* Back Face */}
                 <div
-                    className="absolute inset-0 h-full w-full overflow-hidden rounded-xl shadow-lg bg-gray-900 flex flex-col items-center justify-center p-4 border border-gray-700"
+                    className="absolute inset-0 h-full w-full overflow-hidden rounded-xl shadow-lg bg-slate-900 flex flex-col items-center justify-center p-4 border border-slate-200"
                     style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
                 >
                     <div className="text-center">
@@ -275,7 +275,7 @@ export default function IntroAnimation({ onComplete }: IntroAnimationProps) {
     }, [smoothMorph, smoothScrollRotate, smoothMouseX]);
 
     return (
-        <div ref={containerRef} className="relative w-full h-full bg-[#0f172a] overflow-hidden">
+        <div ref={containerRef} className="relative w-full h-full bg-white overflow-hidden">
             {/* Container */}
             <div className="flex h-full w-full flex-col items-center justify-center perspective-1000">
 
@@ -285,7 +285,7 @@ export default function IntroAnimation({ onComplete }: IntroAnimationProps) {
                         initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
                         animate={introPhase === "circle" && morphValue < 0.5 ? { opacity: 1 - morphValue * 2, y: 0, filter: "blur(0px)" } : { opacity: 0, filter: "blur(10px)" }}
                         transition={{ duration: 1 }}
-                        className="text-2xl font-medium tracking-tight text-slate-100 md:text-4xl"
+                        className="text-2xl font-medium tracking-tight text-slate-900 md:text-4xl"
                     >
                         The operations brain for modern car rental.
                     </motion.h1>
@@ -293,7 +293,7 @@ export default function IntroAnimation({ onComplete }: IntroAnimationProps) {
                         initial={{ opacity: 0 }}
                         animate={introPhase === "circle" && morphValue < 0.5 ? { opacity: 0.5 - morphValue } : { opacity: 0 }}
                         transition={{ duration: 1, delay: 0.2 }}
-                        className="mt-4 text-xs font-bold tracking-[0.2em] text-slate-500"
+                        className="mt-4 text-xs font-bold tracking-[0.2em] text-slate-400"
                     >
                         SCROLL TO BEGIN
                     </motion.p>
@@ -307,7 +307,7 @@ export default function IntroAnimation({ onComplete }: IntroAnimationProps) {
                             style={{
                                 width: Math.min(containerSize.width, containerSize.height) * 0.8,
                                 height: Math.min(containerSize.width, containerSize.height) * 0.8,
-                                background: "radial-gradient(circle, rgba(59,130,246,0.08) 0%, transparent 70%)",
+                                background: "radial-gradient(circle, rgba(37,99,235,0.05) 0%, transparent 70%)",
                             }}
                         />
                     )}
