@@ -41,7 +41,7 @@ function ConstellationSVG({ active }: { active: boolean }) {
                 const y = cy + Math.sin(rad) * radius;
                 return (
                     <g key={i}>
-                        <line x1={cx} y1={cy} x2={x} y2={y} stroke="#1e293b" strokeWidth="1" />
+                        <line x1={cx} y1={cy} x2={x} y2={y} stroke="#e2e8f0" strokeWidth="1" />
                         <motion.circle
                             r="3"
                             fill="#3b82f6"
@@ -72,14 +72,14 @@ function ConstellationSVG({ active }: { active: boolean }) {
                             cx={x}
                             cy={y}
                             r="16"
-                            fill="#0f172a"
-                            stroke="#334155"
+                            fill="#ffffff"
+                            stroke="#e2e8f0"
                             strokeWidth="1"
                             initial={{ scale: 0 }}
                             animate={active ? { scale: 1 } : {}}
                             transition={{ delay: 0.3 + i * 0.1, type: "spring", stiffness: 80 }}
                         />
-                        <text x={x} y={y + 3} textAnchor="middle" fill="#94a3b8" fontSize="7" fontWeight="500">
+                        <text x={x} y={y + 3} textAnchor="middle" fill="#64748b" fontSize="7" fontWeight="500">
                             {branch.label}
                         </text>
                     </g>
@@ -90,7 +90,7 @@ function ConstellationSVG({ active }: { active: boolean }) {
                 cx={cx}
                 cy={cy}
                 r="28"
-                fill="#0f172a"
+                fill="#ffffff"
                 stroke="#3b82f6"
                 strokeWidth="2"
                 initial={{ scale: 0 }}
@@ -104,7 +104,7 @@ function ConstellationSVG({ active }: { active: boolean }) {
                 fill="none"
                 stroke="#3b82f6"
                 strokeWidth="0.5"
-                opacity="0.3"
+                opacity="0.15"
                 initial={{ scale: 0 }}
                 animate={active ? { scale: [1, 1.3, 1] } : {}}
                 transition={{ duration: 3, repeat: Infinity }}
@@ -132,8 +132,8 @@ export function FleetBrainScreen() {
                     >
                         <div className="w-1.5 h-1.5 rounded-full bg-blue-500 mt-2.5 shrink-0" />
                         <div>
-                            <p className="text-base md:text-lg font-semibold text-blue-400">{insight.headline}</p>
-                            <p className="text-sm text-slate-400 mt-1">{insight.detail}</p>
+                            <p className="text-base md:text-lg font-semibold text-blue-600">{insight.headline}</p>
+                            <p className="text-sm text-slate-500 mt-1">{insight.detail}</p>
                         </div>
                     </motion.div>
                 ))}

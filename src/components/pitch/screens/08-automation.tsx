@@ -21,7 +21,7 @@ export function AutomationScreen() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.6 }}
-                className="text-3xl md:text-4xl font-bold text-slate-100 mb-12 text-center"
+                className="text-3xl md:text-4xl font-bold text-slate-900 mb-12 text-center"
             >
                 What used to take hours.
             </motion.h2>
@@ -52,12 +52,12 @@ export function AutomationScreen() {
                             transition={{ delay: 0.5 + i * 0.2 }}
                             className="relative"
                         >
-                            <span className="text-sm md:text-base text-slate-500">{pair.before}</span>
+                            <span className="text-sm md:text-base text-slate-400">{pair.before}</span>
                             <motion.div
                                 initial={{ width: 0 }}
                                 animate={isInView ? { width: "100%" } : {}}
                                 transition={{ delay: 0.8 + i * 0.2, duration: 0.3 }}
-                                className="absolute top-1/2 left-0 h-[1px] bg-red-500/60"
+                                className="absolute top-1/2 left-0 h-[1px] bg-red-400/60"
                             />
                         </motion.div>
                         <motion.div
@@ -65,7 +65,7 @@ export function AutomationScreen() {
                             animate={isInView ? { opacity: 1, x: 0 } : {}}
                             transition={{ delay: 1.0 + i * 0.2 }}
                         >
-                            <span className="text-sm md:text-base text-blue-400 font-medium">{pair.after}</span>
+                            <span className="text-sm md:text-base text-blue-600 font-medium">{pair.after}</span>
                         </motion.div>
                     </div>
                 ))}

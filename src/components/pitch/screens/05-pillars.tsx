@@ -80,7 +80,7 @@ export function PillarsScreen() {
                         key={i}
                         onClick={() => setActiveIndex(i)}
                         className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                            i === activeIndex ? "bg-white scale-125" : "bg-slate-600"
+                            i === activeIndex ? "bg-white scale-125" : "bg-slate-300"
                         }`}
                     />
                 ))}
@@ -96,7 +96,7 @@ export function PillarsScreen() {
                     className="flex flex-col items-center text-center max-w-2xl"
                 >
                     <div className="mb-8">{pillar.icon}</div>
-                    <h2 className="text-4xl md:text-6xl font-bold tracking-tight text-slate-100">
+                    <h2 className="text-4xl md:text-6xl font-bold tracking-tight text-slate-900">
                         {pillar.headline}
                     </h2>
                     {pillar.subhead && (
@@ -104,7 +104,7 @@ export function PillarsScreen() {
                             {pillar.subhead}
                         </h3>
                     )}
-                    <p className="text-base md:text-lg text-slate-400 mt-6 leading-relaxed max-w-lg">
+                    <p className="text-base md:text-lg text-slate-500 mt-6 leading-relaxed max-w-lg">
                         {pillar.description}
                     </p>
                 </motion.div>

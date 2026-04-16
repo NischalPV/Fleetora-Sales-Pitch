@@ -13,22 +13,22 @@ const ROLES = [
             <div className="p-4 space-y-3">
                 <div className="flex gap-3">
                     {["Fleet Utilization", "Revenue Today", "Active Bookings", "Alerts"].map((label, i) => (
-                        <div key={i} className="flex-1 bg-slate-700/50 rounded-lg p-3">
-                            <p className="text-[10px] text-slate-500 uppercase tracking-wide">{label}</p>
-                            <p className="text-lg font-bold text-slate-200 mt-1">{["87%", "$24.8K", "142", "3"][i]}</p>
+                        <div key={i} className="flex-1 bg-slate-50 rounded-lg p-3">
+                            <p className="text-[10px] text-slate-400 uppercase tracking-wide">{label}</p>
+                            <p className="text-lg font-bold text-slate-900 mt-1">{["87%", "$24.8K", "142", "3"][i]}</p>
                         </div>
                     ))}
                 </div>
-                <div className="bg-slate-700/30 rounded-lg p-3 h-24 flex items-end gap-1">
+                <div className="bg-slate-100 rounded-lg p-3 h-24 flex items-end gap-1">
                     {[40, 55, 45, 70, 65, 80, 75, 90, 85, 72, 88, 92].map((h, i) => (
-                        <div key={i} className="flex-1 rounded-sm bg-blue-500/60" style={{ height: `${h}%` }} />
+                        <div key={i} className="flex-1 rounded-sm bg-blue-500/80" style={{ height: `${h}%` }} />
                     ))}
                 </div>
                 <div className="space-y-1">
                     {["Airport \u2014 92%", "Downtown \u2014 78%", "Mall \u2014 85%"].map((b, i) => (
-                        <div key={i} className="flex items-center justify-between bg-slate-700/20 rounded px-3 py-1.5">
-                            <span className="text-xs text-slate-400">{b.split(" \u2014 ")[0]}</span>
-                            <span className="text-xs font-medium text-slate-300">{b.split(" \u2014 ")[1]}</span>
+                        <div key={i} className="flex items-center justify-between bg-slate-50 rounded px-3 py-1.5">
+                            <span className="text-xs text-slate-500">{b.split(" \u2014 ")[0]}</span>
+                            <span className="text-xs font-medium text-slate-700">{b.split(" \u2014 ")[1]}</span>
                         </div>
                     ))}
                 </div>
@@ -43,23 +43,23 @@ const ROLES = [
             <div className="p-4 space-y-3">
                 <div className="flex gap-3">
                     {["Today", "Checkouts", "Returns", "Available"].map((label, i) => (
-                        <div key={i} className="flex-1 bg-slate-700/50 rounded-lg p-3">
-                            <p className="text-[10px] text-slate-500 uppercase tracking-wide">{label}</p>
-                            <p className="text-lg font-bold text-slate-200 mt-1">{["Thu", "8", "5", "12"][i]}</p>
+                        <div key={i} className="flex-1 bg-slate-50 rounded-lg p-3">
+                            <p className="text-[10px] text-slate-400 uppercase tracking-wide">{label}</p>
+                            <p className="text-lg font-bold text-slate-900 mt-1">{["Thu", "8", "5", "12"][i]}</p>
                         </div>
                     ))}
                 </div>
-                <div className="bg-emerald-500/20 border border-emerald-500/30 rounded-lg p-3 flex items-center justify-center">
-                    <span className="text-emerald-400 font-semibold text-sm">+ New Walk-in</span>
+                <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-3 flex items-center justify-center">
+                    <span className="text-emerald-600 font-semibold text-sm">+ New Walk-in</span>
                 </div>
                 <div className="space-y-1">
                     {[
-                        { text: "Ahmad K. \u2014 Tucson \u2014 Due 5pm", status: "ACTIVE", statusClass: "bg-slate-600/50 text-slate-400" },
-                        { text: "Sara M. \u2014 Accent \u2014 Overdue", status: "OVERDUE", statusClass: "bg-red-500/20 text-red-400" },
-                        { text: "Fleet Co. \u2014 Elantra \u2014 Active", status: "ACTIVE", statusClass: "bg-slate-600/50 text-slate-400" },
+                        { text: "Ahmad K. \u2014 Tucson \u2014 Due 5pm", status: "ACTIVE", statusClass: "bg-slate-100 text-slate-500" },
+                        { text: "Sara M. \u2014 Accent \u2014 Overdue", status: "OVERDUE", statusClass: "bg-red-50 text-red-600" },
+                        { text: "Fleet Co. \u2014 Elantra \u2014 Active", status: "ACTIVE", statusClass: "bg-slate-100 text-slate-500" },
                     ].map((b, i) => (
-                        <div key={i} className="flex items-center justify-between bg-slate-700/20 rounded px-3 py-1.5">
-                            <span className="text-xs text-slate-400">{b.text}</span>
+                        <div key={i} className="flex items-center justify-between bg-slate-50 rounded px-3 py-1.5">
+                            <span className="text-xs text-slate-500">{b.text}</span>
                             <span className={`text-[10px] font-medium px-1.5 py-0.5 rounded ${b.statusClass}`}>{b.status}</span>
                         </div>
                     ))}
@@ -75,20 +75,20 @@ const ROLES = [
             <div className="p-4 space-y-3">
                 <div className="flex gap-3">
                     {["Revenue MTD", "Outstanding", "Deposits", "Overdue"].map((label, i) => (
-                        <div key={i} className="flex-1 bg-slate-700/50 rounded-lg p-3">
-                            <p className="text-[10px] text-slate-500 uppercase tracking-wide">{label}</p>
-                            <p className="text-lg font-bold text-slate-200 mt-1">{["$186K", "$42K", "$28K", "$8.2K"][i]}</p>
+                        <div key={i} className="flex-1 bg-slate-50 rounded-lg p-3">
+                            <p className="text-[10px] text-slate-400 uppercase tracking-wide">{label}</p>
+                            <p className="text-lg font-bold text-slate-900 mt-1">{["$186K", "$42K", "$28K", "$8.2K"][i]}</p>
                         </div>
                     ))}
                 </div>
                 <div className="space-y-1">
                     {[
-                        { inv: "INV-2024-0892 \u2014 Fleet Corp", amount: "$12,400", status: "Paid", statusClass: "bg-green-500/20 text-green-400" },
-                        { inv: "INV-2024-0893 \u2014 Alpha Bank", amount: "$8,200", status: "Pending", statusClass: "bg-amber-500/20 text-amber-400" },
-                        { inv: "INV-2024-0894 \u2014 TeleCom", amount: "$5,600", status: "Overdue", statusClass: "bg-red-500/20 text-red-400" },
+                        { inv: "INV-2024-0892 \u2014 Fleet Corp", amount: "$12,400", status: "Paid", statusClass: "bg-green-50 text-green-600" },
+                        { inv: "INV-2024-0893 \u2014 Alpha Bank", amount: "$8,200", status: "Pending", statusClass: "bg-amber-50 text-amber-600" },
+                        { inv: "INV-2024-0894 \u2014 TeleCom", amount: "$5,600", status: "Overdue", statusClass: "bg-red-50 text-red-600" },
                     ].map((b, i) => (
-                        <div key={i} className="flex items-center justify-between bg-slate-700/20 rounded px-3 py-1.5">
-                            <span className="text-xs text-slate-400 truncate mr-2">{b.inv}</span>
+                        <div key={i} className="flex items-center justify-between bg-slate-50 rounded px-3 py-1.5">
+                            <span className="text-xs text-slate-500 truncate mr-2">{b.inv}</span>
                             <span className={`text-[10px] font-medium px-1.5 py-0.5 rounded whitespace-nowrap ${b.statusClass}`}>{b.status}</span>
                         </div>
                     ))}
@@ -101,20 +101,20 @@ const ROLES = [
 function BrowserFrame({ children, color }: { children: React.ReactNode; color: string }) {
     return (
         <div
-            className="w-full max-w-2xl rounded-xl overflow-hidden border border-slate-700/50"
+            className="w-full max-w-2xl rounded-xl overflow-hidden border border-slate-200"
             style={{ boxShadow: `0 20px 60px -10px ${color}25` }}
         >
-            <div className="bg-slate-800 px-4 py-2.5 flex items-center gap-2">
+            <div className="bg-slate-100 px-4 py-2.5 flex items-center gap-2">
                 <div className="flex gap-1.5">
-                    <div className="w-2.5 h-2.5 rounded-full bg-slate-600" />
-                    <div className="w-2.5 h-2.5 rounded-full bg-slate-600" />
-                    <div className="w-2.5 h-2.5 rounded-full bg-slate-600" />
+                    <div className="w-2.5 h-2.5 rounded-full bg-slate-300" />
+                    <div className="w-2.5 h-2.5 rounded-full bg-slate-300" />
+                    <div className="w-2.5 h-2.5 rounded-full bg-slate-300" />
                 </div>
-                <div className="flex-1 bg-slate-700/50 rounded-md px-3 py-1 ml-2">
-                    <span className="text-[10px] text-slate-500">app.fleetora.com</span>
+                <div className="flex-1 bg-slate-200/80 rounded-md px-3 py-1 ml-2">
+                    <span className="text-[10px] text-slate-400">app.fleetora.com</span>
                 </div>
             </div>
-            <div className="bg-slate-800/80">{children}</div>
+            <div className="bg-white">{children}</div>
         </div>
     );
 }
@@ -150,7 +150,7 @@ export function ProductScreen() {
                     className="text-center"
                 >
                     <p className="text-sm font-bold tracking-widest uppercase" style={{ color: role.color }}>{role.role}</p>
-                    <p className="text-lg text-slate-400 mt-1">{role.intro}</p>
+                    <p className="text-lg text-slate-500 mt-1">{role.intro}</p>
                 </motion.div>
             </AnimatePresence>
 
@@ -173,7 +173,7 @@ export function ProductScreen() {
                     <button
                         key={i}
                         onClick={() => setActiveIndex(i)}
-                        className={`w-2 h-2 rounded-full transition-all duration-300 ${i === activeIndex ? "bg-white scale-125" : "bg-slate-600"}`}
+                        className={`w-2 h-2 rounded-full transition-all duration-300 ${i === activeIndex ? "bg-white scale-125" : "bg-slate-300"}`}
                     />
                 ))}
             </div>
