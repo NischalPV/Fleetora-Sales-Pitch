@@ -4,6 +4,7 @@ import { useRef, useState, useEffect, useCallback } from "react";
 import { ProgressBar } from "./shared/progress-bar";
 import { HeroScreen } from "./screens/01-hero";
 import { StoryScreen } from "./screens/02-story";
+import { DamageScreen } from "./screens/03-damage";
 
 const TOTAL_SCREENS = 11;
 
@@ -77,13 +78,13 @@ export function PitchDeck() {
                 {/* Screen 2: The Story */}
                 <StoryScreen />
 
-                {/* Screens 3-11: Placeholder sections */}
-                {Array.from({ length: 9 }, (_, i) => (
-                    <section
-                        key={i + 3}
-                        className="h-screen w-full snap-start flex items-center justify-center"
-                    >
-                        <p className="text-slate-500 text-lg">Screen {i + 3}</p>
+                {/* Screen 3: The Damage */}
+                <DamageScreen />
+
+                {/* Screens 4-11: Placeholder sections */}
+                {Array.from({ length: 8 }, (_, i) => (
+                    <section key={i + 4} className="h-screen w-full snap-start flex items-center justify-center">
+                        <p className="text-slate-500 text-lg">Screen {i + 4}</p>
                     </section>
                 ))}
             </div>
