@@ -11,6 +11,8 @@ import { ProductScreen } from "./screens/06-product";
 import { FleetBrainScreen } from "./screens/07-fleet-brain";
 import { AutomationScreen } from "./screens/08-automation";
 import { RoadmapScreen } from "./screens/09-roadmap";
+import { CompoundScreen } from "./screens/10-compound";
+import { CloseScreen } from "./screens/11-close";
 
 const TOTAL_SCREENS = 11;
 
@@ -105,12 +107,11 @@ export function PitchDeck() {
                 {/* Screen 9: Roadmap Timeline */}
                 <RoadmapScreen />
 
-                {/* Screens 10-11: Placeholder sections */}
-                {Array.from({ length: 2 }, (_, i) => (
-                    <section key={i + 10} className="h-screen w-full snap-start flex items-center justify-center">
-                        <p className="text-slate-500 text-lg">Screen {i + 10}</p>
-                    </section>
-                ))}
+                {/* Screen 10: Compound Effect */}
+                <CompoundScreen />
+
+                {/* Screen 11: Close */}
+                <CloseScreen />
             </div>
         </div>
     );
