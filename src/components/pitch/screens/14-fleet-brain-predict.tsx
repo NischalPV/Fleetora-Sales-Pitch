@@ -13,25 +13,25 @@ const FORECAST = [
 ];
 
 const BRANCHES = [
-    { key: "airport" as const, label: "Airport", color: "bg-blue-500", textColor: "text-blue-600" },
-    { key: "downtown" as const, label: "Downtown", color: "bg-emerald-500", textColor: "text-emerald-600" },
-    { key: "mall" as const, label: "Mall", color: "bg-violet-500", textColor: "text-violet-600" },
+    { key: "airport" as const, label: "Airport", color: "bg-blue-500", textColor: "text-blue-400" },
+    { key: "downtown" as const, label: "Downtown", color: "bg-emerald-500", textColor: "text-emerald-400" },
+    { key: "mall" as const, label: "Mall", color: "bg-violet-500", textColor: "text-violet-400" },
 ];
 
 export function FleetBrainPredictScreen() {
     return (
-        <section className="h-screen w-full flex flex-col items-center justify-center px-8 relative overflow-hidden bg-white">
-            <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-sm font-semibold tracking-widest uppercase text-blue-600 mb-4">Fleet Brain</motion.p>
-            <motion.h2 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="text-4xl md:text-5xl font-bold text-slate-900 text-center tracking-tight mb-3">Demand Prediction</motion.h2>
-            <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} className="text-base text-slate-500 text-center mb-8 max-w-lg">See the surge before it arrives. Position your fleet 3 days ahead.</motion.p>
+        <section className="h-screen w-full flex flex-col items-center justify-center px-8 relative overflow-hidden bg-slate-950">
+            <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-sm font-semibold tracking-widest uppercase text-blue-400 mb-4">Fleet Brain</motion.p>
+            <motion.h2 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="text-4xl md:text-5xl font-bold text-white text-center tracking-tight mb-3">Demand Prediction</motion.h2>
+            <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} className="text-base text-slate-400 text-center mb-8 max-w-lg">See the surge before it arrives. Position your fleet 3 days ahead.</motion.p>
 
-            <motion.div initial={{ opacity: 0, y: 20, scale: 0.97 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ delay: 0.3, type: "spring", stiffness: 55 }} className="w-full max-w-3xl bg-slate-50 border border-slate-200 rounded-2xl p-5" style={{ boxShadow: "0 12px 40px -10px rgba(0,0,0,0.08)" }}>
+            <motion.div initial={{ opacity: 0, y: 20, scale: 0.97 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ delay: 0.3, type: "spring", stiffness: 55 }} className="w-full max-w-3xl bg-slate-800/50 border border-slate-700 rounded-2xl p-5" style={{ boxShadow: "0 12px 40px -10px rgba(0,0,0,0.4)" }}>
                 <div className="flex items-center justify-between mb-4">
-                    <p className="text-xs font-bold text-slate-700">7-Day Demand Forecast</p>
+                    <p className="text-xs font-bold text-slate-300">7-Day Demand Forecast</p>
                     <div className="flex items-center gap-3">
-                        <span className="flex items-center gap-1 text-[9px] text-slate-500"><span className="w-3 h-1.5 rounded bg-blue-500 inline-block" /> Predicted</span>
-                        <span className="flex items-center gap-1 text-[9px] text-slate-500"><span className="w-3 h-1.5 rounded bg-slate-300 inline-block" /> Available</span>
-                        <span className="flex items-center gap-1 text-[9px] text-red-500"><span className="w-3 h-1.5 rounded bg-red-400 inline-block" /> Gap</span>
+                        <span className="flex items-center gap-1 text-[9px] text-slate-400"><span className="w-3 h-1.5 rounded bg-blue-500 inline-block" /> Predicted</span>
+                        <span className="flex items-center gap-1 text-[9px] text-slate-400"><span className="w-3 h-1.5 rounded bg-slate-600 inline-block" /> Available</span>
+                        <span className="flex items-center gap-1 text-[9px] text-red-400"><span className="w-3 h-1.5 rounded bg-red-400 inline-block" /> Gap</span>
                     </div>
                 </div>
 
@@ -51,7 +51,7 @@ export function FleetBrainPredictScreen() {
                                                     initial={{ height: 0 }}
                                                     animate={{ height: `${(data.avail / maxVal) * 100}%` }}
                                                     transition={{ delay: 0.4 + bi * 0.1 + di * 0.05, duration: 0.4 }}
-                                                    className="w-full bg-slate-300 rounded-t"
+                                                    className="w-full bg-slate-600 rounded-t"
                                                 />
                                                 {hasGap && (
                                                     <motion.div
@@ -62,7 +62,7 @@ export function FleetBrainPredictScreen() {
                                                     />
                                                 )}
                                             </div>
-                                            <span className={`text-[8px] font-medium ${hasGap ? "text-red-500" : "text-slate-400"}`}>{day.day}</span>
+                                            <span className={`text-[8px] font-medium ${hasGap ? "text-red-400" : "text-slate-400"}`}>{day.day}</span>
                                         </div>
                                     );
                                 })}
@@ -71,11 +71,11 @@ export function FleetBrainPredictScreen() {
                     ))}
                 </div>
 
-                <div className="mt-4 pt-3 border-t border-slate-200 flex items-center gap-2">
+                <div className="mt-4 pt-3 border-t border-slate-700/50 flex items-center gap-2">
                     <div className="w-5 h-5 rounded-full bg-blue-600 flex items-center justify-center shrink-0">
                         <span className="text-[8px] text-white font-bold">AI</span>
                     </div>
-                    <p className="text-xs text-blue-700"><span className="font-semibold">Fleet Brain alert:</span> Airport will face a 14-unit shortfall on Friday. Recommend moving vehicles from Beach by Wednesday.</p>
+                    <p className="text-xs text-blue-400"><span className="font-semibold">Fleet Brain alert:</span> Airport will face a 14-unit shortfall on Friday. Recommend moving vehicles from Beach by Wednesday.</p>
                 </div>
             </motion.div>
         </section>
