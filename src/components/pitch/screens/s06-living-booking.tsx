@@ -174,6 +174,23 @@ export function S06LivingBooking() {
                                                         </div>
                                                         <motion.div className="absolute w-10 h-10 rounded-full border border-blue-500/30 -top-2 -left-2" animate={{ scale: [1, 2], opacity: [0.4, 0] }} transition={{ duration: 2, repeat: Infinity }} />
                                                     </motion.div>
+                                                    {/* Event markers on map */}
+                                                    {[
+                                                        { x: "25%", y: "58%", icon: "👤", label: "Driver added", color: "#3b82f6" },
+                                                        { x: "35%", y: "50%", icon: "🔄", label: "Vehicle swap", color: "#f59e0b" },
+                                                        { x: "43%", y: "44%", icon: "📸", label: "Speed ticket", color: "#ef4444" },
+                                                    ].map((evt, i) => (
+                                                        <motion.div key={`evt-${i}`} initial={{ opacity: 0, scale: 0 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 1.5 + i * 0.6, type: "spring", stiffness: 150 }} className="absolute" style={{ left: evt.x, top: evt.y }}>
+                                                            <div className="relative -translate-x-1/2 -translate-y-1/2">
+                                                                <div className="w-5 h-5 rounded-full flex items-center justify-center text-[8px] border" style={{ backgroundColor: `${evt.color}20`, borderColor: `${evt.color}40` }}>
+                                                                    {evt.icon}
+                                                                </div>
+                                                                <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 whitespace-nowrap bg-slate-900/90 px-1.5 py-0.5 rounded text-[7px]" style={{ color: evt.color }}>
+                                                                    {evt.label}
+                                                                </div>
+                                                            </div>
+                                                        </motion.div>
+                                                    ))}
                                                     {/* Trip path line */}
                                                     <svg className="absolute inset-0 w-full h-full pointer-events-none">
                                                         <motion.path d="M20% 65% Q30% 55% 40% 48% Q45% 42% 50% 40%" stroke="#3b82f6" fill="none" strokeWidth="2" strokeDasharray="4 4" opacity="0.4" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 2, delay: 0.5 }} />
@@ -185,14 +202,32 @@ export function S06LivingBooking() {
                                                         ))}
                                                     </div>
                                                 </div>
-                                                {/* Telemetry */}
-                                                <div className="w-40 space-y-2">
-                                                    {[{ l: "Speed", v: "82 km/h" }, { l: "Heading", v: "NW" }, { l: "Fuel", v: "67%" }, { l: "Trip", v: "142 km" }, { l: "Status", v: "In zone ✓" }].map((t, i) => (
+                                                {/* Telemetry + Events */}
+                                                <div className="w-48 space-y-2 flex flex-col">
+                                                    {[{ l: "Speed", v: "82 km/h" }, { l: "Heading", v: "NW" }, { l: "Fuel", v: "67%" }, { l: "Trip", v: "142 km" }].map((t, i) => (
                                                         <div key={i} className="bg-slate-800/50 rounded-lg p-2 border border-slate-700/50">
                                                             <p className="text-[8px] text-slate-500 uppercase">{t.l}</p>
                                                             <p className="text-xs font-bold text-white">{t.v}</p>
                                                         </div>
                                                     ))}
+                                                    {/* Live event feed */}
+                                                    <div className="flex-1 border-t border-slate-700/50 pt-2 mt-1">
+                                                        <p className="text-[8px] text-slate-500 uppercase mb-1.5">Trip Events</p>
+                                                        {[
+                                                            { icon: "👤", text: "Fatima K. added as driver", time: "9:12 AM", color: "text-blue-400" },
+                                                            { icon: "🔄", text: "Vehicle swap: Tucson → Sonata", time: "11:30 AM", color: "text-amber-400" },
+                                                            { icon: "📸", text: "Speed camera — $75", time: "1:45 PM", color: "text-red-400" },
+                                                            { icon: "👤", text: "Hassan K. added (senior)", time: "2:10 PM", color: "text-blue-400" },
+                                                        ].map((evt, i) => (
+                                                            <motion.div key={i} initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 1 + i * 0.5 }} className="flex items-start gap-1.5 mb-1.5">
+                                                                <span className="text-[10px]">{evt.icon}</span>
+                                                                <div>
+                                                                    <p className={`text-[9px] ${evt.color}`}>{evt.text}</p>
+                                                                    <p className="text-[8px] text-slate-600">{evt.time}</p>
+                                                                </div>
+                                                            </motion.div>
+                                                        ))}
+                                                    </div>
                                                 </div>
                                             </motion.div>
                                         )}
