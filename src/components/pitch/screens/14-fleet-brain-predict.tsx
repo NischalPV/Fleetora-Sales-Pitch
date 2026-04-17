@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
 
 const FORECAST = [
     { day: "Mon", airport: { pred: 18, avail: 14 }, downtown: { pred: 12, avail: 15 }, mall: { pred: 8, avail: 10 } },
@@ -19,13 +20,31 @@ const BRANCHES = [
 ];
 
 export function FleetBrainPredictScreen() {
+    const [phase, setPhase] = useState(0);
+
+    useEffect(() => {
+        const timers = [
+            setTimeout(() => setPhase(1), 400),
+            setTimeout(() => setPhase(2), 1000),
+            setTimeout(() => setPhase(3), 2200),
+        ];
+        return () => timers.forEach(clearTimeout);
+    }, []);
+
     return (
         <section className="h-screen w-full flex flex-col items-center justify-center px-8 relative overflow-hidden bg-slate-950">
             <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-sm font-semibold tracking-widest uppercase text-blue-400 mb-4">Fleet Brain</motion.p>
             <motion.h2 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="text-4xl md:text-5xl font-bold text-white text-center tracking-tight mb-3">Demand Prediction</motion.h2>
             <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} className="text-base text-slate-400 text-center mb-8 max-w-lg">See the surge before it arrives. Position your fleet 3 days ahead.</motion.p>
 
-            <motion.div initial={{ opacity: 0, y: 20, scale: 0.97 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ delay: 0.3, type: "spring", stiffness: 55 }} className="w-full max-w-3xl bg-slate-800/50 border border-slate-700 rounded-2xl p-5" style={{ boxShadow: "0 12px 40px -10px rgba(0,0,0,0.4)" }}>
+            {/* Phase 1: Chart container appears */}
+            <motion.div
+                initial={{ opacity: 0, y: 20, scale: 0.97 }}
+                animate={phase >= 1 ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 20, scale: 0.97 }}
+                transition={{ type: "spring", stiffness: 55 }}
+                className="w-full max-w-3xl bg-slate-800/50 border border-slate-700 rounded-2xl p-5"
+                style={{ boxShadow: "0 12px 40px -10px rgba(0,0,0,0.4)" }}
+            >
                 <div className="flex items-center justify-between mb-4">
                     <p className="text-xs font-bold text-slate-300">7-Day Demand Forecast</p>
                     <div className="flex items-center gap-3">
@@ -35,6 +54,7 @@ export function FleetBrainPredictScreen() {
                     </div>
                 </div>
 
+                {/* Phase 2: Forecast bars grow one branch at a time */}
                 <div className="space-y-4">
                     {BRANCHES.map((branch, bi) => (
                         <div key={branch.key}>
@@ -49,15 +69,15 @@ export function FleetBrainPredictScreen() {
                                             <div className="w-full flex flex-col-reverse gap-0.5 h-16 justify-end">
                                                 <motion.div
                                                     initial={{ height: 0 }}
-                                                    animate={{ height: `${(data.avail / maxVal) * 100}%` }}
-                                                    transition={{ delay: 0.4 + bi * 0.1 + di * 0.05, duration: 0.4 }}
+                                                    animate={phase >= 2 ? { height: `${(data.avail / maxVal) * 100}%` } : { height: 0 }}
+                                                    transition={{ delay: bi * 0.15 + di * 0.05, duration: 0.4 }}
                                                     className="w-full bg-slate-600 rounded-t"
                                                 />
                                                 {hasGap && (
                                                     <motion.div
                                                         initial={{ height: 0 }}
-                                                        animate={{ height: `${((data.pred - data.avail) / maxVal) * 100}%` }}
-                                                        transition={{ delay: 0.5 + bi * 0.1 + di * 0.05, duration: 0.4 }}
+                                                        animate={phase >= 2 ? { height: `${((data.pred - data.avail) / maxVal) * 100}%` } : { height: 0 }}
+                                                        transition={{ delay: bi * 0.15 + di * 0.05 + 0.1, duration: 0.4 }}
                                                         className="w-full bg-red-400 rounded-t"
                                                     />
                                                 )}
@@ -71,12 +91,18 @@ export function FleetBrainPredictScreen() {
                     ))}
                 </div>
 
-                <div className="mt-4 pt-3 border-t border-slate-700/50 flex items-center gap-2">
+                {/* Phase 3: Alert footer appears */}
+                <motion.div
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={phase >= 3 ? { opacity: 1, y: 0 } : { opacity: 0, y: 8 }}
+                    transition={{ duration: 0.4 }}
+                    className="mt-4 pt-3 border-t border-slate-700/50 flex items-center gap-2"
+                >
                     <div className="w-5 h-5 rounded-full bg-blue-600 flex items-center justify-center shrink-0">
                         <span className="text-[8px] text-white font-bold">AI</span>
                     </div>
                     <p className="text-xs text-blue-400"><span className="font-semibold">Fleet Brain alert:</span> Airport will face a 14-unit shortfall on Friday. Recommend moving vehicles from Beach by Wednesday.</p>
-                </div>
+                </motion.div>
             </motion.div>
         </section>
     );

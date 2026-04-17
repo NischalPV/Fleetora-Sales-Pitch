@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
 
 const VEHICLES = [
     { model: "Tucson HSE", plate: "ABC-1234", type: "SUV" },
@@ -16,13 +17,32 @@ const TIMELINE = [
 ];
 
 export function TransfersScreen() {
+    const [phase, setPhase] = useState(0);
+
+    useEffect(() => {
+        const timers = [
+            setTimeout(() => setPhase(1), 400),
+            setTimeout(() => setPhase(2), 1000),
+            setTimeout(() => setPhase(3), 1800),
+            setTimeout(() => setPhase(4), 2800),
+        ];
+        return () => timers.forEach(clearTimeout);
+    }, []);
+
     return (
         <section className="h-screen w-full flex flex-col items-center justify-center px-8 relative overflow-hidden bg-slate-950">
             <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-sm font-semibold tracking-widest uppercase text-blue-400 mb-4">Operations</motion.p>
             <motion.h2 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="text-4xl md:text-5xl font-bold text-white text-center tracking-tight mb-3">Inter-Branch Transfers</motion.h2>
             <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} className="text-base text-slate-400 text-center mb-10 max-w-lg">Tracked orders. Full accountability. No more WhatsApp.</motion.p>
 
-            <motion.div initial={{ opacity: 0, y: 20, scale: 0.97 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ delay: 0.3, type: "spring", stiffness: 55 }} className="w-full max-w-2xl bg-slate-800/50 border border-slate-700 rounded-2xl overflow-hidden" style={{ boxShadow: "0 12px 40px -10px rgba(0,0,0,0.4)" }}>
+            {/* Phase 1: Transfer card appears */}
+            <motion.div
+                initial={{ opacity: 0, y: 20, scale: 0.97 }}
+                animate={phase >= 1 ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 20, scale: 0.97 }}
+                transition={{ type: "spring", stiffness: 55 }}
+                className="w-full max-w-2xl bg-slate-800/50 border border-slate-700 rounded-2xl overflow-hidden"
+                style={{ boxShadow: "0 12px 40px -10px rgba(0,0,0,0.4)" }}
+            >
                 {/* Header */}
                 <div className="bg-slate-900 px-5 py-4 border-b border-slate-700/50 flex items-center justify-between">
                     <div>
@@ -39,7 +59,16 @@ export function TransfersScreen() {
                         <p className="text-[10px] text-slate-400">Branch — Coast Rd</p>
                     </div>
                     <div className="flex flex-col items-center gap-1">
-                        <motion.div initial={{ width: 0 }} animate={{ width: 40 }} transition={{ delay: 0.7, duration: 0.4 }} className="h-0.5 bg-blue-400" style={{ overflow: "hidden" }}><div className="w-full h-full" /></motion.div>
+                        {/* Phase 4: Map with route draws */}
+                        <motion.div
+                            initial={{ width: 0 }}
+                            animate={phase >= 4 ? { width: 40 } : { width: 0 }}
+                            transition={{ duration: 0.4 }}
+                            className="h-0.5 bg-blue-400"
+                            style={{ overflow: "hidden" }}
+                        >
+                            <div className="w-full h-full" />
+                        </motion.div>
                         <span className="text-[9px] text-blue-400 font-semibold">3 vehicles</span>
                     </div>
                     <div className="bg-slate-900 rounded-xl p-3 border border-slate-700/50 text-center">
@@ -49,11 +78,18 @@ export function TransfersScreen() {
                     </div>
                 </div>
 
+                {/* Phase 2: Vehicle list items cascade in */}
                 <div className="p-5 border-b border-slate-700/50">
                     <p className="text-[9px] text-slate-400 uppercase tracking-wider mb-2">Vehicles</p>
                     <div className="space-y-2">
                         {VEHICLES.map((v, i) => (
-                            <motion.div key={i} initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.5 + i * 0.1 }} className="flex items-center justify-between bg-slate-900 rounded-xl px-3 py-2 border border-slate-700/50">
+                            <motion.div
+                                key={i}
+                                initial={{ opacity: 0, x: -8 }}
+                                animate={phase >= 2 ? { opacity: 1, x: 0 } : { opacity: 0, x: -8 }}
+                                transition={{ delay: i * 0.12 }}
+                                className="flex items-center justify-between bg-slate-900 rounded-xl px-3 py-2 border border-slate-700/50"
+                            >
                                 <div>
                                     <span className="text-sm font-medium text-slate-300">{v.model}</span>
                                     <span className="text-[10px] text-slate-400 ml-2">· {v.type}</span>
@@ -64,13 +100,18 @@ export function TransfersScreen() {
                     </div>
                 </div>
 
-                {/* Timeline */}
+                {/* Phase 3: Timeline steps light up one by one */}
                 <div className="p-5">
                     <p className="text-[9px] text-slate-400 uppercase tracking-wider mb-3">Status Timeline</p>
                     <div className="flex items-center gap-0">
                         {TIMELINE.map((step, i) => (
                             <div key={i} className="flex items-center flex-1">
-                                <motion.div initial={{ opacity: 0, scale: 0 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.6 + i * 0.12, type: "spring", stiffness: 200 }} className="flex flex-col items-center">
+                                <motion.div
+                                    initial={{ opacity: 0, scale: 0 }}
+                                    animate={phase >= 3 ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0 }}
+                                    transition={{ delay: i * 0.15, type: "spring", stiffness: 200 }}
+                                    className="flex flex-col items-center"
+                                >
                                     <div className={`w-6 h-6 rounded-full flex items-center justify-center border-2 ${step.done ? "bg-emerald-500 border-emerald-500" : step.active ? "bg-slate-900 border-amber-400" : "bg-slate-900 border-slate-700"}`}>
                                         {step.done && <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5L4 7L8 3" stroke="white" strokeWidth="1.5" strokeLinecap="round" /></svg>}
                                         {step.active && <div className="w-2 h-2 rounded-full bg-amber-400" />}
