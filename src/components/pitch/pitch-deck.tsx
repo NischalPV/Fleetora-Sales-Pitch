@@ -5,6 +5,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ProgressBar } from "./shared/progress-bar";
 import { S01Hero } from "./screens/s01-hero";
 import { S02Intro } from "./screens/s02-intro";
+import { S03CmdBar } from "./screens/s03-cmd-bar";
+import { S04Customer } from "./screens/s04-customer";
+import { S05Checkout } from "./screens/s05-checkout";
+import { S06BookingDone } from "./screens/s06-booking-done";
 
 // Placeholder for slides not yet built
 function Placeholder({ title, num, journey }: { title: string; num: number; journey: string }) {
@@ -22,10 +26,10 @@ const SCREENS = [
     { id: "hero", Component: S01Hero },
     { id: "intro", Component: S02Intro },
     // Journey 2: The Counter (Branch Staff story)
-    { id: "cmd-bar", Component: () => <Placeholder title="Command Bar ⌘K" num={3} journey="THE COUNTER" /> },
-    { id: "customer", Component: () => <Placeholder title="Customer Profile" num={4} journey="THE COUNTER" /> },
-    { id: "checkout", Component: () => <Placeholder title="90-Second Checkout" num={5} journey="THE COUNTER" /> },
-    { id: "booking-done", Component: () => <Placeholder title="Booking Complete" num={6} journey="THE COUNTER" /> },
+    { id: "cmd-bar", Component: S03CmdBar },
+    { id: "customer", Component: S04Customer },
+    { id: "checkout", Component: S05Checkout },
+    { id: "booking-done", Component: S06BookingDone },
     // Journey 3: The Operations Floor (Franchise Head story)
     { id: "pos", Component: () => <Placeholder title="POS Dashboard" num={7} journey="THE OPERATIONS FLOOR" /> },
     { id: "tracking", Component: () => <Placeholder title="Live GPS Tracking" num={8} journey="THE OPERATIONS FLOOR" /> },
