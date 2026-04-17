@@ -174,23 +174,38 @@ export function S06LivingBooking() {
                                                         </div>
                                                         <motion.div className="absolute w-10 h-10 rounded-full border border-blue-500/30 -top-2 -left-2" animate={{ scale: [1, 2], opacity: [0.4, 0] }} transition={{ duration: 2, repeat: Infinity }} />
                                                     </motion.div>
-                                                    {/* Event markers on map */}
-                                                    {[
-                                                        { x: "25%", y: "58%", icon: "👤", label: "Driver added", color: "#3b82f6" },
-                                                        { x: "35%", y: "50%", icon: "🔄", label: "Vehicle swap", color: "#f59e0b" },
-                                                        { x: "43%", y: "44%", icon: "📸", label: "Speed ticket", color: "#ef4444" },
-                                                    ].map((evt, i) => (
-                                                        <motion.div key={`evt-${i}`} initial={{ opacity: 0, scale: 0 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 1.5 + i * 0.6, type: "spring", stiffness: 150 }} className="absolute" style={{ left: evt.x, top: evt.y }}>
-                                                            <div className="relative -translate-x-1/2 -translate-y-1/2">
-                                                                <div className="w-5 h-5 rounded-full flex items-center justify-center text-[8px] border" style={{ backgroundColor: `${evt.color}20`, borderColor: `${evt.color}40` }}>
-                                                                    {evt.icon}
-                                                                </div>
-                                                                <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 whitespace-nowrap bg-slate-900/90 px-1.5 py-0.5 rounded text-[7px]" style={{ color: evt.color }}>
-                                                                    {evt.label}
-                                                                </div>
+                                                    {/* Map event markers — vehicle swap & traffic tickets only */}
+                                                    {/* Vehicle swap location */}
+                                                    <motion.div initial={{ opacity: 0, scale: 0 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 2, type: "spring", stiffness: 150 }} className="absolute" style={{ left: "32%", top: "52%" }}>
+                                                        <div className="relative -translate-x-1/2 -translate-y-1/2">
+                                                            <div className="w-6 h-6 rounded-full flex items-center justify-center text-[9px] bg-amber-500/20 border border-amber-500/40">🔄</div>
+                                                            <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap bg-slate-900/95 backdrop-blur-sm px-2 py-1 rounded-lg border border-amber-500/20">
+                                                                <p className="text-[8px] text-amber-400 font-medium">Vehicle Swap — 11:30 AM</p>
+                                                                <p className="text-[7px] text-slate-500">Tucson HSE → Sonata GL (AC fault)</p>
                                                             </div>
-                                                        </motion.div>
-                                                    ))}
+                                                        </div>
+                                                    </motion.div>
+                                                    {/* Traffic ticket — speed camera */}
+                                                    <motion.div initial={{ opacity: 0, scale: 0 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 2.8, type: "spring", stiffness: 150 }} className="absolute" style={{ left: "58%", top: "42%" }}>
+                                                        <div className="relative -translate-x-1/2 -translate-y-1/2">
+                                                            <div className="w-6 h-6 rounded-full flex items-center justify-center text-[9px] bg-red-500/20 border border-red-500/40">📸</div>
+                                                            <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap bg-slate-900/95 backdrop-blur-sm px-2 py-1 rounded-lg border border-red-500/20">
+                                                                <p className="text-[8px] text-red-400 font-medium">Speed Camera — 1:45 PM</p>
+                                                                <p className="text-[7px] text-slate-500">Airport Rd, km 12 • 92 km/h in 60 zone</p>
+                                                                <p className="text-[7px] text-red-400">$75 fine • Driver: Fatima K. • Pending</p>
+                                                            </div>
+                                                        </div>
+                                                    </motion.div>
+                                                    {/* Traffic ticket — parking */}
+                                                    <motion.div initial={{ opacity: 0, scale: 0 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 3.4, type: "spring", stiffness: 150 }} className="absolute" style={{ left: "45%", top: "60%" }}>
+                                                        <div className="relative -translate-x-1/2 -translate-y-1/2">
+                                                            <div className="w-6 h-6 rounded-full flex items-center justify-center text-[9px] bg-red-500/20 border border-red-500/40">🅿️</div>
+                                                            <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap bg-slate-900/95 backdrop-blur-sm px-2 py-1 rounded-lg border border-red-500/20">
+                                                                <p className="text-[8px] text-red-400 font-medium">Parking Violation — 3:20 PM</p>
+                                                                <p className="text-[7px] text-slate-500">Mall Zone B • $25 fine • Paid</p>
+                                                            </div>
+                                                        </div>
+                                                    </motion.div>
                                                     {/* Trip path line */}
                                                     <svg className="absolute inset-0 w-full h-full pointer-events-none">
                                                         <motion.path d="M20% 65% Q30% 55% 40% 48% Q45% 42% 50% 40%" stroke="#3b82f6" fill="none" strokeWidth="2" strokeDasharray="4 4" opacity="0.4" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 2, delay: 0.5 }} />
@@ -214,10 +229,10 @@ export function S06LivingBooking() {
                                                     <div className="flex-1 border-t border-slate-700/50 pt-2 mt-1">
                                                         <p className="text-[8px] text-slate-500 uppercase mb-1.5">Trip Events</p>
                                                         {[
-                                                            { icon: "👤", text: "Fatima K. added as driver", time: "9:12 AM", color: "text-blue-400" },
-                                                            { icon: "🔄", text: "Vehicle swap: Tucson → Sonata", time: "11:30 AM", color: "text-amber-400" },
+                                                            { icon: "🔄", text: "Swap: Tucson → Sonata", time: "11:30 AM", color: "text-amber-400" },
                                                             { icon: "📸", text: "Speed camera — $75", time: "1:45 PM", color: "text-red-400" },
-                                                            { icon: "👤", text: "Hassan K. added (senior)", time: "2:10 PM", color: "text-blue-400" },
+                                                            { icon: "🅿️", text: "Parking fine — $25 paid", time: "3:20 PM", color: "text-red-400" },
+                                                            { icon: "⚠️", text: "Geo-fence alert: zone exit", time: "4:05 PM", color: "text-amber-400" },
                                                         ].map((evt, i) => (
                                                             <motion.div key={i} initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 1 + i * 0.5 }} className="flex items-start gap-1.5 mb-1.5">
                                                                 <span className="text-[10px]">{evt.icon}</span>
