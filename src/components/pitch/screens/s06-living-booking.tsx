@@ -1,7 +1,23 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useState, useEffect, lazy, Suspense } from "react";
+
+const FleetMap = lazy(() => import("@/components/ui/fleet-map").then(m => ({ default: m.FleetMap })));
+
+const MAP_PINS = [
+    { lat: 31.975, lng: 35.930, color: "#3b82f6", size: 16, pulse: true, label: "Tracked", popup: "<b>Tucson HSE</b><br/>ABC-1234 • Ahmad K.<br/>Speed: 82 km/h • Fuel: 67%" },
+    { lat: 31.960, lng: 35.915, color: "#22c55e", size: 8 },
+    { lat: 31.950, lng: 35.950, color: "#22c55e", size: 8 },
+    { lat: 31.940, lng: 35.935, color: "#3b82f6", size: 8 },
+    { lat: 31.970, lng: 35.960, color: "#f59e0b", size: 8 },
+    { lat: 31.945, lng: 35.920, color: "#22c55e", size: 8 },
+    { lat: 31.980, lng: 35.945, color: "#ef4444", size: 10, label: "Overdue" },
+    // Event markers
+    { lat: 31.962, lng: 35.925, color: "#f59e0b", size: 14, popup: "<b>🔄 Vehicle Swap</b><br/>11:30 AM — Tucson HSE → Sonata GL<br/>Reason: AC malfunction" },
+    { lat: 31.968, lng: 35.942, color: "#ef4444", size: 14, popup: "<b>📸 Speed Camera</b><br/>1:45 PM — Airport Rd, km 12<br/>92 km/h in 60 zone • $75 fine<br/>Driver: Fatima K. • <span style='color:#f59e0b'>Pending</span>" },
+    { lat: 31.955, lng: 35.955, color: "#ef4444", size: 12, popup: "<b>🅿️ Parking Violation</b><br/>3:20 PM — Mall Zone B<br/>$25 fine • <span style='color:#22c55e'>Paid</span>" },
+];
 
 const TABS = ["GPS Tracking", "Drivers", "Mileage & Charges", "Settlement"];
 
@@ -136,84 +152,21 @@ export function S06LivingBooking() {
                                     <AnimatePresence mode="wait">
                                         {activeTab === 0 && (
                                             <motion.div key="gps" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="h-full flex gap-4">
-                                                {/* Map */}
-                                                <div className="flex-1 rounded-xl relative overflow-hidden" style={{ background: "linear-gradient(135deg, #1a2332 0%, #1e293b 50%, #1a2332 100%)" }}>
-                                                    {/* Street grid */}
-                                                    <div className="absolute inset-0 opacity-[0.07]" style={{ backgroundImage: "linear-gradient(#64748b 1px, transparent 1px), linear-gradient(90deg, #64748b 1px, transparent 1px)", backgroundSize: "50px 50px" }} />
-                                                    {/* Roads */}
-                                                    <svg className="absolute inset-0 w-full h-full">
-                                                        <path d="M0 45% Q20% 42% 40% 48% Q60% 54% 80% 46% Q90% 42% 100% 44%" stroke="#334155" fill="none" strokeWidth="6" strokeLinecap="round" />
-                                                        <path d="M0 45% Q20% 42% 40% 48% Q60% 54% 80% 46% Q90% 42% 100% 44%" stroke="#475569" fill="none" strokeWidth="1" strokeDasharray="8 12" />
-                                                        <path d="M30% 0 Q35% 25% 28% 50% Q22% 75% 30% 100%" stroke="#334155" fill="none" strokeWidth="5" strokeLinecap="round" />
-                                                        <path d="M70% 0 Q65% 30% 72% 55% Q78% 80% 70% 100%" stroke="#334155" fill="none" strokeWidth="4" strokeLinecap="round" />
-                                                        <path d="M10% 70% Q30% 65% 50% 72% Q70% 78% 90% 70%" stroke="#334155" fill="none" strokeWidth="3" />
-                                                    </svg>
-                                                    {/* Terrain blocks */}
-                                                    <div className="absolute w-16 h-12 bg-slate-800/40 rounded" style={{ left: "10%", top: "15%" }} />
-                                                    <div className="absolute w-20 h-8 bg-slate-800/40 rounded" style={{ left: "50%", top: "20%" }} />
-                                                    <div className="absolute w-14 h-14 bg-slate-800/40 rounded" style={{ left: "78%", top: "60%" }} />
-                                                    <div className="absolute w-24 h-10 bg-emerald-900/20 rounded" style={{ left: "5%", top: "55%" }} />
-                                                    {/* Geo-fence */}
-                                                    <div className="absolute border border-dashed border-blue-400/20 rounded-lg" style={{ left: "8%", top: "10%", width: "55%", height: "65%" }}>
-                                                        <span className="absolute -top-4 left-2 text-[8px] text-blue-400/50 font-medium">Airport Zone</span>
-                                                    </div>
-                                                    {/* Other vehicle pins */}
-                                                    {[
-                                                        { x: "18%", y: "32%", color: "#22c55e" },
-                                                        { x: "42%", y: "58%", color: "#22c55e" },
-                                                        { x: "65%", y: "35%", color: "#f59e0b" },
-                                                        { x: "82%", y: "50%", color: "#3b82f6" },
-                                                        { x: "25%", y: "70%", color: "#3b82f6" },
-                                                    ].map((pin, i) => (
-                                                        <div key={i} className="absolute w-2.5 h-2.5 rounded-full" style={{ left: pin.x, top: pin.y, backgroundColor: pin.color, boxShadow: `0 0 6px ${pin.color}40` }} />
-                                                    ))}
-                                                    {/* Tracked vehicle pin — moving */}
-                                                    <motion.div className="absolute" style={{ left: "48%", top: "38%" }} animate={{ x: [0, 12, -5, 8, 0], y: [0, -8, 5, -3, 0] }} transition={{ duration: 10, repeat: Infinity, ease: "linear" }}>
-                                                        <div className="w-6 h-6 rounded-full bg-blue-600 border-2 border-white shadow-lg shadow-blue-500/40 flex items-center justify-center">
-                                                            <div className="w-2 h-2 rounded-full bg-white" />
-                                                        </div>
-                                                        <motion.div className="absolute w-10 h-10 rounded-full border border-blue-500/30 -top-2 -left-2" animate={{ scale: [1, 2], opacity: [0.4, 0] }} transition={{ duration: 2, repeat: Infinity }} />
-                                                    </motion.div>
-                                                    {/* Map event markers — vehicle swap & traffic tickets only */}
-                                                    {/* Vehicle swap location */}
-                                                    <motion.div initial={{ opacity: 0, scale: 0 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 2, type: "spring", stiffness: 150 }} className="absolute" style={{ left: "32%", top: "52%" }}>
-                                                        <div className="relative -translate-x-1/2 -translate-y-1/2">
-                                                            <div className="w-6 h-6 rounded-full flex items-center justify-center text-[9px] bg-amber-500/20 border border-amber-500/40">🔄</div>
-                                                            <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap bg-slate-900/95 backdrop-blur-sm px-2 py-1 rounded-lg border border-amber-500/20">
-                                                                <p className="text-[8px] text-amber-400 font-medium">Vehicle Swap — 11:30 AM</p>
-                                                                <p className="text-[7px] text-slate-500">Tucson HSE → Sonata GL (AC fault)</p>
-                                                            </div>
-                                                        </div>
-                                                    </motion.div>
-                                                    {/* Traffic ticket — speed camera */}
-                                                    <motion.div initial={{ opacity: 0, scale: 0 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 2.8, type: "spring", stiffness: 150 }} className="absolute" style={{ left: "58%", top: "42%" }}>
-                                                        <div className="relative -translate-x-1/2 -translate-y-1/2">
-                                                            <div className="w-6 h-6 rounded-full flex items-center justify-center text-[9px] bg-red-500/20 border border-red-500/40">📸</div>
-                                                            <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap bg-slate-900/95 backdrop-blur-sm px-2 py-1 rounded-lg border border-red-500/20">
-                                                                <p className="text-[8px] text-red-400 font-medium">Speed Camera — 1:45 PM</p>
-                                                                <p className="text-[7px] text-slate-500">Airport Rd, km 12 • 92 km/h in 60 zone</p>
-                                                                <p className="text-[7px] text-red-400">$75 fine • Driver: Fatima K. • Pending</p>
-                                                            </div>
-                                                        </div>
-                                                    </motion.div>
-                                                    {/* Traffic ticket — parking */}
-                                                    <motion.div initial={{ opacity: 0, scale: 0 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 3.4, type: "spring", stiffness: 150 }} className="absolute" style={{ left: "45%", top: "60%" }}>
-                                                        <div className="relative -translate-x-1/2 -translate-y-1/2">
-                                                            <div className="w-6 h-6 rounded-full flex items-center justify-center text-[9px] bg-red-500/20 border border-red-500/40">🅿️</div>
-                                                            <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap bg-slate-900/95 backdrop-blur-sm px-2 py-1 rounded-lg border border-red-500/20">
-                                                                <p className="text-[8px] text-red-400 font-medium">Parking Violation — 3:20 PM</p>
-                                                                <p className="text-[7px] text-slate-500">Mall Zone B • $25 fine • Paid</p>
-                                                            </div>
-                                                        </div>
-                                                    </motion.div>
-                                                    {/* Trip path line */}
-                                                    <svg className="absolute inset-0 w-full h-full pointer-events-none">
-                                                        <motion.path d="M20% 65% Q30% 55% 40% 48% Q45% 42% 50% 40%" stroke="#3b82f6" fill="none" strokeWidth="2" strokeDasharray="4 4" opacity="0.4" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 2, delay: 0.5 }} />
-                                                    </svg>
-                                                    {/* Legend */}
-                                                    <div className="absolute bottom-2 left-2 flex gap-3 bg-slate-900/80 backdrop-blur-sm rounded-lg px-2 py-1">
-                                                        {[{ c: "bg-emerald-500", l: "Available" }, { c: "bg-blue-500", l: "Active" }, { c: "bg-amber-500", l: "Returning" }].map((lg, i) => (
-                                                            <div key={i} className="flex items-center gap-1"><div className={`w-1.5 h-1.5 rounded-full ${lg.c}`} /><span className="text-[7px] text-slate-400">{lg.l}</span></div>
+                                                {/* Real Map */}
+                                                <div className="flex-1 rounded-xl overflow-hidden relative">
+                                                    <Suspense fallback={<div className="w-full h-full bg-slate-800 animate-pulse rounded-xl" />}>
+                                                        <FleetMap
+                                                            center={[31.958, 35.940]}
+                                                            zoom={14}
+                                                            pins={MAP_PINS}
+                                                            className="w-full h-full"
+                                                            darkTheme={true}
+                                                        />
+                                                    </Suspense>
+                                                    {/* Legend overlay */}
+                                                    <div className="absolute bottom-3 left-3 flex gap-3 bg-slate-900/90 backdrop-blur-sm rounded-lg px-3 py-1.5 z-[1000]">
+                                                        {[{ c: "bg-emerald-500", l: "Available" }, { c: "bg-blue-500", l: "Active" }, { c: "bg-amber-500", l: "Returning" }, { c: "bg-red-500", l: "Overdue" }].map((lg, i) => (
+                                                            <div key={i} className="flex items-center gap-1.5"><div className={`w-2 h-2 rounded-full ${lg.c}`} /><span className="text-[9px] text-slate-300">{lg.l}</span></div>
                                                         ))}
                                                     </div>
                                                 </div>
