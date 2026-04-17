@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { useState, useEffect, lazy, Suspense } from "react";
+import { useState, useEffect, useRef, lazy, Suspense } from "react";
 
 const FleetMap = lazy(() => import("@/components/ui/fleet-map").then(m => ({ default: m.FleetMap })));
 
@@ -89,24 +89,36 @@ export function S06LivingBooking() {
     const [showcaseIndex, setShowcaseIndex] = useState(-1);
 
     useEffect(() => {
+        const firstRun = { current: true };
+
         function runCycle() {
             const t: NodeJS.Timeout[] = [];
+            let showcaseStart: number;
 
-            // Build mockup (0-5s)
-            setBuildPhase(0); setMode("build"); setShowcaseIndex(-1);
-            t.push(setTimeout(() => setBuildPhase(1), 400));
-            t.push(setTimeout(() => setBuildPhase(2), 1200));
-            t.push(setTimeout(() => setBuildPhase(3), 2200));
-            t.push(setTimeout(() => setBuildPhase(4), 3200));
+            if (firstRun.current) {
+                // First run: build from scratch
+                setBuildPhase(0); setMode("build"); setShowcaseIndex(-1);
+                t.push(setTimeout(() => setBuildPhase(1), 400));
+                t.push(setTimeout(() => setBuildPhase(2), 1200));
+                t.push(setTimeout(() => setBuildPhase(3), 2200));
+                t.push(setTimeout(() => setBuildPhase(4), 3200));
+                showcaseStart = 5000;
+                firstRun.current = false;
+            } else {
+                // Loop: mockup stays built, just reset mode smoothly
+                setMode("build"); setShowcaseIndex(-1);
+                setBuildPhase(4);
+                showcaseStart = 2000;
+            }
 
-            // Peel off into showcase (5s+)
-            t.push(setTimeout(() => setMode("showcase"), 5000));
+            // Peel off into showcase
+            t.push(setTimeout(() => setMode("showcase"), showcaseStart));
             SHOWCASE_COMPONENTS.forEach((_, i) => {
-                t.push(setTimeout(() => setShowcaseIndex(i), 5500 + i * 3000));
+                t.push(setTimeout(() => setShowcaseIndex(i), showcaseStart + 500 + i * 3000));
             });
 
-            // Reassemble: showcase fades, mockup returns to center (after last component + pause)
-            const reassembleAt = 5500 + SHOWCASE_COMPONENTS.length * 3000 + 1500;
+            // Reassemble: showcase fades, mockup returns to center
+            const reassembleAt = showcaseStart + 500 + SHOWCASE_COMPONENTS.length * 3000 + 1500;
             t.push(setTimeout(() => { setMode("reassemble"); setShowcaseIndex(-1); }, reassembleAt));
 
             // Back to build for next loop
@@ -116,13 +128,25 @@ export function S06LivingBooking() {
         }
 
         let timers = runCycle();
-        const cycleDuration = 5500 + SHOWCASE_COMPONENTS.length * 3000 + 1500 + 1500 + 1000;
-        const loop = setInterval(() => {
+        // First cycle is longer (5s build), subsequent are shorter (2s)
+        const firstDuration = 5000 + 500 + SHOWCASE_COMPONENTS.length * 3000 + 1500 + 1500 + 1000;
+        const loopDuration = 2000 + 500 + SHOWCASE_COMPONENTS.length * 3000 + 1500 + 1500 + 1000;
+
+        // First loop fires after firstDuration, then repeats at loopDuration
+        const firstTimeout = setTimeout(() => {
             timers.forEach(clearTimeout);
             timers = runCycle();
-        }, cycleDuration);
+        }, firstDuration);
 
-        return () => { timers.forEach(clearTimeout); clearInterval(loop); };
+        let loopInterval: NodeJS.Timeout;
+        const startLoop = setTimeout(() => {
+            loopInterval = setInterval(() => {
+                timers.forEach(clearTimeout);
+                timers = runCycle();
+            }, loopDuration);
+        }, firstDuration);
+
+        return () => { timers.forEach(clearTimeout); clearTimeout(firstTimeout); clearTimeout(startLoop); if (loopInterval) clearInterval(loopInterval); };
     }, []);
 
     return (
@@ -182,10 +206,10 @@ export function S06LivingBooking() {
                         </motion.div>
                     </motion.div>
 
-                    {/* CENTER — Map */}
-                    <motion.div initial={{ opacity: 0 }} animate={buildPhase >= 2 ? { opacity: 1 } : {}} className="flex-1 flex flex-col">
+                    {/* CENTER — Map (always mounted, opacity controlled) */}
+                    <div className="flex-1 flex flex-col" style={{ opacity: buildPhase >= 2 ? 1 : 0, transition: "opacity 0.5s ease" }}>
                         <div className="flex-1 relative">
-                            <Suspense fallback={<div className="w-full h-full bg-slate-800 animate-pulse" />}>
+                            <Suspense fallback={<div className="w-full h-full bg-slate-800" />}>
                                 <FleetMap center={[31.958, 35.940]} zoom={14} pins={MAP_PINS} className="w-full h-full" darkTheme={true} />
                             </Suspense>
                         </div>
@@ -196,7 +220,7 @@ export function S06LivingBooking() {
                                 </div>
                             ))}
                         </div>
-                    </motion.div>
+                    </div>
 
                     {/* RIGHT */}
                     <motion.div initial={{ opacity: 0 }} animate={buildPhase >= 2 ? { opacity: 1 } : {}} transition={{ delay: 0.3 }} className="w-[180px] shrink-0 border-l border-slate-800 p-3 overflow-y-auto space-y-2">
