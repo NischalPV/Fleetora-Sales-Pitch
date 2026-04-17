@@ -63,8 +63,18 @@ export function S06LivingBooking() {
                 <h2 className="text-lg font-bold text-white mt-0.5">The Living Booking</h2>
             </motion.div>
 
-            {/* Mockup container — static, sections lift individually */}
-            <div className="relative z-10 rounded-2xl border border-slate-700 overflow-visible bg-slate-900" style={{ width: "min(88vw, 1100px)", height: "62vh", boxShadow: "0 30px 80px -20px rgba(0,0,0,0.5)", perspective: "1200px" }}>
+            {/* Mockup container — pans and zooms to active component */}
+            <motion.div
+                animate={
+                    activeIndex === 0 ? { x: "22%", y: "8%", scale: 1.5 } :
+                    activeIndex === 1 ? { x: "0%", y: "0%", scale: 1.6 } :
+                    activeIndex === 2 ? { x: "-22%", y: "8%", scale: 1.5 } :
+                    activeIndex === 3 ? { x: "22%", y: "-10%", scale: 1.5 } :
+                    activeIndex === 4 ? { x: "-22%", y: "-10%", scale: 1.5 } :
+                    { x: "0%", y: "0%", scale: 1 }
+                }
+                transition={{ type: "spring", stiffness: 50, damping: 22 }}
+                className="relative z-10 rounded-2xl border border-slate-700 overflow-visible bg-slate-900" style={{ width: "min(88vw, 1100px)", height: "62vh", boxShadow: "0 30px 80px -20px rgba(0,0,0,0.5)", perspective: "1200px" }}>
                 {/* Header */}
                 <div className="bg-slate-800/50 px-4 py-1.5 flex items-center justify-between border-b border-slate-700/50 rounded-t-2xl">
                     <div className="flex items-center gap-2">
@@ -184,7 +194,7 @@ export function S06LivingBooking() {
                         </motion.div>
                     </div>
                 </div>
-            </div>
+            </motion.div>
 
             {/* Description — appears AFTER elevation */}
             <AnimatePresence>
