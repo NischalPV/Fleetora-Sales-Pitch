@@ -39,7 +39,7 @@ export function DamageScreen() {
                     initial={{ opacity: 0, y: 30 }}
                     animate={isInView ? { opacity: 1, y: 0 } : {}}
                     transition={{ duration: 0.8 }}
-                    className="text-3xl md:text-5xl font-bold text-slate-900 mb-16 text-center tracking-tight"
+                    className="text-3xl md:text-5xl font-bold text-white mb-16 text-center tracking-tight"
                 >
                     The cost of running blind.
                 </motion.h2>
@@ -74,7 +74,7 @@ export function DamageScreen() {
                                 initial={{ opacity: 0, y: 10 }}
                                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                                 transition={{ delay: i * 0.3 + 0.6 }}
-                                className="text-base md:text-lg text-slate-700 mt-4 font-semibold"
+                                className="text-base md:text-lg text-white/80 mt-4 font-semibold"
                             >
                                 {stat.label}
                             </motion.p>
@@ -82,7 +82,7 @@ export function DamageScreen() {
                                 initial={{ opacity: 0 }}
                                 animate={isInView ? { opacity: 1 } : {}}
                                 transition={{ duration: 0.6, delay: i * 0.3 + 0.9 }}
-                                className="text-sm text-slate-500 mt-2 max-w-[200px]"
+                                className="text-sm text-white/50 mt-2 max-w-[200px]"
                             >
                                 {stat.context}
                             </motion.p>

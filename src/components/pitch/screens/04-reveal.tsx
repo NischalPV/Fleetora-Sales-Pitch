@@ -8,7 +8,27 @@ export function RevealScreen() {
     const { ref, isInView } = useInView(0.5);
 
     return (
-        <section ref={ref} className="h-screen w-full flex flex-col items-center justify-center px-8 relative overflow-hidden">
+        <section ref={ref} className="h-screen w-full flex flex-col items-center justify-center px-8 relative overflow-hidden bg-white">
+            {/* Animated gradient mesh */}
+            <motion.div
+                className="absolute w-[500px] h-[500px] rounded-full pointer-events-none"
+                style={{ background: "radial-gradient(circle, rgba(37,99,235,0.12) 0%, transparent 70%)", top: "20%", left: "10%" }}
+                animate={{ x: [0, 30, 0], y: [0, -20, 0] }}
+                transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+            />
+            <motion.div
+                className="absolute w-[400px] h-[400px] rounded-full pointer-events-none"
+                style={{ background: "radial-gradient(circle, rgba(124,58,237,0.08) 0%, transparent 70%)", bottom: "10%", right: "10%" }}
+                animate={{ x: [0, -25, 0], y: [0, 20, 0] }}
+                transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+            />
+            <motion.div
+                className="absolute w-[300px] h-[300px] rounded-full pointer-events-none"
+                style={{ background: "radial-gradient(circle, rgba(5,150,105,0.06) 0%, transparent 70%)", top: "50%", right: "30%" }}
+                animate={{ x: [0, 20, 0], y: [0, 25, 0] }}
+                transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+            />
+
             {/* Background glow bloom */}
             <motion.div
                 initial={{ opacity: 0, scale: 0 }}
@@ -20,7 +40,6 @@ export function RevealScreen() {
                 }}
             />
 
-            {/* Logo */}
             <GlowText
                 text="Fleetora"
                 active={isInView}
@@ -29,7 +48,6 @@ export function RevealScreen() {
                 glowColor="rgba(37,99,235,0.12)"
             />
 
-            {/* Subtitle */}
             <motion.p
                 initial={{ opacity: 0, y: 10 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}

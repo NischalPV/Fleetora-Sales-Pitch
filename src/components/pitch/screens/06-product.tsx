@@ -276,8 +276,16 @@ export function ProductScreen() {
         <section
             ref={ref}
             onWheel={handleWheel}
-            className="h-screen w-full flex flex-col items-center justify-center px-8 gap-4"
+            className="h-screen w-full flex flex-col items-center justify-center px-8 gap-4 relative overflow-hidden"
         >
+            {/* Dot grid background */}
+            <div
+                className="absolute inset-0 pointer-events-none opacity-[0.03]"
+                style={{
+                    backgroundImage: "radial-gradient(circle, #000 1px, transparent 1px)",
+                    backgroundSize: "24px 24px",
+                }}
+            />
             <AnimatePresence mode="wait">
                 <motion.div
                     key={activeIndex}

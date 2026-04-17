@@ -71,8 +71,30 @@ export function PillarsScreen() {
         <section
             ref={ref}
             onWheel={handleWheel}
-            className="h-screen w-full flex flex-col items-center justify-center px-8 relative"
+            className="h-screen w-full flex flex-col items-center justify-center px-8 relative overflow-hidden"
         >
+            {/* Floating orbs */}
+            <div className="absolute inset-0 pointer-events-none overflow-hidden">
+                <motion.div
+                    className="absolute w-72 h-72 rounded-full"
+                    style={{ background: "radial-gradient(circle, rgba(59,130,246,0.08) 0%, transparent 70%)", top: "10%", left: "5%" }}
+                    animate={{ y: [0, -30, 0], x: [0, 15, 0] }}
+                    transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+                />
+                <motion.div
+                    className="absolute w-96 h-96 rounded-full"
+                    style={{ background: "radial-gradient(circle, rgba(16,185,129,0.06) 0%, transparent 70%)", bottom: "5%", right: "0%" }}
+                    animate={{ y: [0, 25, 0], x: [0, -20, 0] }}
+                    transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
+                />
+                <motion.div
+                    className="absolute w-64 h-64 rounded-full"
+                    style={{ background: "radial-gradient(circle, rgba(245,158,11,0.06) 0%, transparent 70%)", top: "40%", right: "15%" }}
+                    animate={{ y: [0, 20, 0] }}
+                    transition={{ duration: 11, repeat: Infinity, ease: "easeInOut" }}
+                />
+            </div>
+
             {/* Dot indicator */}
             <div className="absolute top-8 flex gap-2">
                 {PILLARS.map((_, i) => (
@@ -80,7 +102,7 @@ export function PillarsScreen() {
                         key={i}
                         onClick={() => setActiveIndex(i)}
                         className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                            i === activeIndex ? "bg-white scale-125" : "bg-slate-300"
+                            i === activeIndex ? "bg-slate-900 scale-125" : "bg-slate-300"
                         }`}
                     />
                 ))}

@@ -16,7 +16,13 @@ export function AutomationScreen() {
     const { ref, isInView } = useInView(0.3);
 
     return (
-        <section ref={ref} className="h-screen w-full flex flex-col items-center justify-center px-8">
+        <section ref={ref} className="h-screen w-full flex flex-col items-center justify-center px-8 relative overflow-hidden">
+            {/* Split gradient background */}
+            <div className="absolute inset-0 pointer-events-none">
+                <div className="absolute inset-0 bg-gradient-to-r from-red-50/50 via-transparent to-blue-50/50" />
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/50 to-transparent" />
+            </div>
+
             <motion.h2
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}

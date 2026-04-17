@@ -15,7 +15,33 @@ export function CompoundScreen() {
     const { ref, isInView } = useInView(0.3);
 
     return (
-        <section ref={ref} className="h-screen w-full flex items-center justify-center px-8">
+        <section ref={ref} className="h-screen w-full flex items-center justify-center px-8 relative overflow-hidden">
+            {/* Animated grid background */}
+            <div className="absolute inset-0 pointer-events-none overflow-hidden">
+                <svg className="absolute inset-0 w-full h-full opacity-[0.04]">
+                    {Array.from({ length: 20 }, (_, i) => (
+                        <motion.line
+                            key={`h-${i}`}
+                            x1="0" y1={`${(i + 1) * 5}%`} x2="100%" y2={`${(i + 1) * 5}%`}
+                            stroke="#2563eb" strokeWidth="0.5"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: [0, 0.5, 0] }}
+                            transition={{ duration: 3, delay: i * 0.15, repeat: Infinity }}
+                        />
+                    ))}
+                    {Array.from({ length: 20 }, (_, i) => (
+                        <motion.line
+                            key={`v-${i}`}
+                            x1={`${(i + 1) * 5}%`} y1="0" x2={`${(i + 1) * 5}%`} y2="100%"
+                            stroke="#7c3aed" strokeWidth="0.5"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: [0, 0.3, 0] }}
+                            transition={{ duration: 4, delay: i * 0.2, repeat: Infinity }}
+                        />
+                    ))}
+                </svg>
+            </div>
+
             <div className="flex flex-col md:flex-row items-center gap-12 md:gap-20 max-w-4xl">
                 <div className="w-64 h-48 md:w-80 md:h-56 shrink-0">
                     <svg viewBox="0 0 300 200" className="w-full h-full">

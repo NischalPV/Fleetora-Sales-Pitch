@@ -11,7 +11,15 @@ export function CloseScreen({ email = "sales@monexatech.com" }: CloseScreenProps
     const { ref, isInView } = useInView(0.3);
 
     return (
-        <section ref={ref} className="h-screen w-full flex flex-col items-center justify-center px-8">
+        <section ref={ref} className="h-screen w-full flex flex-col items-center justify-center px-8 relative overflow-hidden">
+            {/* Breathing circle */}
+            <motion.div
+                className="absolute w-[400px] h-[400px] rounded-full pointer-events-none"
+                style={{ background: "radial-gradient(circle, rgba(37,99,235,0.04) 0%, transparent 70%)" }}
+                animate={{ scale: [1, 1.1, 1], opacity: [0.5, 0.8, 0.5] }}
+                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+            />
+
             <motion.div
                 initial={{ opacity: 0 }}
                 animate={isInView ? { opacity: 1 } : {}}

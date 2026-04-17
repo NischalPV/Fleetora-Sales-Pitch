@@ -164,6 +164,9 @@ export function FleetBrainScreen() {
 
     return (
         <section ref={ref} className="h-screen w-full flex flex-col items-center justify-center px-8 relative overflow-hidden">
+            {/* Radial gradient backdrop */}
+            <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse at 50% 40%, rgba(37,99,235,0.05) 0%, transparent 60%)" }} />
+
             {/* Title */}
             <motion.h2
                 initial={{ opacity: 0, y: 20 }}

@@ -25,7 +25,18 @@ export function RoadmapScreen() {
     const { ref, isInView } = useInView(0.3);
 
     return (
-        <section ref={ref} className="h-screen w-full flex flex-col items-center justify-center px-8">
+        <section ref={ref} className="h-screen w-full flex flex-col items-center justify-center px-8 relative overflow-hidden">
+            {/* Horizon gradient */}
+            <div className="absolute inset-0 pointer-events-none">
+                <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-slate-50 to-transparent" />
+                <motion.div
+                    className="absolute top-1/2 left-0 right-0 h-px"
+                    style={{ background: "linear-gradient(90deg, transparent, rgba(37,99,235,0.1), rgba(124,58,237,0.1), transparent)" }}
+                    animate={{ opacity: [0.3, 0.6, 0.3] }}
+                    transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                />
+            </div>
+
             <motion.h2
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
