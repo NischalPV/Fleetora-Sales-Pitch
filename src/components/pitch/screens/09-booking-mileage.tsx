@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
 
 const DAILY_KM = [
     { day: "Day 1", km: 180, limit: 250 },
@@ -18,6 +19,16 @@ const TICKETS = [
 ];
 
 export function BookingMileageScreen() {
+    const [phase, setPhase] = useState(0);
+    useEffect(() => {
+        const timers = [
+            setTimeout(() => setPhase(1), 400),
+            setTimeout(() => setPhase(2), 1500),
+            setTimeout(() => setPhase(3), 2500),
+        ];
+        return () => timers.forEach(clearTimeout);
+    }, []);
+
     return (
         <section className="h-screen w-full flex flex-col items-center justify-center px-8 relative overflow-hidden bg-slate-950">
             <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-sm font-semibold tracking-widest uppercase text-blue-400 mb-4">Booking Detail</motion.p>
@@ -26,7 +37,12 @@ export function BookingMileageScreen() {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5 max-w-5xl w-full">
                 {/* Mileage */}
-                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="rounded-2xl border border-slate-700 p-5">
+                <motion.div
+                    initial={{ opacity: 0, x: -30 }}
+                    animate={phase >= 1 ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }}
+                    transition={{ type: "spring", stiffness: 50, damping: 18, delay: 0 }}
+                    className="rounded-2xl border border-slate-700 p-5"
+                >
                     <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-4">Daily Mileage</h3>
                     <div className="space-y-3">
                         {DAILY_KM.map((d, i) => (
@@ -36,7 +52,12 @@ export function BookingMileageScreen() {
                                     <span className={d.km > d.limit ? "text-red-400 font-bold" : "text-slate-400"}>{d.km} / {d.limit} km</span>
                                 </div>
                                 <div className="w-full h-2 bg-slate-800 rounded-full overflow-hidden">
-                                    <motion.div className={`h-full rounded-full ${d.km > d.limit ? "bg-red-500" : "bg-blue-500"}`} initial={{ width: 0 }} animate={{ width: `${Math.min((d.km / d.limit) * 100, 100)}%` }} transition={{ delay: 0.5 + i * 0.15, duration: 0.6 }} />
+                                    <motion.div
+                                        className={`h-full rounded-full ${d.km > d.limit ? "bg-red-500" : "bg-blue-500"}`}
+                                        initial={{ width: 0 }}
+                                        animate={phase >= 1 ? { width: `${Math.min((d.km / d.limit) * 100, 100)}%` } : { width: 0 }}
+                                        transition={{ delay: 0.1 + i * 0.15, duration: 0.6 }}
+                                    />
                                 </div>
                                 {d.km > d.limit && <p className="text-[10px] text-red-400 mt-1">+{d.km - d.limit} km over — ${((d.km - d.limit) * 0.5).toFixed(0)} charge</p>}
                             </div>
@@ -45,7 +66,12 @@ export function BookingMileageScreen() {
                 </motion.div>
 
                 {/* Swaps */}
-                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.45 }} className="rounded-2xl border border-slate-700 p-5">
+                <motion.div
+                    initial={{ opacity: 0, x: 40 }}
+                    animate={phase >= 2 ? { opacity: 1, x: 0 } : { opacity: 0, x: 40 }}
+                    transition={{ type: "spring", stiffness: 50, damping: 18, delay: 0 }}
+                    className="rounded-2xl border border-slate-700 p-5"
+                >
                     <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-4">Vehicle Swaps</h3>
                     {SWAPS.map((s, i) => (
                         <div key={i} className="space-y-2">
@@ -65,7 +91,12 @@ export function BookingMileageScreen() {
                 </motion.div>
 
                 {/* Tickets */}
-                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }} className="rounded-2xl border border-slate-700 p-5">
+                <motion.div
+                    initial={{ opacity: 0, x: 40 }}
+                    animate={phase >= 3 ? { opacity: 1, x: 0 } : { opacity: 0, x: 40 }}
+                    transition={{ type: "spring", stiffness: 50, damping: 18, delay: 0 }}
+                    className="rounded-2xl border border-slate-700 p-5"
+                >
                     <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-4">Traffic Tickets</h3>
                     <div className="space-y-3">
                         {TICKETS.map((t, i) => (

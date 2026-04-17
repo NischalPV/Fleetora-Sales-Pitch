@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
 
 const STAGES = [
     { label: "Reserved", time: "Apr 15, 2:30 PM", by: "Online", status: "done", detail: "3-day rental, Tucson category" },
@@ -13,6 +14,14 @@ const STAGES = [
 ];
 
 export function BookingTimelineScreen() {
+    const [phase, setPhase] = useState(0);
+    useEffect(() => {
+        const timers = STAGES.map((_, i) =>
+            setTimeout(() => setPhase(i + 1), 400 * (i + 1))
+        );
+        return () => timers.forEach(clearTimeout);
+    }, []);
+
     return (
         <section className="h-screen w-full flex flex-col items-center justify-center px-8 relative overflow-hidden bg-slate-950">
             <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-sm font-semibold tracking-widest uppercase text-blue-400 mb-4">Booking Detail</motion.p>
@@ -21,10 +30,24 @@ export function BookingTimelineScreen() {
 
             <div className="flex flex-col gap-0 max-w-2xl w-full">
                 {STAGES.map((stage, i) => (
-                    <motion.div key={i} initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3 + i * 0.1 }} className="flex gap-4">
+                    <motion.div
+                        key={i}
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={phase >= i + 1 ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
+                        transition={{ delay: 0, duration: 0.35 }}
+                        className="flex gap-4"
+                    >
                         {/* Timeline line + dot */}
                         <div className="flex flex-col items-center">
                             <div className={`w-3 h-3 rounded-full border-2 shrink-0 ${stage.status === "done" ? "bg-emerald-500 border-emerald-500" : stage.status === "current" ? "bg-blue-600 border-blue-600 ring-4 ring-blue-100" : "bg-white border-slate-600"}`} />
+                            {stage.status === "current" && phase >= i + 1 && (
+                                <motion.div
+                                    className="absolute w-5 h-5 rounded-full border-2 border-blue-400"
+                                    animate={{ scale: [1, 1.8, 1], opacity: [0.8, 0, 0.8] }}
+                                    transition={{ duration: 1.5, repeat: Infinity }}
+                                    style={{ marginTop: "-1px" }}
+                                />
+                            )}
                             {i < STAGES.length - 1 && <div className={`w-0.5 flex-1 min-h-[40px] ${stage.status === "done" ? "bg-emerald-500/30" : "bg-slate-700"}`} />}
                         </div>
                         {/* Content */}

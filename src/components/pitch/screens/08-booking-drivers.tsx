@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
 
 const DRIVERS = [
     { name: "Ahmad Khalil", role: "Primary", age: 34, license: "JOR-2891-2027", expiry: "Mar 2027", badges: [{ label: "Primary", color: "bg-blue-50 text-blue-600" }], surcharge: null },
@@ -9,6 +10,16 @@ const DRIVERS = [
 ];
 
 export function BookingDriversScreen() {
+    const [phase, setPhase] = useState(0);
+    useEffect(() => {
+        const timers = [
+            setTimeout(() => setPhase(1), 500),
+            setTimeout(() => setPhase(2), 1200),
+            setTimeout(() => setPhase(3), 1900),
+        ];
+        return () => timers.forEach(clearTimeout);
+    }, []);
+
     return (
         <section className="h-screen w-full flex flex-col items-center justify-center px-8 relative overflow-hidden bg-slate-950">
             <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-sm font-semibold tracking-widest uppercase text-blue-400 mb-4">Booking Detail</motion.p>
@@ -17,15 +28,26 @@ export function BookingDriversScreen() {
 
             <div className="flex flex-col md:flex-row gap-5 max-w-4xl w-full">
                 {DRIVERS.map((driver, i) => (
-                    <motion.div key={i} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ type: "spring", stiffness: 50, damping: 15, delay: 0.3 + i * 0.15 }} className="flex-1 rounded-2xl border border-slate-700 p-5 bg-slate-900 hover:shadow-blue-500/5 transition-shadow">
+                    <motion.div
+                        key={i}
+                        initial={{ opacity: 0, x: -40 }}
+                        animate={phase >= i + 1 ? { opacity: 1, x: 0 } : { opacity: 0, x: -40 }}
+                        transition={{ type: "spring", stiffness: 50, damping: 15, delay: 0 }}
+                        className="flex-1 rounded-2xl border border-slate-700 p-5 bg-slate-900 hover:shadow-blue-500/5 transition-shadow"
+                    >
                         {/* Avatar */}
                         <div className="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center text-lg font-bold text-slate-500 mb-4">{driver.name.split(" ").map(n => n[0]).join("")}</div>
                         <h3 className="text-base font-bold text-white">{driver.name}</h3>
-                        <div className="flex gap-1.5 mt-2 flex-wrap">
+                        <motion.div
+                            className="flex gap-1.5 mt-2 flex-wrap"
+                            initial={{ opacity: 0 }}
+                            animate={phase >= i + 1 ? { opacity: 1 } : { opacity: 0 }}
+                            transition={{ delay: 0.2, duration: 0.3 }}
+                        >
                             {driver.badges.map((b, j) => (
                                 <span key={j} className={`text-[10px] font-medium px-2 py-0.5 rounded-full ${b.color}`}>{b.label}</span>
                             ))}
-                        </div>
+                        </motion.div>
                         <div className="mt-4 space-y-2">
                             <div className="flex justify-between text-xs"><span className="text-slate-400">Age</span><span className="text-white font-medium">{driver.age}</span></div>
                             <div className="flex justify-between text-xs"><span className="text-slate-400">License</span><span className="text-white font-mono text-[11px]">{driver.license}</span></div>
