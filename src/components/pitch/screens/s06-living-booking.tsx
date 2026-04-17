@@ -120,8 +120,7 @@ export function S06LivingBooking() {
         const loop = setInterval(() => {
             timers.forEach(clearTimeout);
             timers = runCycle();
-            });
-        }, totalDuration);
+        }, cycleDuration);
 
         return () => { timers.forEach(clearTimeout); clearInterval(loop); };
     }, []);
