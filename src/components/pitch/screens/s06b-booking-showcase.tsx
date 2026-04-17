@@ -105,10 +105,23 @@ export function S06bBookingShowcase() {
     const [activeIndex, setActiveIndex] = useState(-1);
 
     useEffect(() => {
-        const timers = COMPONENTS.map((_, i) =>
-            setTimeout(() => setActiveIndex(i), 1000 + i * 3000)
-        );
-        return () => timers.forEach(clearTimeout);
+        const cycleDuration = 1000 + COMPONENTS.length * 3000 + 2000; // total + pause
+
+        function runCycle() {
+            setActiveIndex(-1);
+            const timers = COMPONENTS.map((_, i) =>
+                setTimeout(() => setActiveIndex(i), 1000 + i * 3000)
+            );
+            return timers;
+        }
+
+        let timers = runCycle();
+        const loop = setInterval(() => {
+            timers.forEach(clearTimeout);
+            timers = runCycle();
+        }, cycleDuration);
+
+        return () => { timers.forEach(clearTimeout); clearInterval(loop); };
     }, []);
 
     return (
@@ -141,7 +154,7 @@ export function S06bBookingShowcase() {
                                 opacity: Math.max(stackOpacity, 0),
                             }}
                             transition={{ type: "spring", stiffness: 60, damping: 20 }}
-                            className="absolute w-[320px] h-[240px] rounded-2xl border overflow-hidden"
+                            className="absolute w-[400px] h-[300px] rounded-2xl border overflow-hidden"
                             style={{
                                 borderColor: isActive ? `${comp.color}40` : "rgb(51,65,85)",
                                 backgroundColor: "rgb(15,23,42)",
