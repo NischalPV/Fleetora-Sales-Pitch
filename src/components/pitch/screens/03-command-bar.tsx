@@ -230,11 +230,12 @@ export function CommandBarScreen() {
                 <AnimatePresence>
                     {shownCards.includes(0) && (
                         <motion.path
-                            d="M720 420 Q720 300 720 180"
+                            d="M720 420 C720 380 680 280 720 180"
                             fill="none"
                             stroke="#3b82f6"
                             strokeWidth="1.5"
-                            strokeDasharray="4 4"
+                            strokeDasharray="2 6"
+                            strokeLinecap="round"
                             markerEnd="url(#arrowhead)"
                             initial={{ pathLength: 0, opacity: 0 }}
                             animate={{ pathLength: 1, opacity: 0.6 }}
@@ -248,11 +249,12 @@ export function CommandBarScreen() {
                 <AnimatePresence>
                     {shownCards.includes(1) && (
                         <motion.path
-                            d="M520 470 Q380 460 300 450"
+                            d="M520 470 C450 490 350 510 300 450"
                             fill="none"
                             stroke="#10b981"
                             strokeWidth="1.5"
-                            strokeDasharray="4 4"
+                            strokeDasharray="2 6"
+                            strokeLinecap="round"
                             markerEnd="url(#arrowhead-green)"
                             initial={{ pathLength: 0, opacity: 0 }}
                             animate={{ pathLength: 1, opacity: 0.6 }}
@@ -266,11 +268,12 @@ export function CommandBarScreen() {
                 <AnimatePresence>
                     {shownCards.includes(2) && (
                         <motion.path
-                            d="M920 470 Q1060 460 1140 450"
+                            d="M920 470 C990 490 1090 510 1140 450"
                             fill="none"
                             stroke="#8b5cf6"
                             strokeWidth="1.5"
-                            strokeDasharray="4 4"
+                            strokeDasharray="2 6"
+                            strokeLinecap="round"
                             markerEnd="url(#arrowhead-violet)"
                             initial={{ pathLength: 0, opacity: 0 }}
                             animate={{ pathLength: 1, opacity: 0.6 }}
