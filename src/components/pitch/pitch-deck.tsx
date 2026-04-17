@@ -9,6 +9,10 @@ import { S03CmdBar } from "./screens/s03-cmd-bar";
 import { S04Customer } from "./screens/s04-customer";
 import { S05Checkout } from "./screens/s05-checkout";
 import { S06BookingDone } from "./screens/s06-booking-done";
+import { S07Pos } from "./screens/s07-pos";
+import { S08Tracking } from "./screens/s08-tracking";
+import { S09FleetMap } from "./screens/s09-fleet-map";
+import { S10HqCockpit } from "./screens/s10-hq-cockpit";
 
 // Placeholder for slides not yet built
 function Placeholder({ title, num, journey }: { title: string; num: number; journey: string }) {
@@ -31,10 +35,10 @@ const SCREENS = [
     { id: "checkout", Component: S05Checkout },
     { id: "booking-done", Component: S06BookingDone },
     // Journey 3: The Operations Floor (Franchise Head story)
-    { id: "pos", Component: () => <Placeholder title="POS Dashboard" num={7} journey="THE OPERATIONS FLOOR" /> },
-    { id: "tracking", Component: () => <Placeholder title="Live GPS Tracking" num={8} journey="THE OPERATIONS FLOOR" /> },
-    { id: "fleet-map", Component: () => <Placeholder title="Fleet Map" num={9} journey="THE OPERATIONS FLOOR" /> },
-    { id: "hq-cockpit", Component: () => <Placeholder title="HQ Cockpit" num={10} journey="THE OPERATIONS FLOOR" /> },
+    { id: "pos", Component: S07Pos },
+    { id: "tracking", Component: S08Tracking },
+    { id: "fleet-map", Component: S09FleetMap },
+    { id: "hq-cockpit", Component: S10HqCockpit },
     // Journey 4: The Intelligence (AI story)
     { id: "fleet-brain", Component: () => <Placeholder title="Fleet Brain" num={11} journey="THE INTELLIGENCE" /> },
     { id: "rebalance", Component: () => <Placeholder title="Smart Rebalancing" num={12} journey="THE INTELLIGENCE" /> },
