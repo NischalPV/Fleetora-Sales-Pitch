@@ -110,7 +110,7 @@ export function S19Roadmap() {
                             <motion.div
                                 animate={active ? { scale: [1, 1.35, 1] } : {}}
                                 transition={{ duration: 0.5, ease: "easeOut" }}
-                                className="relative w-14 h-14 rounded-full flex items-center justify-center"
+                                className="relative w-20 h-20 rounded-full flex items-center justify-center"
                                 style={{
                                     background: active ? `radial-gradient(circle, ${node.glow} 0%, transparent 70%)` : "transparent",
                                     border: `2px solid ${active ? node.color : "#334155"}`,
@@ -118,20 +118,20 @@ export function S19Roadmap() {
                                     transition: "all 0.5s ease",
                                 }}
                             >
-                                <span className="text-[10px] font-black tracking-widest" style={{ color: active ? node.color : "#475569" }}>
+                                <span className="text-sm font-black tracking-widest" style={{ color: active ? node.color : "#475569" }}>
                                     {node.label}
                                 </span>
                             </motion.div>
 
                             {/* Feature tags — float up from node */}
-                            <div className="absolute top-16 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 w-36">
+                            <div className="absolute top-24 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 w-40">
                                 {node.features.map((feat, fi) => (
                                     <motion.div
                                         key={fi}
                                         initial={{ opacity: 0, y: -8 }}
                                         animate={active && phase >= 3 + ni ? { opacity: 1, y: 0 } : {}}
                                         transition={{ delay: fi * 0.12, type: "spring", stiffness: 70, damping: 16 }}
-                                        className="px-2.5 py-1 rounded-full text-[9px] font-semibold text-center whitespace-nowrap"
+                                        className="px-2.5 py-1 rounded-full text-xs font-semibold text-center whitespace-nowrap"
                                         style={{
                                             border: `1px solid ${node.color}44`,
                                             backgroundColor: `${node.color}10`,
@@ -147,7 +147,7 @@ export function S19Roadmap() {
                             <motion.p
                                 initial={{ opacity: 0 }}
                                 animate={active ? { opacity: 1 } : {}}
-                                className="absolute -top-10 left-1/2 -translate-x-1/2 text-[9px] text-slate-500 whitespace-nowrap"
+                                className="absolute -top-10 left-1/2 -translate-x-1/2 text-sm font-bold text-slate-400 whitespace-nowrap"
                             >
                                 {ni === 0 ? "Today" : ni === 1 ? "Q3 2024" : "2025+"}
                             </motion.p>
@@ -162,7 +162,7 @@ export function S19Roadmap() {
                 animate={phase >= 4 ? { opacity: 1 } : {}}
                 className="text-xs text-slate-600 mt-8 text-center"
             >
-                Built modular. Each feature ships independently. No big-bang releases.
+                Built modular. Each feature ships independently. Bi-weekly releases.
             </motion.p>
         </section>
     );
