@@ -4,12 +4,12 @@ import { motion } from "framer-motion";
 
 export function BookingTrackingScreen() {
     return (
-        <section className="h-screen w-full flex flex-col items-center justify-center px-8 relative overflow-hidden bg-white">
-            <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-sm font-semibold tracking-widest uppercase text-blue-600 mb-4">Booking Detail</motion.p>
-            <motion.h2 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="text-4xl md:text-5xl font-bold text-slate-900 text-center tracking-tight mb-3">Live GPS Tracking</motion.h2>
-            <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} className="text-base text-slate-500 text-center mb-10 max-w-lg">Every checked-out vehicle, on the map, in real time. Speed, heading, fuel — continuously updating.</motion.p>
+        <section className="h-screen w-full flex flex-col items-center justify-center px-8 relative overflow-hidden bg-slate-950">
+            <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-sm font-semibold tracking-widest uppercase text-blue-400 mb-4">Booking Detail</motion.p>
+            <motion.h2 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="text-4xl md:text-5xl font-bold text-white text-center tracking-tight mb-3">Live GPS Tracking</motion.h2>
+            <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} className="text-base text-slate-400 text-center mb-10 max-w-lg">Every checked-out vehicle, on the map, in real time. Speed, heading, fuel — continuously updating.</motion.p>
 
-            <motion.div initial={{ opacity: 0, y: 30, scale: 0.97 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ type: "spring", stiffness: 50, damping: 20, delay: 0.3 }} className="w-full max-w-4xl rounded-2xl border border-slate-200 overflow-hidden bg-white" style={{ boxShadow: "0 25px 80px -15px rgba(0,0,0,0.08)" }}>
+            <motion.div initial={{ opacity: 0, y: 30, scale: 0.97 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ type: "spring", stiffness: 50, damping: 20, delay: 0.3 }} className="w-full max-w-4xl rounded-2xl border border-slate-700 overflow-hidden bg-white" style={{ boxShadow: "0 25px 80px -15px rgba(0,0,0,0.08)" }}>
                 <div className="grid grid-cols-3 h-[420px]">
                     {/* Map area */}
                     <div className="col-span-2 bg-slate-100 relative overflow-hidden">
@@ -36,12 +36,12 @@ export function BookingTrackingScreen() {
                     <div className="border-l border-slate-200 p-4 flex flex-col gap-4">
                         <div>
                             <p className="text-[9px] text-slate-400 uppercase tracking-wider font-medium">Vehicle</p>
-                            <p className="text-sm font-bold text-slate-900 mt-1">Tucson HSE</p>
+                            <p className="text-sm font-bold text-white mt-1">Tucson HSE</p>
                             <p className="text-xs text-slate-400">ABC-1234 • Airport</p>
                         </div>
                         <div>
                             <p className="text-[9px] text-slate-400 uppercase tracking-wider font-medium">Customer</p>
-                            <p className="text-sm font-medium text-slate-900 mt-1">Ahmad Khalil</p>
+                            <p className="text-sm font-medium text-white mt-1">Ahmad Khalil</p>
                             <p className="text-xs text-slate-400">Corp: Fleet Corp</p>
                         </div>
                         <div className="grid grid-cols-2 gap-3">
@@ -51,15 +51,15 @@ export function BookingTrackingScreen() {
                                 { label: "Fuel", value: "67%", icon: "⛽" },
                                 { label: "Trip km", value: "142", icon: "📏" },
                             ].map((t, i) => (
-                                <motion.div key={i} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 + i * 0.1 }} className="bg-slate-50 rounded-lg p-2.5 border border-slate-100">
+                                <motion.div key={i} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 + i * 0.1 }} className="bg-slate-800/50 rounded-lg p-2.5 border border-slate-700/50">
                                     <p className="text-[8px] text-slate-400 uppercase">{t.label}</p>
-                                    <p className="text-sm font-bold text-slate-900 mt-0.5">{t.icon} {t.value}</p>
+                                    <p className="text-sm font-bold text-white mt-0.5">{t.icon} {t.value}</p>
                                 </motion.div>
                             ))}
                         </div>
                         <div className="mt-auto">
                             <p className="text-[9px] text-slate-400 uppercase tracking-wider font-medium mb-1">Last Updated</p>
-                            <motion.p className="text-xs text-emerald-600 font-medium" animate={{ opacity: [1, 0.5, 1] }} transition={{ duration: 2, repeat: Infinity }}>● Live — 3s ago</motion.p>
+                            <motion.p className="text-xs text-emerald-400 font-medium" animate={{ opacity: [1, 0.5, 1] }} transition={{ duration: 2, repeat: Infinity }}>● Live — 3s ago</motion.p>
                         </div>
                     </div>
                 </div>
