@@ -2,6 +2,7 @@
 
 import { motion, useAnimation } from "framer-motion";
 import { useState, useEffect } from "react";
+import { Brain } from "lucide-react";
 
 type CardData = { id: string; plate: string; model: string; km: string; tag: string; tagColor: string };
 
@@ -96,6 +97,7 @@ export function S14Maintenance() {
                 >
                     <div className="w-2 h-2 rounded-full bg-blue-400" />
                 </motion.div>
+                <Brain className="h-4 w-4 text-emerald-400 shrink-0" />
                 <p className="text-xs text-slate-300">
                     <span className="font-semibold text-white">Fleet Brain: </span>
                     Schedule <span className="text-amber-400 font-semibold">AZ-TUC-4821 (Tucson)</span> for Wednesday — predicted 34% utilization. Optimal service window.

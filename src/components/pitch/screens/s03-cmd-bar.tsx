@@ -2,6 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
+import { Car } from "lucide-react";
 
 const SEQUENCES = [
     {
@@ -211,6 +212,14 @@ export function S03CmdBar() {
     return (
         <section className="h-screen w-full flex items-center justify-center px-8 relative overflow-hidden bg-slate-950">
             <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: "radial-gradient(circle, #fff 1px, transparent 1px)", backgroundSize: "32px 32px" }} />
+
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }} className="absolute top-6 left-8 flex items-center gap-2 z-30">
+                <div className="relative">
+                    <Car className="h-5 w-5 text-emerald-400" />
+                    <div className="absolute -inset-1 bg-emerald-400/15 rounded-full blur-sm -z-10" />
+                </div>
+                <span className="text-sm font-bold text-white/60 tracking-tight">Fleetora</span>
+            </motion.div>
 
             {/* Animated connection arrows */}
             <svg className="absolute inset-0 w-full h-full z-10 pointer-events-none" viewBox="0 0 1440 900" preserveAspectRatio="none">

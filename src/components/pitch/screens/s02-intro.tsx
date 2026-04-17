@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { Car } from "lucide-react";
 
 const JOURNEYS = [
     { num: "01", label: "The Counter", desc: "90-second walk-in checkout", icon: "⌨️", color: "#3b82f6" },
@@ -14,6 +15,19 @@ export function S02Intro() {
     return (
         <section className="h-screen w-full flex flex-col items-center justify-center px-8 relative overflow-hidden bg-slate-950">
             <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: "radial-gradient(circle, #fff 1px, transparent 1px)", backgroundSize: "40px 40px" }} />
+
+            <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 }}
+                className="flex items-center gap-2.5 mb-8"
+            >
+                <div className="relative">
+                    <Car className="h-7 w-7 text-emerald-400" />
+                    <div className="absolute -inset-1.5 bg-emerald-400/15 rounded-full blur-sm -z-10" />
+                </div>
+                <span className="text-xl font-bold text-white tracking-tight">Fleetora</span>
+            </motion.div>
 
             <motion.p
                 initial={{ opacity: 0 }}

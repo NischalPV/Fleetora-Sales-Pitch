@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
+import { Brain } from "lucide-react";
 
 const BRANCH_NODES = [
     { label: "Route Opt.", value: "94%", angle: 0 },
@@ -52,6 +53,19 @@ export function S11FleetBrain() {
             />
 
             {/* Label */}
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }} className="flex items-center gap-3 mb-2 z-10">
+                <div className="relative">
+                    <Brain className="h-8 w-8 text-emerald-400" />
+                    <div className="absolute -inset-1.5 bg-emerald-400/15 rounded-full blur-sm -z-10" />
+                </div>
+                <div className="flex items-center gap-2">
+                    <span className="relative flex h-2 w-2">
+                        <span className="animate-ping absolute h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                        <span className="relative h-2 w-2 rounded-full bg-emerald-500" />
+                    </span>
+                    <span className="text-[10px] text-emerald-400 font-medium">Fleet Brain Active</span>
+                </div>
+            </motion.div>
             <motion.p
                 initial={{ opacity: 0 }}
                 animate={phase >= 1 ? { opacity: 1 } : {}}

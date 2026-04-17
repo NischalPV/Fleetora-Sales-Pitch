@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
+import { Car } from "lucide-react";
 
 export function S20Close() {
     const [phase, setPhase] = useState(0);
@@ -35,9 +36,13 @@ export function S20Close() {
                 transition={{ duration: 1.2, ease: "easeOut" }}
                 className="relative mb-10"
             >
-                <h1 className="text-7xl font-black tracking-tight text-white select-none" style={{ letterSpacing: "-0.03em" }}>
-                    Fleetora
-                </h1>
+                <div className="flex items-center gap-3">
+                    <div className="relative">
+                        <Car className="h-10 w-10 text-emerald-400" />
+                        <div className="absolute -inset-2 bg-emerald-400/15 rounded-full blur-md -z-10" />
+                    </div>
+                    <span className="text-5xl md:text-7xl font-bold text-white tracking-tight">Fleetora</span>
+                </div>
                 {/* Subtle underline glow */}
                 <motion.div
                     initial={{ scaleX: 0 }}
