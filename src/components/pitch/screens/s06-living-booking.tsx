@@ -1,297 +1,313 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { useState, useEffect, lazy, Suspense } from "react";
 
 const FleetMap = lazy(() => import("@/components/ui/fleet-map").then(m => ({ default: m.FleetMap })));
 
 const MAP_PINS = [
-    { lat: 31.975, lng: 35.930, color: "#3b82f6", size: 16, pulse: true, label: "Tracked", popup: "<b>Tucson HSE</b><br/>ABC-1234 • Ahmad K.<br/>Speed: 82 km/h • Fuel: 67%" },
+    { lat: 31.975, lng: 35.930, color: "#3b82f6", size: 16, pulse: true, popup: "<b>Hyundai Tucson 2024</b><br/>JS-45-4821 • Ahmad Al-Rasheed<br/>Speed: 97 km/h • Fuel: 69%" },
     { lat: 31.960, lng: 35.915, color: "#22c55e", size: 8 },
     { lat: 31.950, lng: 35.950, color: "#22c55e", size: 8 },
-    { lat: 31.940, lng: 35.935, color: "#3b82f6", size: 8 },
-    { lat: 31.970, lng: 35.960, color: "#f59e0b", size: 8 },
-    { lat: 31.945, lng: 35.920, color: "#22c55e", size: 8 },
-    { lat: 31.980, lng: 35.945, color: "#ef4444", size: 10, label: "Overdue" },
-    // Event markers
-    { lat: 31.962, lng: 35.925, color: "#f59e0b", size: 14, popup: "<b>🔄 Vehicle Swap</b><br/>11:30 AM — Tucson HSE → Sonata GL<br/>Reason: AC malfunction" },
-    { lat: 31.968, lng: 35.942, color: "#ef4444", size: 14, popup: "<b>📸 Speed Camera</b><br/>1:45 PM — Airport Rd, km 12<br/>92 km/h in 60 zone • $75 fine<br/>Driver: Fatima K. • <span style='color:#f59e0b'>Pending</span>" },
-    { lat: 31.955, lng: 35.955, color: "#ef4444", size: 12, popup: "<b>🅿️ Parking Violation</b><br/>3:20 PM — Mall Zone B<br/>$25 fine • <span style='color:#22c55e'>Paid</span>" },
+    { lat: 31.968, lng: 35.942, color: "#ef4444", size: 12, popup: "<b>📸 Speed Camera</b><br/>Airport Highway, km 12<br/>27 Mar 2026 • 25,000 JOD" },
 ];
 
-const TABS = ["GPS Tracking", "Drivers", "Mileage & Charges", "Settlement"];
-
 const TIMELINE = [
-    { label: "Reserved", time: "Apr 15, 2:30 PM", done: true },
-    { label: "Checked Out", time: "Apr 16, 8:49 AM", done: true },
-    { label: "Active", time: "Now — Day 1 of 3", done: false, current: true },
-    { label: "Return Due", time: "Apr 18, 8:49 AM", done: false },
-    { label: "Settlement", time: "", done: false },
+    { label: "Booking Created", time: "24 Mar 2026", done: true },
+    { label: "Payment Authorized", time: "Deposit of 200,000 JOD held", done: true },
+    { label: "Vehicle Picked Up", time: "Hyundai Tucson 2024 from Amman Downtown", done: true },
+    { label: "Pre-rental Inspection", time: "Fuel: Full, Odometer: 8,200 km", done: true },
+    { label: "Vehicle Return", time: "Expected at Amman Downtown", done: false, current: true },
+    { label: "Settlement", time: "Final charges and deposit review", done: false },
 ];
 
 export function S06LivingBooking() {
     const [phase, setPhase] = useState(0);
-    const [activeTab, setActiveTab] = useState(0);
 
     useEffect(() => {
         const timers = [
-            setTimeout(() => setPhase(1), 500),   // Expand card
-            setTimeout(() => setPhase(2), 1500),   // Sidebar loads
-            setTimeout(() => setPhase(3), 2500),   // First tab content
-            setTimeout(() => setPhase(4), 6000),   // Cycle to tab 2
-            setTimeout(() => setPhase(5), 9000),   // Cycle to tab 3
-            setTimeout(() => setPhase(6), 12000),  // Cycle to tab 4
+            setTimeout(() => setPhase(1), 400),
+            setTimeout(() => setPhase(2), 1200),
+            setTimeout(() => setPhase(3), 2000),
+            setTimeout(() => setPhase(4), 3000),
+            setTimeout(() => setPhase(5), 4000),
         ];
-
-        // Tab cycling
-        const tabTimers = [
-            setTimeout(() => setActiveTab(1), 6000),
-            setTimeout(() => setActiveTab(2), 9000),
-            setTimeout(() => setActiveTab(3), 12000),
-        ];
-
-        return () => { timers.forEach(clearTimeout); tabTimers.forEach(clearTimeout); };
+        return () => timers.forEach(clearTimeout);
     }, []);
 
     return (
-        <section className="h-screen w-full flex items-center justify-center relative overflow-hidden bg-slate-950">
-            {/* Background glow */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[500px] bg-blue-500/3 blur-3xl rounded-full pointer-events-none" />
-
-            {/* Label */}
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} className="absolute top-6 left-10 z-20">
-                <p className="text-[10px] font-semibold tracking-widest uppercase text-blue-400">The Counter</p>
-                <p className="text-xs text-slate-500 mt-0.5">The Living Booking</p>
+        <section className="h-screen w-full relative overflow-hidden bg-slate-950 p-4 md:p-6">
+            {/* Header bar */}
+            <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="flex items-center justify-between mb-4"
+            >
+                <div className="flex items-center gap-3">
+                    <span className="text-sm font-bold text-white">BK-001</span>
+                    <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400">Checked Out</span>
+                    <span className="text-xs text-slate-500">Ahmad Al-Rasheed • Amman, since 25 Mar 2026</span>
+                </div>
+                <div className="flex items-center gap-2">
+                    <button className="text-[10px] bg-blue-600 text-white px-3 py-1.5 rounded-lg font-medium">Check-in</button>
+                    <button className="text-[10px] bg-slate-800 text-slate-300 px-3 py-1.5 rounded-lg border border-slate-700">Process Return</button>
+                </div>
             </motion.div>
 
-            {/* Expanding booking card */}
-            <motion.div
-                initial={{ width: 500, height: 120, borderRadius: 20 }}
-                animate={phase >= 1 ? { width: "92%", height: "80%", borderRadius: 16 } : {}}
-                transition={{ type: "spring", stiffness: 50, damping: 20 }}
-                className="border border-slate-700 bg-slate-900 overflow-hidden flex flex-col"
-                style={{ maxWidth: 1200, boxShadow: "0 40px 100px -20px rgba(0,0,0,0.5)" }}
-            >
-                {/* Mini header — always visible */}
-                <div className="px-5 py-3 border-b border-slate-800 flex items-center justify-between shrink-0">
-                    <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-full bg-blue-600/20 flex items-center justify-center text-blue-400 font-bold text-xs">AK</div>
-                        <div>
-                            <p className="text-sm font-bold text-white">BK-20260417-042 — Ahmad Khalil</p>
-                            <p className="text-[10px] text-slate-500">Tucson HSE • ABC-1234 • 3 days • Fleet Corp</p>
-                        </div>
-                    </div>
-                    <div className="flex items-center gap-2">
-                        <motion.div className="w-2 h-2 rounded-full bg-emerald-500" animate={{ opacity: [1, 0.3, 1] }} transition={{ duration: 1.5, repeat: Infinity }} />
-                        <span className="text-[10px] text-emerald-400">Active — Day 1</span>
-                    </div>
-                </div>
+            {/* 3-column layout matching real app */}
+            <div className="flex gap-4 h-[calc(100vh-90px)]">
 
-                {/* Expanded content */}
-                <AnimatePresence>
-                    {phase >= 2 && (
-                        <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            className="flex flex-1 overflow-hidden"
-                        >
-                            {/* Left sidebar — timeline + info */}
+                {/* LEFT COLUMN — Timeline + Vehicle + Mileage + Tickets */}
+                <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={phase >= 1 ? { opacity: 1, x: 0 } : {}}
+                    className="w-[260px] shrink-0 overflow-y-auto space-y-4"
+                >
+                    {/* Timeline */}
+                    <div className="rounded-xl border border-slate-800 bg-slate-900/50 p-4">
+                        <p className="text-[9px] text-slate-500 uppercase tracking-wider font-medium mb-3">Booking Timeline</p>
+                        {TIMELINE.map((step, i) => (
                             <motion.div
-                                initial={{ opacity: 0, x: -20 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                transition={{ delay: 0.2 }}
-                                className="w-56 border-r border-slate-800 p-4 shrink-0 flex flex-col"
+                                key={i}
+                                initial={{ opacity: 0, x: -10 }}
+                                animate={phase >= 2 ? { opacity: 1, x: 0 } : {}}
+                                transition={{ delay: i * 0.1 }}
+                                className="flex gap-2.5 mb-0"
                             >
-                                <p className="text-[9px] text-slate-500 uppercase tracking-wider font-medium mb-3">Booking Timeline</p>
-                                <div className="space-y-0">
-                                    {TIMELINE.map((step, i) => (
-                                        <motion.div
-                                            key={i}
-                                            initial={{ opacity: 0, x: -10 }}
-                                            animate={{ opacity: 1, x: 0 }}
-                                            transition={{ delay: 0.3 + i * 0.12 }}
-                                            className="flex gap-2.5"
-                                        >
-                                            <div className="flex flex-col items-center">
-                                                <div className={`w-2.5 h-2.5 rounded-full shrink-0 ${step.done ? "bg-emerald-500" : step.current ? "bg-blue-500 ring-2 ring-blue-500/30" : "bg-slate-700 border border-slate-600"}`} />
-                                                {i < TIMELINE.length - 1 && <div className={`w-px flex-1 min-h-[24px] ${step.done ? "bg-emerald-500/30" : "bg-slate-800"}`} />}
-                                            </div>
-                                            <div className="pb-3">
-                                                <p className={`text-[11px] font-medium ${step.current ? "text-blue-400" : step.done ? "text-white" : "text-slate-500"}`}>{step.label}</p>
-                                                {step.time && <p className="text-[9px] text-slate-500">{step.time}</p>}
-                                            </div>
-                                        </motion.div>
-                                    ))}
+                                <div className="flex flex-col items-center">
+                                    <div className={`w-2.5 h-2.5 rounded-full shrink-0 ${step.done ? "bg-emerald-500" : step.current ? "bg-amber-500 ring-2 ring-amber-500/30" : "bg-slate-700"}`} />
+                                    {i < TIMELINE.length - 1 && <div className={`w-px flex-1 min-h-[20px] ${step.done ? "bg-emerald-500/30" : "bg-slate-800"}`} />}
                                 </div>
-
-                                {/* Quick stats */}
-                                <div className="mt-auto pt-4 border-t border-slate-800 space-y-2">
-                                    <div className="flex justify-between"><span className="text-[9px] text-slate-500">Total</span><span className="text-xs font-bold text-white">$400.00</span></div>
-                                    <div className="flex justify-between"><span className="text-[9px] text-slate-500">Payment</span><span className="text-[10px] text-slate-400">Corporate</span></div>
-                                    <div className="flex justify-between"><span className="text-[9px] text-slate-500">Insurance</span><span className="text-[10px] text-emerald-400">Comprehensive</span></div>
+                                <div className="pb-3">
+                                    <p className={`text-[10px] font-medium ${step.current ? "text-amber-400" : step.done ? "text-white" : "text-slate-500"}`}>{step.label}</p>
+                                    <p className="text-[8px] text-slate-500">{step.time}</p>
                                 </div>
                             </motion.div>
+                        ))}
+                    </div>
 
-                            {/* Right main area — tabbed content */}
-                            <div className="flex-1 flex flex-col overflow-hidden">
-                                {/* Tab bar */}
-                                <div className="flex border-b border-slate-800 shrink-0">
-                                    {TABS.map((tab, i) => (
-                                        <button
-                                            key={i}
-                                            onClick={() => setActiveTab(i)}
-                                            className={`px-4 py-2.5 text-[11px] font-medium transition-colors ${activeTab === i ? "text-blue-400 border-b-2 border-blue-500" : "text-slate-500 hover:text-slate-300"}`}
-                                        >
-                                            {tab}
-                                        </button>
-                                    ))}
+                    {/* Vehicle */}
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={phase >= 3 ? { opacity: 1 } : {}}
+                        className="rounded-xl border border-slate-800 bg-slate-900/50 p-4"
+                    >
+                        <p className="text-[9px] text-slate-500 uppercase tracking-wider font-medium mb-2">Vehicle</p>
+                        <p className="text-sm font-bold text-white">Hyundai Tucson 2024</p>
+                        <p className="text-[10px] text-slate-400">SUV • Pearl White</p>
+                        <div className="grid grid-cols-2 gap-2 mt-3">
+                            <div><p className="text-[8px] text-slate-500">Pickup</p><p className="text-[10px] text-white">Amman Downtown</p><p className="text-[8px] text-slate-500">25 Mar 2026</p></div>
+                            <div><p className="text-[8px] text-slate-500">Return</p><p className="text-[10px] text-white">Amman Downtown</p><p className="text-[8px] text-slate-500">30 Mar 2026</p></div>
+                        </div>
+                        <div className="flex gap-3 mt-3 pt-3 border-t border-slate-800">
+                            <div><p className="text-[8px] text-slate-500">Fuel</p><p className="text-[10px] text-white">Full</p></div>
+                            <div><p className="text-[8px] text-slate-500">Odometer</p><p className="text-[10px] text-white">8,200 km</p></div>
+                            <div><p className="text-[8px] text-slate-500">Plate</p><p className="text-[10px] text-white">JS-45-4821</p></div>
+                        </div>
+                    </motion.div>
+
+                    {/* Mileage */}
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={phase >= 4 ? { opacity: 1 } : {}}
+                        className="rounded-xl border border-slate-800 bg-slate-900/50 p-4"
+                    >
+                        <p className="text-[9px] text-slate-500 uppercase tracking-wider font-medium mb-2">Mileage</p>
+                        <p className="text-xs text-white font-medium">1,275 km used</p>
+                        <p className="text-[9px] text-slate-500">500 km/day • 0.300 JOD/extra km</p>
+                        <div className="w-full h-2 bg-slate-800 rounded-full mt-2 overflow-hidden">
+                            <motion.div className="h-full rounded-full bg-amber-500" initial={{ width: 0 }} animate={phase >= 4 ? { width: "85%" } : {}} transition={{ duration: 1 }} />
+                        </div>
+                        <div className="flex justify-between mt-1">
+                            <span className="text-[8px] text-slate-600">0</span>
+                            <span className="text-[8px] text-slate-600">1,500 km allowed</span>
+                        </div>
+                        {/* Daily bars */}
+                        <div className="flex gap-1 mt-3">
+                            {[315, 180, 265, 275, 190].map((km, i) => (
+                                <div key={i} className="flex-1 text-center">
+                                    <motion.div
+                                        className={`w-full rounded-sm ${km > 300 ? "bg-red-500" : "bg-emerald-500"}`}
+                                        initial={{ height: 0 }}
+                                        animate={phase >= 4 ? { height: `${(km / 350) * 40}px` } : {}}
+                                        transition={{ delay: i * 0.1, duration: 0.4 }}
+                                    />
+                                    <p className="text-[7px] text-slate-500 mt-1">{km}</p>
+                                    <p className="text-[7px] text-slate-600">D{i + 1}</p>
                                 </div>
+                            ))}
+                        </div>
+                    </motion.div>
 
-                                {/* Tab content */}
-                                <div className="flex-1 p-5 overflow-hidden">
-                                    <AnimatePresence mode="wait">
-                                        {activeTab === 0 && (
-                                            <motion.div key="gps" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="h-full flex gap-4">
-                                                {/* Real Map */}
-                                                <div className="flex-1 rounded-xl overflow-hidden relative">
-                                                    <Suspense fallback={<div className="w-full h-full bg-slate-800 animate-pulse rounded-xl" />}>
-                                                        <FleetMap
-                                                            center={[31.958, 35.940]}
-                                                            zoom={14}
-                                                            pins={MAP_PINS}
-                                                            className="w-full h-full"
-                                                            darkTheme={true}
-                                                        />
-                                                    </Suspense>
-                                                    {/* Legend overlay */}
-                                                    <div className="absolute bottom-3 left-3 flex gap-3 bg-slate-900/90 backdrop-blur-sm rounded-lg px-3 py-1.5 z-[1000]">
-                                                        {[{ c: "bg-emerald-500", l: "Available" }, { c: "bg-blue-500", l: "Active" }, { c: "bg-amber-500", l: "Returning" }, { c: "bg-red-500", l: "Overdue" }].map((lg, i) => (
-                                                            <div key={i} className="flex items-center gap-1.5"><div className={`w-2 h-2 rounded-full ${lg.c}`} /><span className="text-[9px] text-slate-300">{lg.l}</span></div>
-                                                        ))}
-                                                    </div>
-                                                </div>
-                                                {/* Telemetry + Events */}
-                                                <div className="w-48 space-y-2 flex flex-col">
-                                                    {[{ l: "Speed", v: "82 km/h" }, { l: "Heading", v: "NW" }, { l: "Fuel", v: "67%" }, { l: "Trip", v: "142 km" }].map((t, i) => (
-                                                        <div key={i} className="bg-slate-800/50 rounded-lg p-2 border border-slate-700/50">
-                                                            <p className="text-[8px] text-slate-500 uppercase">{t.l}</p>
-                                                            <p className="text-xs font-bold text-white">{t.v}</p>
-                                                        </div>
-                                                    ))}
-                                                    {/* Live event feed */}
-                                                    <div className="flex-1 border-t border-slate-700/50 pt-2 mt-1">
-                                                        <p className="text-[8px] text-slate-500 uppercase mb-1.5">Trip Events</p>
-                                                        {[
-                                                            { icon: "🔄", text: "Swap: Tucson → Sonata", time: "11:30 AM", color: "text-amber-400" },
-                                                            { icon: "📸", text: "Speed camera — $75", time: "1:45 PM", color: "text-red-400" },
-                                                            { icon: "🅿️", text: "Parking fine — $25 paid", time: "3:20 PM", color: "text-red-400" },
-                                                            { icon: "⚠️", text: "Geo-fence alert: zone exit", time: "4:05 PM", color: "text-amber-400" },
-                                                        ].map((evt, i) => (
-                                                            <motion.div key={i} initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 1 + i * 0.5 }} className="flex items-start gap-1.5 mb-1.5">
-                                                                <span className="text-[10px]">{evt.icon}</span>
-                                                                <div>
-                                                                    <p className={`text-[9px] ${evt.color}`}>{evt.text}</p>
-                                                                    <p className="text-[8px] text-slate-600">{evt.time}</p>
-                                                                </div>
-                                                            </motion.div>
-                                                        ))}
-                                                    </div>
-                                                </div>
-                                            </motion.div>
-                                        )}
-
-                                        {activeTab === 1 && (
-                                            <motion.div key="drivers" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-3">
-                                                {[
-                                                    { name: "Ahmad Khalil", role: "Primary", age: 34, license: "Valid — Mar 2027", badges: ["Primary"], surcharge: "" },
-                                                    { name: "Fatima Khalil", role: "Additional", age: 23, license: "Valid — Aug 2026", badges: ["Under-25"], surcharge: "+$15/day" },
-                                                    { name: "Hassan Khalil", role: "Additional", age: 71, license: "Expiring Jan 2025", badges: ["Senior", "Expiring"], surcharge: "+$10/day" },
-                                                ].map((d, i) => (
-                                                    <motion.div key={i} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.15 }} className="flex items-center justify-between bg-slate-800/30 rounded-xl p-4 border border-slate-700/50">
-                                                        <div className="flex items-center gap-3">
-                                                            <div className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 text-xs font-bold">{d.name.split(" ").map(n => n[0]).join("")}</div>
-                                                            <div>
-                                                                <p className="text-sm font-medium text-white">{d.name}</p>
-                                                                <p className="text-[10px] text-slate-500">Age {d.age} - {d.license}</p>
-                                                            </div>
-                                                        </div>
-                                                        <div className="flex items-center gap-2">
-                                                            {d.badges.map((b, j) => (
-                                                                <span key={j} className={`text-[9px] font-medium px-2 py-0.5 rounded-full ${b === "Primary" ? "bg-blue-500/20 text-blue-400" : b === "Expiring" ? "bg-red-500/20 text-red-400" : "bg-amber-500/20 text-amber-400"}`}>{b}</span>
-                                                            ))}
-                                                            {d.surcharge && <span className="text-[10px] text-amber-400 font-medium">{d.surcharge}</span>}
-                                                        </div>
-                                                    </motion.div>
-                                                ))}
-                                                <p className="text-[10px] text-slate-600 mt-2">Surcharges calculated automatically. License warnings at 90 days.</p>
-                                            </motion.div>
-                                        )}
-
-                                        {activeTab === 2 && (
-                                            <motion.div key="mileage" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-4">
-                                                <div>
-                                                    <p className="text-[9px] text-slate-500 uppercase tracking-wider mb-2">Daily Mileage (250km allowance)</p>
-                                                    {[{ day: "Day 1", km: 180, limit: 250 }, { day: "Day 2", km: 310, limit: 250 }, { day: "Day 3", km: 95, limit: 250 }].map((d, i) => (
-                                                        <div key={i} className="mb-2">
-                                                            <div className="flex justify-between text-xs mb-1">
-                                                                <span className="text-slate-400">{d.day}</span>
-                                                                <span className={d.km > d.limit ? "text-red-400 font-bold" : "text-slate-400"}>{d.km} / {d.limit} km</span>
-                                                            </div>
-                                                            <div className="w-full h-2 bg-slate-800 rounded-full overflow-hidden">
-                                                                <motion.div className={`h-full rounded-full ${d.km > d.limit ? "bg-red-500" : "bg-blue-500"}`} initial={{ width: 0 }} animate={{ width: `${Math.min((d.km / d.limit) * 100, 100)}%` }} transition={{ duration: 0.6, delay: i * 0.2 }} />
-                                                            </div>
-                                                            {d.km > d.limit && <p className="text-[9px] text-red-400 mt-0.5">+{d.km - d.limit}km over — ${(d.km - d.limit) * 0.5} charge</p>}
-                                                        </div>
-                                                    ))}
-                                                </div>
-                                                <div className="grid grid-cols-2 gap-3">
-                                                    <div className="bg-slate-800/30 rounded-xl p-3 border border-slate-700/50">
-                                                        <p className="text-[9px] text-slate-500 uppercase mb-1">Vehicle Swap</p>
-                                                        <p className="text-xs text-white">Tucson to Sonata (AC issue)</p>
-                                                        <p className="text-[9px] text-slate-500">Authorized by Rami S.</p>
-                                                    </div>
-                                                    <div className="bg-slate-800/30 rounded-xl p-3 border border-slate-700/50">
-                                                        <p className="text-[9px] text-slate-500 uppercase mb-1">Traffic Ticket</p>
-                                                        <p className="text-xs text-white">Speed camera — $75</p>
-                                                        <p className="text-[9px] text-amber-400">Pending — Fatima K.</p>
-                                                    </div>
-                                                </div>
-                                            </motion.div>
-                                        )}
-
-                                        {activeTab === 3 && (
-                                            <motion.div key="settlement" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-2">
-                                                <p className="text-[9px] text-slate-500 uppercase tracking-wider mb-2">Payment Breakdown</p>
-                                                {[
-                                                    { item: "Base rental (3 days x $106.67)", amount: "$320.00", type: "base" },
-                                                    { item: "Under-25 surcharge (3 x $15)", amount: "$45.00", type: "surcharge" },
-                                                    { item: "Senior surcharge (3 x $10)", amount: "$30.00", type: "surcharge" },
-                                                    { item: "Extra mileage — Day 2 (60km x $0.50)", amount: "$30.00", type: "overage" },
-                                                    { item: "Comprehensive insurance", amount: "$80.00", type: "base" },
-                                                    { item: "Speed camera ticket", amount: "$75.00", type: "ticket" },
-                                                ].map((row, i) => (
-                                                    <motion.div key={i} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: i * 0.08 }} className="flex justify-between items-center py-1.5 border-b border-slate-800/50">
-                                                        <div className="flex items-center gap-2">
-                                                            <div className={`w-1.5 h-1.5 rounded-full ${row.type === "base" ? "bg-blue-400" : row.type === "surcharge" ? "bg-amber-400" : row.type === "overage" ? "bg-orange-400" : "bg-red-400"}`} />
-                                                            <span className="text-xs text-slate-300">{row.item}</span>
-                                                        </div>
-                                                        <span className="text-xs font-medium text-white tabular-nums">{row.amount}</span>
-                                                    </motion.div>
-                                                ))}
-                                                <div className="flex justify-between items-center pt-3 mt-2 border-t border-slate-700">
-                                                    <span className="text-sm font-bold text-white">Total</span>
-                                                    <span className="text-xl font-bold text-white tabular-nums">$580.00</span>
-                                                </div>
-                                                <p className="text-[10px] text-slate-500 mt-1">Payment: Corporate credit — Fleet Corp - Deposit: $200 refundable</p>
-                                            </motion.div>
-                                        )}
-                                    </AnimatePresence>
-                                </div>
+                    {/* Traffic Tickets */}
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={phase >= 5 ? { opacity: 1 } : {}}
+                        className="rounded-xl border border-slate-800 bg-slate-900/50 p-4"
+                    >
+                        <p className="text-[9px] text-slate-500 uppercase tracking-wider font-medium mb-2">Traffic Tickets</p>
+                        <div className="bg-red-500/5 border border-red-500/20 rounded-lg p-3">
+                            <div className="flex items-center justify-between">
+                                <p className="text-[10px] font-medium text-white">Speed Camera</p>
+                                <span className="text-[8px] px-1.5 py-0.5 rounded-full bg-amber-500/20 text-amber-400">Pending</span>
                             </div>
-                        </motion.div>
-                    )}
-                </AnimatePresence>
-            </motion.div>
+                            <p className="text-[9px] text-slate-400 mt-1">Airport Highway, km 12 • 27 Mar 2026</p>
+                            <p className="text-xs font-bold text-white mt-1">25,000 JOD</p>
+                        </div>
+                    </motion.div>
+                </motion.div>
+
+                {/* CENTER — Live Map + Telemetry */}
+                <motion.div
+                    initial={{ opacity: 0, scale: 0.97 }}
+                    animate={phase >= 1 ? { opacity: 1, scale: 1 } : {}}
+                    transition={{ type: "spring", stiffness: 50, damping: 20 }}
+                    className="flex-1 flex flex-col gap-3"
+                >
+                    {/* Map label */}
+                    <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                            <p className="text-xs font-medium text-white">Live Tracking</p>
+                            <motion.div className="flex items-center gap-1">
+                                <motion.div className="w-1.5 h-1.5 rounded-full bg-emerald-500" animate={{ opacity: [1, 0.3, 1] }} transition={{ duration: 1.5, repeat: Infinity }} />
+                                <span className="text-[9px] text-emerald-400">Active</span>
+                            </motion.div>
+                        </div>
+                        <span className="text-[9px] text-slate-500">Amman Airport area</span>
+                    </div>
+
+                    {/* Real map */}
+                    <div className="flex-1 rounded-xl overflow-hidden border border-slate-800">
+                        <Suspense fallback={<div className="w-full h-full bg-slate-800 animate-pulse" />}>
+                            <FleetMap center={[31.958, 35.940]} zoom={14} pins={MAP_PINS} className="w-full h-full" darkTheme={true} />
+                        </Suspense>
+                    </div>
+
+                    {/* Telemetry bar — horizontal like real app */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={phase >= 2 ? { opacity: 1, y: 0 } : {}}
+                        className="flex items-center gap-4 rounded-xl border border-slate-800 bg-slate-900/50 px-5 py-3"
+                    >
+                        {[
+                            { label: "Speed", value: "97", unit: "km/h" },
+                            { label: "Heading", value: "NE", unit: "" },
+                            { label: "Fuel", value: "69", unit: "%" },
+                            { label: "Odometer", value: "8,665", unit: "km" },
+                        ].map((t, i) => (
+                            <div key={i} className="flex-1 text-center">
+                                <p className="text-2xl font-bold text-white">{t.value}<span className="text-xs text-slate-500 ml-1">{t.unit}</span></p>
+                                <p className="text-[8px] text-slate-500 uppercase tracking-wider">{t.label}</p>
+                            </div>
+                        ))}
+                        <div className="flex-1 text-center">
+                            <p className="text-[9px] text-slate-500">JS-45-4821</p>
+                            <p className="text-[8px] text-slate-600">Hyundai Tucson 2024</p>
+                        </div>
+                    </motion.div>
+                </motion.div>
+
+                {/* RIGHT COLUMN — Customer + Drivers + Payment + Actions */}
+                <motion.div
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={phase >= 2 ? { opacity: 1, x: 0 } : {}}
+                    className="w-[260px] shrink-0 overflow-y-auto space-y-4"
+                >
+                    {/* Customer */}
+                    <div className="rounded-xl border border-slate-800 bg-slate-900/50 p-4">
+                        <p className="text-[9px] text-slate-500 uppercase tracking-wider font-medium mb-2">Customer</p>
+                        <div className="flex items-center gap-3 mb-3">
+                            <div className="w-10 h-10 rounded-full bg-blue-600/20 flex items-center justify-center text-blue-400 font-bold text-sm">AR</div>
+                            <div>
+                                <p className="text-sm font-bold text-white">Ahmad Al-Rasheed</p>
+                                <p className="text-[10px] text-slate-400">Amman, since 2024</p>
+                            </div>
+                        </div>
+                        <div className="space-y-1.5 text-[10px]">
+                            <div className="flex items-center gap-2"><span className="text-slate-500">📞</span><span className="text-slate-300">+962 79 123 4567</span></div>
+                            <div className="flex items-center gap-2"><span className="text-slate-500">✉️</span><span className="text-slate-300">ahmad@email.com</span></div>
+                            <div className="flex items-center gap-2"><span className="text-slate-500">🪪</span><span className="text-slate-300">National ID: 98-●●●●●</span></div>
+                            <div className="flex items-center gap-2"><span className="text-slate-500">🌍</span><span className="text-slate-300">Jordanian</span></div>
+                        </div>
+                    </div>
+
+                    {/* Drivers */}
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={phase >= 3 ? { opacity: 1 } : {}}
+                        className="rounded-xl border border-slate-800 bg-slate-900/50 p-4"
+                    >
+                        <div className="flex items-center justify-between mb-2">
+                            <p className="text-[9px] text-slate-500 uppercase tracking-wider font-medium">Drivers</p>
+                            <span className="text-[9px] text-slate-500">1 authorized</span>
+                        </div>
+                        <div className="flex items-center gap-3 bg-slate-800/50 rounded-lg p-2">
+                            <div className="w-8 h-8 rounded-full bg-emerald-600/20 flex items-center justify-center text-emerald-400 text-[10px] font-bold">AR</div>
+                            <div>
+                                <p className="text-[10px] font-medium text-white">Ahmad Al-Rasheed <span className="text-[8px] px-1 py-0.5 rounded bg-blue-500/20 text-blue-400">Primary</span></p>
+                                <p className="text-[8px] text-slate-500">License: JR-DL-084712 • Expires Mar 2027</p>
+                            </div>
+                        </div>
+                    </motion.div>
+
+                    {/* Payment */}
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={phase >= 4 ? { opacity: 1 } : {}}
+                        className="rounded-xl border border-slate-800 bg-slate-900/50 p-4"
+                    >
+                        <p className="text-[9px] text-slate-500 uppercase tracking-wider font-medium mb-3">Payment</p>
+                        <div className="flex items-center gap-2 mb-3">
+                            <span className="text-[10px] text-slate-400">Visa •••• 4821</span>
+                        </div>
+                        <div className="space-y-1.5">
+                            {[
+                                { label: "5 days × 35,000 JOD/day", amount: "175,000 JOD" },
+                                { label: "Full insurance", amount: "25,000 JOD" },
+                                { label: "Tax", amount: "14,000 JOD" },
+                            ].map((row, i) => (
+                                <div key={i} className="flex justify-between text-[10px]">
+                                    <span className="text-slate-400">{row.label}</span>
+                                    <span className="text-white">{row.amount}</span>
+                                </div>
+                            ))}
+                            <div className="flex justify-between text-xs font-bold pt-2 border-t border-slate-800">
+                                <span className="text-white">Total</span>
+                                <span className="text-white">200,000 JOD</span>
+                            </div>
+                            <div className="flex justify-between text-[10px]">
+                                <span className="text-slate-400">Deposit held</span>
+                                <span className="text-slate-400">200,000 JOD</span>
+                            </div>
+                            <div className="flex justify-between text-[10px]">
+                                <span className="text-emerald-400">Balance due</span>
+                                <motion.span
+                                    initial={{ opacity: 0 }}
+                                    animate={phase >= 4 ? { opacity: 1 } : {}}
+                                    className="text-emerald-400 font-bold"
+                                >
+                                    14,000 JOD
+                                </motion.span>
+                            </div>
+                        </div>
+                    </motion.div>
+
+                    {/* Actions */}
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={phase >= 5 ? { opacity: 1 } : {}}
+                        className="rounded-xl border border-slate-800 bg-slate-900/50 p-4 space-y-2"
+                    >
+                        <p className="text-[9px] text-slate-500 uppercase tracking-wider font-medium mb-2">Actions</p>
+                        {["Process Return", "View Invoice", "Financial Record"].map((action, i) => (
+                            <div key={i} className="flex items-center justify-between bg-slate-800/50 rounded-lg px-3 py-2 border border-slate-700/50">
+                                <span className="text-[10px] text-slate-300">{action}</span>
+                                <span className="text-slate-500 text-xs">→</span>
+                            </div>
+                        ))}
+                    </motion.div>
+                </motion.div>
+            </div>
         </section>
     );
 }
