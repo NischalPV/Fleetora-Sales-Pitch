@@ -17,6 +17,12 @@ import { S11FleetBrain } from "./screens/s11-fleet-brain";
 import { S12Rebalance } from "./screens/s12-rebalance";
 import { S13Predict } from "./screens/s13-predict";
 import { S14Maintenance } from "./screens/s14-maintenance";
+import { S15Corporate } from "./screens/s15-corporate";
+import { S16Invoicing } from "./screens/s16-invoicing";
+import { S17Payments } from "./screens/s17-payments";
+import { S18FinanceWs } from "./screens/s18-finance-ws";
+import { S19Roadmap } from "./screens/s19-roadmap";
+import { S20Close } from "./screens/s20-close";
 
 // Placeholder for slides not yet built
 function Placeholder({ title, num, journey }: { title: string; num: number; journey: string }) {
@@ -49,13 +55,13 @@ const SCREENS = [
     { id: "predict", Component: S13Predict },
     { id: "maintenance", Component: S14Maintenance },
     // Journey 5: The Money (Finance story)
-    { id: "corporate", Component: () => <Placeholder title="Corporate Accounts" num={15} journey="THE MONEY" /> },
-    { id: "invoicing", Component: () => <Placeholder title="Automated Invoicing" num={16} journey="THE MONEY" /> },
-    { id: "payments", Component: () => <Placeholder title="Payment Settlement" num={17} journey="THE MONEY" /> },
-    { id: "finance-ws", Component: () => <Placeholder title="Finance Workspace" num={18} journey="THE MONEY" /> },
+    { id: "corporate", Component: S15Corporate },
+    { id: "invoicing", Component: S16Invoicing },
+    { id: "payments", Component: S17Payments },
+    { id: "finance-ws", Component: S18FinanceWs },
     // Journey 6: The Future
-    { id: "roadmap", Component: () => <Placeholder title="What's Coming" num={19} journey="THE FUTURE" /> },
-    { id: "close", Component: () => <Placeholder title="Let's Start" num={20} journey="THE FUTURE" /> },
+    { id: "roadmap", Component: S19Roadmap },
+    { id: "close", Component: S20Close },
 ];
 
 // Different transition per journey
