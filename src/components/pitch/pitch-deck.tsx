@@ -13,16 +13,16 @@ import { BookingTimelineScreen } from "./screens/07-booking-timeline";
 import { BookingDriversScreen } from "./screens/08-booking-drivers";
 import { BookingMileageScreen } from "./screens/09-booking-mileage";
 import { BookingPaymentsScreen } from "./screens/10-booking-payments";
-
-// Placeholder for screens not yet built
-function PlaceholderScreen({ title, num }: { title: string; num: number }) {
-    return (
-        <section className="h-screen w-full flex flex-col items-center justify-center px-8 bg-white">
-            <p className="text-sm font-semibold tracking-widest uppercase text-slate-300 mb-4">Slide {num}</p>
-            <h2 className="text-3xl font-bold text-slate-300">{title}</h2>
-        </section>
-    );
-}
+import { HqCockpitScreen } from "./screens/11-hq-cockpit";
+import { BranchAnalyticsScreen } from "./screens/12-branch-analytics";
+import { FleetBrainRebalanceScreen } from "./screens/13-fleet-brain-rebalance";
+import { FleetBrainPredictScreen } from "./screens/14-fleet-brain-predict";
+import { FleetMapScreen } from "./screens/15-fleet-map";
+import { TransfersScreen } from "./screens/16-transfers";
+import { MaintenanceScreen } from "./screens/17-maintenance";
+import { CorporateScreen } from "./screens/18-corporate";
+import { FinanceScreen } from "./screens/19-finance";
+import { CloseScreen } from "./screens/20-close";
 
 const SCREENS = [
     { id: "hero", Component: HeroScreen },
@@ -35,16 +35,16 @@ const SCREENS = [
     { id: "booking-drivers", Component: BookingDriversScreen },
     { id: "booking-mileage", Component: BookingMileageScreen },
     { id: "booking-payments", Component: BookingPaymentsScreen },
-    { id: "hq-cockpit", Component: () => <PlaceholderScreen title="HQ Cockpit" num={11} /> },
-    { id: "branch-analytics", Component: () => <PlaceholderScreen title="Branch Analytics" num={12} /> },
-    { id: "fleet-brain-rebalance", Component: () => <PlaceholderScreen title="Fleet Brain — Rebalancing" num={13} /> },
-    { id: "fleet-brain-predict", Component: () => <PlaceholderScreen title="Demand Prediction" num={14} /> },
-    { id: "fleet-map", Component: () => <PlaceholderScreen title="Live Fleet Map" num={15} /> },
-    { id: "transfers", Component: () => <PlaceholderScreen title="Inter-Branch Transfers" num={16} /> },
-    { id: "maintenance", Component: () => <PlaceholderScreen title="Maintenance Kanban" num={17} /> },
-    { id: "corporate", Component: () => <PlaceholderScreen title="Corporate Accounts" num={18} /> },
-    { id: "finance", Component: () => <PlaceholderScreen title="Finance Workspace" num={19} /> },
-    { id: "close", Component: () => <PlaceholderScreen title="Getting Started" num={20} /> },
+    { id: "hq-cockpit", Component: HqCockpitScreen },
+    { id: "branch-analytics", Component: BranchAnalyticsScreen },
+    { id: "fleet-brain-rebalance", Component: FleetBrainRebalanceScreen },
+    { id: "fleet-brain-predict", Component: FleetBrainPredictScreen },
+    { id: "fleet-map", Component: FleetMapScreen },
+    { id: "transfers", Component: TransfersScreen },
+    { id: "maintenance", Component: MaintenanceScreen },
+    { id: "corporate", Component: CorporateScreen },
+    { id: "finance", Component: FinanceScreen },
+    { id: "close", Component: CloseScreen },
 ];
 
 const TRANSITIONS = [

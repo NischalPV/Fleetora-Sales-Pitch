@@ -1,0 +1,98 @@
+"use client";
+
+import { motion } from "framer-motion";
+
+const RENTALS = [
+    { name: "James Al-Rashid", vehicle: "Elantra N", plate: "ABC-1234", since: "Apr 14", cost: "$420" },
+    { name: "Sarah Chen", vehicle: "Tucson HSE", plate: "DEF-5678", since: "Apr 15", cost: "$640" },
+    { name: "Omar Farouk", vehicle: "Sonata GL", plate: "GHI-9012", since: "Apr 12", cost: "$880" },
+    { name: "Lisa Park", vehicle: "Creta Sport", plate: "JKL-3456", since: "Apr 16", cost: "$210" },
+];
+
+const INVOICES = [
+    { ref: "INV-2026-041", date: "Apr 1", amount: "$12,480", status: "Paid", badge: "bg-emerald-50 text-emerald-700" },
+    { ref: "INV-2026-032", date: "Mar 1", amount: "$9,720", status: "Paid", badge: "bg-emerald-50 text-emerald-700" },
+    { ref: "INV-2026-023", date: "Feb 1", amount: "$11,200", status: "Paid", badge: "bg-emerald-50 text-emerald-700" },
+];
+
+export function CorporateScreen() {
+    return (
+        <section className="h-screen w-full flex flex-col items-center justify-center px-8 relative overflow-hidden bg-white">
+            <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-sm font-semibold tracking-widest uppercase text-blue-600 mb-4">Corporate</motion.p>
+            <motion.h2 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="text-4xl md:text-5xl font-bold text-slate-900 text-center tracking-tight mb-3">Corporate Accounts</motion.h2>
+            <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} className="text-base text-slate-500 text-center mb-8 max-w-lg">Credit limits enforced in real time. Invoices generated automatically.</motion.p>
+
+            <motion.div initial={{ opacity: 0, y: 20, scale: 0.97 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ delay: 0.3, type: "spring", stiffness: 55 }} className="w-full max-w-2xl bg-slate-50 border border-slate-200 rounded-2xl overflow-hidden" style={{ boxShadow: "0 12px 40px -10px rgba(0,0,0,0.08)" }}>
+                {/* Account header */}
+                <div className="bg-white px-5 py-4 border-b border-slate-100 flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center">
+                            <span className="text-sm font-bold text-white">FC</span>
+                        </div>
+                        <div>
+                            <p className="text-sm font-bold text-slate-900">Fleet Corp</p>
+                            <p className="text-[10px] text-slate-400">Corporate Account · Since Jan 2025</p>
+                        </div>
+                    </div>
+                    <span className="text-[10px] font-semibold px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700">Active</span>
+                </div>
+
+                {/* Credit bar */}
+                <div className="px-5 py-4 border-b border-slate-100">
+                    <div className="flex justify-between items-center mb-1.5">
+                        <p className="text-[9px] text-slate-500 uppercase tracking-wider font-semibold">Credit Usage</p>
+                        <div className="flex items-center gap-2">
+                            <span className="text-xs font-bold text-slate-900">$38K</span>
+                            <span className="text-xs text-slate-400">/ $50K limit</span>
+                        </div>
+                    </div>
+                    <div className="h-3 bg-slate-100 rounded-full overflow-hidden">
+                        <motion.div initial={{ width: 0 }} animate={{ width: "76%" }} transition={{ delay: 0.6, duration: 0.8 }} className="h-full bg-amber-500 rounded-full" />
+                    </div>
+                    <div className="flex justify-between mt-1">
+                        <span className="text-[9px] text-slate-400">Used: $38,000</span>
+                        <span className="text-[9px] text-amber-600 font-semibold">76% utilized · $12K remaining</span>
+                    </div>
+                </div>
+
+                {/* Active rentals */}
+                <div className="px-5 py-4 border-b border-slate-100">
+                    <p className="text-[9px] text-slate-400 uppercase tracking-wider mb-2.5 font-semibold">Active Rentals (4 employees)</p>
+                    <div className="space-y-1.5">
+                        {RENTALS.map((r, i) => (
+                            <motion.div key={i} initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.5 + i * 0.08 }} className="flex items-center justify-between bg-white rounded-xl px-3 py-2 border border-slate-100">
+                                <div>
+                                    <span className="text-xs font-medium text-slate-800">{r.name}</span>
+                                    <span className="text-[9px] text-slate-400 ml-2">{r.vehicle}</span>
+                                </div>
+                                <div className="flex items-center gap-3">
+                                    <span className="text-[9px] text-slate-400">Since {r.since}</span>
+                                    <span className="text-xs font-bold text-slate-700">{r.cost}</span>
+                                </div>
+                            </motion.div>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Invoices */}
+                <div className="px-5 py-4">
+                    <p className="text-[9px] text-slate-400 uppercase tracking-wider mb-2.5 font-semibold">Recent Invoices</p>
+                    <div className="space-y-1.5">
+                        {INVOICES.map((inv, i) => (
+                            <motion.div key={i} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8 + i * 0.07 }} className="flex items-center justify-between">
+                                <div className="flex items-center gap-2">
+                                    <span className="text-xs font-mono text-slate-500">{inv.ref}</span>
+                                    <span className="text-[9px] text-slate-400">{inv.date}</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <span className="text-xs font-bold text-slate-900">{inv.amount}</span>
+                                    <span className={`text-[9px] px-2 py-0.5 rounded-full font-semibold ${inv.badge}`}>{inv.status}</span>
+                                </div>
+                            </motion.div>
+                        ))}
+                    </div>
+                </div>
+            </motion.div>
+        </section>
+    );
+}
