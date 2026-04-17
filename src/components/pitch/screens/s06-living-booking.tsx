@@ -69,26 +69,22 @@ export function S06LivingBooking() {
                 animate={phase >= 1 ? { opacity: 1, y: 0, scale: 1 } : {}}
                 transition={{ type: "spring", stiffness: 50, damping: 20 }}
                 className="w-full max-w-5xl rounded-2xl border border-slate-700 overflow-hidden bg-slate-900 z-10"
-                style={{ boxShadow: "0 40px 100px -20px rgba(0,0,0,0.5)", maxHeight: "65vh" }}
+                style={{ boxShadow: "0 40px 100px -20px rgba(0,0,0,0.5)", height: "60vh" }}
             >
-                {/* Browser chrome */}
-                <div className="bg-slate-800 px-4 py-2 flex items-center gap-2 border-b border-slate-700 shrink-0">
-                    <div className="flex gap-1.5">
-                        <div className="w-2.5 h-2.5 rounded-full bg-red-500/60" />
-                        <div className="w-2.5 h-2.5 rounded-full bg-amber-500/60" />
-                        <div className="w-2.5 h-2.5 rounded-full bg-green-500/60" />
-                    </div>
-                    <div className="flex-1 bg-slate-700/50 rounded-md px-3 py-1 ml-2 border border-slate-600/50">
-                        <span className="text-[10px] text-slate-400">app.fleetora.com/pos/bookings/BK-001</span>
+                {/* Thin top bar — no URL, just status */}
+                <div className="bg-slate-800/50 px-4 py-1.5 flex items-center justify-between border-b border-slate-700/50 shrink-0">
+                    <div className="flex items-center gap-2">
+                        <span className="text-[10px] font-bold text-white">BK-001</span>
+                        <span className="text-[9px] text-slate-500">Ahmad Al-Rasheed • Hyundai Tucson 2024</span>
                     </div>
                     <div className="flex items-center gap-1.5">
-                        <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400">Checked Out</span>
                         <motion.div className="w-1.5 h-1.5 rounded-full bg-emerald-500" animate={{ opacity: [1, 0.3, 1] }} transition={{ duration: 1.5, repeat: Infinity }} />
+                        <span className="text-[9px] text-emerald-400">Checked Out</span>
                     </div>
                 </div>
 
                 {/* App content — 3-column layout */}
-                <div className="flex h-[calc(65vh-36px)] overflow-hidden">
+                <div className="flex h-[calc(60vh-30px)] overflow-hidden">
 
                     {/* LEFT — Timeline + Vehicle */}
                     <motion.div

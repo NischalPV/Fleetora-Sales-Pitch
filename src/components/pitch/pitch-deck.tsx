@@ -9,6 +9,7 @@ import { S03CmdBar } from "./screens/s03-cmd-bar";
 import { S04Customer } from "./screens/s04-customer";
 import { S05Checkout } from "./screens/s05-checkout";
 import { S06LivingBooking } from "./screens/s06-living-booking";
+import { S06bBookingShowcase } from "./screens/s06b-booking-showcase";
 import { S07Pos } from "./screens/s07-pos";
 import { S08Tracking } from "./screens/s08-tracking";
 import { S09FleetMap } from "./screens/s09-fleet-map";
@@ -44,6 +45,7 @@ const SCREENS = [
     { id: "customer", Component: S04Customer },
     { id: "checkout", Component: S05Checkout },
     { id: "living-booking", Component: S06LivingBooking },
+    { id: "booking-showcase", Component: S06bBookingShowcase },
     // Journey 3: The Operations Floor (Franchise Head story)
     { id: "pos", Component: S07Pos },
     { id: "tracking", Component: S08Tracking },
@@ -74,6 +76,7 @@ const JOURNEY_TRANSITIONS = [
     { initial: { opacity: 0, x: 80 }, animate: { opacity: 1, x: 0 }, exit: { opacity: 0, x: -80 } },
     { initial: { opacity: 0, x: 80 }, animate: { opacity: 1, x: 0 }, exit: { opacity: 0, x: -80 } },
     { initial: { opacity: 0, scale: 0.9 }, animate: { opacity: 1, scale: 1 }, exit: { opacity: 0, scale: 1.1 } },
+    { initial: { opacity: 0, x: -60, rotateY: -10 }, animate: { opacity: 1, x: 0, rotateY: 0 }, exit: { opacity: 0, x: 60 } },
     // Journey 3: Operations Floor — zoom in (going deeper)
     { initial: { opacity: 0, scale: 0.85 }, animate: { opacity: 1, scale: 1 }, exit: { opacity: 0, scale: 1.1 } },
     { initial: { opacity: 0, scale: 0.9 }, animate: { opacity: 1, scale: 1 }, exit: { opacity: 0, scale: 0.9 } },
