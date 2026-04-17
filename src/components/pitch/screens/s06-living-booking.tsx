@@ -3,128 +3,26 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 
-// Use a proper Unsplash aerial/map image instead of a tile
 const MAP_BG = "https://images.unsplash.com/photo-1524661135-423995f22d0b?w=800&q=80";
 
 const COMPONENTS = [
-    {
-        title: "Live GPS Tracking",
-        desc: "Every checked-out vehicle on the map. Speed, heading, fuel — updating every 30 seconds. Geo-fence alerts when vehicles leave the operating zone.",
-        color: "#3b82f6",
-        content: (
-            <div className="h-full relative overflow-hidden rounded-b-2xl">
-                <img src={MAP_BG} alt="" className="absolute inset-0 w-full h-full object-cover" style={{ filter: "brightness(0.3) saturate(0.6) hue-rotate(180deg)" }} />
-                <div className="absolute" style={{ left: "50%", top: "38%" }}>
-                    <div className="w-5 h-5 rounded-full bg-blue-600 border-2 border-white shadow-lg shadow-blue-500/50" />
-                </div>
-                {[{ x: "22%", y: "28%", c: "#22c55e" }, { x: "68%", y: "55%", c: "#22c55e" }, { x: "38%", y: "68%", c: "#f59e0b" }, { x: "78%", y: "32%", c: "#3b82f6" }].map((p, i) => (
-                    <div key={i} className="absolute w-2.5 h-2.5 rounded-full" style={{ left: p.x, top: p.y, background: p.c, boxShadow: `0 0 6px ${p.c}60` }} />
-                ))}
-                <div className="absolute bottom-3 left-3 right-3 bg-slate-900/90 backdrop-blur-sm rounded-xl px-4 py-2 flex justify-between">
-                    {[{ v: "97", l: "km/h" }, { v: "NE", l: "heading" }, { v: "69%", l: "fuel" }, { v: "8,665", l: "odo" }].map((t, i) => (
-                        <div key={i} className="text-center"><p className="text-sm font-bold text-white">{t.v}</p><p className="text-[7px] text-slate-500 uppercase">{t.l}</p></div>
-                    ))}
-                </div>
-            </div>
-        ),
-    },
-    {
-        title: "Booking Timeline",
-        desc: "Every stage tracked automatically — Created, Payment, Pickup, Inspection, Return, Settlement. Who did what, when, with full audit trail.",
-        color: "#10b981",
-        content: (
-            <div className="h-full flex flex-col justify-center px-6 py-4">
-                {[
-                    { s: "Booking Created", t: "24 Mar, 2:30 PM", done: true },
-                    { s: "Payment Authorized", t: "200,000 JOD deposit held", done: true },
-                    { s: "Vehicle Picked Up", t: "Tucson 2024 from Downtown", done: true },
-                    { s: "Pre-rental Inspection", t: "Fuel: Full, Odo: 8,200 km", done: true },
-                    { s: "Vehicle Return", t: "Expected 30 Mar", done: false, current: true },
-                    { s: "Settlement", t: "Final charges + deposit", done: false },
-                ].map((step, i) => (
-                    <div key={i} className="flex gap-3 items-start">
-                        <div className="flex flex-col items-center">
-                            <div className={`w-3 h-3 rounded-full ${step.done ? "bg-emerald-500" : step.current ? "bg-amber-500 ring-2 ring-amber-500/30" : "bg-slate-700"}`} />
-                            {i < 5 && <div className={`w-px h-5 ${step.done ? "bg-emerald-500/30" : "bg-slate-800"}`} />}
-                        </div>
-                        <div className="pb-1">
-                            <p className={`text-[11px] font-medium ${step.done ? "text-white" : step.current ? "text-amber-400" : "text-slate-600"}`}>{step.s}</p>
-                            <p className="text-[9px] text-slate-500">{step.t}</p>
-                        </div>
-                    </div>
-                ))}
-            </div>
-        ),
-    },
-    {
-        title: "Drivers & Surcharges",
-        desc: "Family trips, corporate pools — each driver tracked with license, age-based surcharges, insurance tier, and expiry warnings at 90 days.",
-        color: "#8b5cf6",
-        content: (
-            <div className="h-full flex flex-col justify-center px-5 py-3 gap-2.5">
-                {[
-                    { n: "Ahmad Al-Rasheed", b: "Primary", bc: "bg-blue-500/20 text-blue-400", extra: "License valid — Mar 2027" },
-                    { n: "Fatima Al-Rasheed", b: "Under-25", bc: "bg-amber-500/20 text-amber-400", extra: "+15 JOD/day surcharge" },
-                    { n: "Hassan Al-Rasheed", b: "Senior", bc: "bg-purple-500/20 text-purple-400", extra: "+10 JOD/day • License expiring" },
-                ].map((d, i) => (
-                    <div key={i} className="flex items-center gap-3 bg-slate-800/40 rounded-xl p-3">
-                        <div className="w-9 h-9 rounded-full bg-slate-700 flex items-center justify-center text-[10px] text-slate-400 font-bold">{d.n.split(" ").map(x => x[0]).join("")}</div>
-                        <div className="flex-1">
-                            <p className="text-[11px] font-medium text-white">{d.n}</p>
-                            <p className="text-[9px] text-slate-500">{d.extra}</p>
-                        </div>
-                        <span className={`text-[9px] font-medium px-2 py-0.5 rounded-full ${d.bc}`}>{d.b}</span>
-                    </div>
-                ))}
-            </div>
-        ),
-    },
-    {
-        title: "Mileage & Traffic Tickets",
-        desc: "Daily km tracked against allowance. Over-limit charges auto-calculated. Speed cameras and parking fines linked to the specific driver and settlement.",
-        color: "#f59e0b",
-        content: (
-            <div className="h-full flex flex-col justify-center px-5 py-3 gap-3">
-                <div>
-                    <div className="flex justify-between text-[10px] mb-1"><span className="text-slate-400">1,275 km used</span><span className="text-slate-500">1,500 km allowed</span></div>
-                    <div className="w-full h-2.5 bg-slate-800 rounded-full overflow-hidden"><div className="h-full w-[85%] bg-amber-500 rounded-full" /></div>
-                    <div className="flex gap-1 mt-2.5">
-                        {[{ km: 315, d: "D1" }, { km: 180, d: "D2" }, { km: 265, d: "D3" }, { km: 275, d: "D4" }, { km: 190, d: "D5" }].map((day, i) => (
-                            <div key={i} className="flex-1 text-center">
-                                <div className={`w-full h-6 rounded-sm ${day.km > 300 ? "bg-red-500" : "bg-emerald-500/70"}`} />
-                                <p className="text-[8px] text-slate-500 mt-1">{day.km}</p>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-                <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-3">
-                    <div className="flex justify-between items-center">
-                        <p className="text-[11px] font-medium text-white">📸 Speed Camera</p>
-                        <span className="text-[8px] px-1.5 py-0.5 rounded-full bg-amber-500/20 text-amber-400">Pending</span>
-                    </div>
-                    <p className="text-[9px] text-slate-500 mt-0.5">Airport Highway, km 12 • 25,000 JOD • Driver: Fatima</p>
-                </div>
-            </div>
-        ),
-    },
-    {
-        title: "Payment & Settlement",
-        desc: "Every line item auto-calculated — base rental, surcharges, mileage overages, insurance, fines. Corporate credit, deposits, refunds — all tracked to the penny.",
-        color: "#ef4444",
-        content: (
-            <div className="h-full flex flex-col justify-center px-6 py-4">
-                <div className="space-y-1.5">
-                    {[{ l: "5 days × 35,000 JOD/day", a: "175,000" }, { l: "Full insurance", a: "25,000" }, { l: "Tax (7%)", a: "14,000" }, { l: "Mileage overage", a: "0" }, { l: "Speed camera ticket", a: "25,000" }].map((r, i) => (
-                        <div key={i} className="flex justify-between text-[11px]"><span className="text-slate-500">{r.l}</span><span className="text-white">{r.a}</span></div>
-                    ))}
-                    <div className="flex justify-between text-sm font-bold pt-2 mt-1 border-t border-slate-700"><span className="text-white">Total</span><span className="text-white">239,000 JOD</span></div>
-                    <div className="flex justify-between text-[11px] mt-1"><span className="text-slate-500">Deposit held</span><span className="text-slate-400">200,000 JOD</span></div>
-                    <div className="flex justify-between text-[11px]"><span className="text-emerald-400 font-medium">Balance due</span><span className="text-emerald-400 font-bold">39,000 JOD</span></div>
-                </div>
-            </div>
-        ),
-    },
+    { id: "timeline", title: "Booking Timeline", desc: "Every stage tracked automatically — Created → Payment → Pickup → Inspection → Return → Settlement. Full audit trail.", color: "#10b981" },
+    { id: "map", title: "Live GPS Tracking", desc: "Every vehicle on the map. Speed, heading, fuel — every 30 seconds. Geo-fence alerts on zone exits.", color: "#3b82f6" },
+    { id: "customer", title: "Customer & Drivers", desc: "Full profile: ID, license, nationality, history. Multi-driver with age-based surcharges and expiry warnings.", color: "#8b5cf6" },
+    { id: "mileage", title: "Mileage & Traffic Tickets", desc: "Daily km tracked. Over-limit auto-charged. Tickets linked to the specific driver and settlement.", color: "#f59e0b" },
+    { id: "payment", title: "Payment & Settlement", desc: "Every line item auto-calculated. Corporate credit, deposits, refunds. Balance due visible at all times.", color: "#ef4444" },
 ];
+
+// Elevation animation for each section: when active, it lifts off the mockup
+function liftAnim(isActive: boolean, color: string) {
+    return {
+        scale: isActive ? 1.15 : 1,
+        y: isActive ? -8 : 0,
+        opacity: isActive ? 1 : 0.2,
+        zIndex: isActive ? 50 : 1,
+        boxShadow: isActive ? `0 25px 60px -10px ${color}40, 0 0 0 2px ${color}50` : "none",
+    };
+}
 
 export function S06LivingBooking() {
     const [activeIndex, setActiveIndex] = useState(-1);
@@ -132,14 +30,20 @@ export function S06LivingBooking() {
     useEffect(() => {
         function runCycle() {
             setActiveIndex(-1);
-            const timers = COMPONENTS.map((_, i) =>
-                setTimeout(() => setActiveIndex(i), 800 + i * 3000)
-            );
+            const timers: NodeJS.Timeout[] = [];
+
+            timers.push(setTimeout(() => {}, 1500)); // intro: full mockup
+
+            COMPONENTS.forEach((_, i) => {
+                timers.push(setTimeout(() => setActiveIndex(i), 1800 + i * 3200));
+            });
+
+            timers.push(setTimeout(() => setActiveIndex(-1), 1800 + COMPONENTS.length * 3200));
             return timers;
         }
 
         let timers = runCycle();
-        const cycleDuration = 800 + COMPONENTS.length * 3000 + 2000;
+        const cycleDuration = 1800 + COMPONENTS.length * 3200 + 2500;
         const loop = setInterval(() => {
             timers.forEach(clearTimeout);
             timers = runCycle();
@@ -148,90 +52,167 @@ export function S06LivingBooking() {
         return () => { timers.forEach(clearTimeout); clearInterval(loop); };
     }, []);
 
+    const activeComp = activeIndex >= 0 ? COMPONENTS[activeIndex] : null;
+
     return (
-        <section className="h-screen w-full flex items-center relative overflow-hidden bg-slate-950" style={{ perspective: "1200px" }}>
+        <section className="h-screen w-full flex flex-col items-center justify-center relative overflow-hidden bg-slate-950">
             <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: "radial-gradient(circle, #fff 1px, transparent 1px)", backgroundSize: "40px 40px" }} />
 
-            {/* Left: 3D card stack */}
-            <div className="w-[48%] h-full flex items-center justify-center relative" style={{ perspective: "1000px" }}>
-                {COMPONENTS.map((comp, i) => {
-                    const isActive = activeIndex === i;
-                    const isPast = activeIndex > i;
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="absolute top-6 left-10 z-30">
+                <p className="text-[10px] font-semibold tracking-widest uppercase text-blue-400">The Counter</p>
+                <h2 className="text-lg font-bold text-white mt-0.5">The Living Booking</h2>
+            </motion.div>
 
-                    const x = isPast ? -160 - (activeIndex - i - 1) * 55 : isActive ? 20 : 100;
-                    const rotY = isPast ? 35 + (activeIndex - i - 1) * 5 : isActive ? 0 : -12;
-                    const sc = isPast ? 0.72 - (activeIndex - i - 1) * 0.05 : isActive ? 1 : 0.8;
-                    const op = isPast ? Math.max(0.55 - (activeIndex - i - 1) * 0.12, 0) : isActive ? 1 : activeIndex >= 0 ? 0.2 : 0;
+            {/* Mockup container — static, sections lift individually */}
+            <div className="relative z-10 rounded-2xl border border-slate-700 overflow-visible bg-slate-900" style={{ width: "min(88vw, 1100px)", height: "62vh", boxShadow: "0 30px 80px -20px rgba(0,0,0,0.5)", perspective: "1200px" }}>
+                {/* Header */}
+                <div className="bg-slate-800/50 px-4 py-1.5 flex items-center justify-between border-b border-slate-700/50 rounded-t-2xl">
+                    <div className="flex items-center gap-2">
+                        <span className="text-[10px] font-bold text-white">BK-001</span>
+                        <span className="text-[9px] text-slate-500">Ahmad Al-Rasheed • Tucson 2024</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                        <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                        <span className="text-[9px] text-emerald-400">Checked Out</span>
+                    </div>
+                </div>
 
-                    return (
+                <div className="flex h-[calc(100%-28px)] p-3 gap-3 relative">
+                    {/* LEFT column */}
+                    <div className="w-[220px] shrink-0 flex flex-col gap-3">
+                        {/* TIMELINE — elevates on activeIndex 0 */}
                         <motion.div
-                            key={i}
-                            animate={{ x, rotateY: rotY, scale: Math.max(sc, 0.4), opacity: op }}
-                            transition={{ type: "spring", stiffness: 55, damping: 18 }}
-                            className="absolute w-[380px] h-[290px] rounded-2xl border overflow-hidden"
-                            style={{
-                                borderColor: isActive ? `${comp.color}50` : "rgb(51,65,85)",
-                                backgroundColor: "rgb(15,23,42)",
-                                boxShadow: isActive ? `0 25px 60px -10px ${comp.color}25, 0 0 0 1px ${comp.color}15` : "0 10px 30px -10px rgba(0,0,0,0.3)",
-                                transformStyle: "preserve-3d",
-                            }}
+                            animate={liftAnim(activeIndex === 0, COMPONENTS[0].color)}
+                            transition={{ type: "spring", stiffness: 80, damping: 18 }}
+                            className="flex-1 rounded-xl bg-slate-900 border border-slate-800 p-3 origin-left"
                         >
-                            <div className="px-4 py-2.5 border-b border-slate-800 flex items-center gap-2">
-                                <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: comp.color }} />
-                                <span className="text-[11px] font-semibold text-white">{comp.title}</span>
-                            </div>
-                            <div className="h-[calc(100%-34px)]">{comp.content}</div>
-                        </motion.div>
-                    );
-                })}
-            </div>
-
-            {/* Right: Description */}
-            <div className="w-[52%] h-full flex flex-col justify-center px-12">
-                <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-[10px] font-semibold tracking-widest uppercase text-blue-400 mb-3">
-                    The Counter — Inside Every Booking
-                </motion.p>
-
-                <motion.h2 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-3xl md:text-4xl font-bold text-white tracking-tight mb-8">
-                    Built for the messy reality.
-                </motion.h2>
-
-                <div className="min-h-[120px]">
-                    <AnimatePresence mode="wait">
-                        {activeIndex >= 0 && (
-                            <motion.div
-                                key={activeIndex}
-                                initial={{ opacity: 0, y: 15 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: -15 }}
-                                transition={{ duration: 0.4 }}
-                            >
-                                <div className="flex items-center gap-3 mb-3">
-                                    <div className="w-3.5 h-3.5 rounded-full" style={{ backgroundColor: COMPONENTS[activeIndex].color }} />
-                                    <h3 className="text-xl font-bold text-white">{COMPONENTS[activeIndex].title}</h3>
+                            <p className="text-[9px] text-slate-500 uppercase tracking-wider mb-2 font-semibold">Timeline</p>
+                            {[
+                                { s: "Booking Created", done: true },
+                                { s: "Payment Authorized", done: true },
+                                { s: "Vehicle Picked Up", done: true },
+                                { s: "Pre-rental Inspection", done: true },
+                                { s: "Vehicle Return", current: true },
+                                { s: "Settlement" },
+                            ].map((step, i) => (
+                                <div key={i} className="flex gap-2 items-start mb-1.5">
+                                    <div className="flex flex-col items-center">
+                                        <div className={`w-2 h-2 rounded-full ${step.done ? "bg-emerald-500" : step.current ? "bg-amber-500" : "bg-slate-700"}`} />
+                                        {i < 5 && <div className={`w-px h-3 ${step.done ? "bg-emerald-500/30" : "bg-slate-800"}`} />}
+                                    </div>
+                                    <p className={`text-[9px] ${step.done ? "text-slate-300" : step.current ? "text-amber-400 font-medium" : "text-slate-600"}`}>{step.s}</p>
                                 </div>
-                                <p className="text-base text-slate-400 leading-relaxed max-w-lg">
-                                    {COMPONENTS[activeIndex].desc}
-                                </p>
-                            </motion.div>
-                        )}
-                    </AnimatePresence>
-                </div>
+                            ))}
+                        </motion.div>
 
-                <div className="flex gap-2 mt-8">
-                    {COMPONENTS.map((comp, i) => (
+                        {/* MILEAGE — elevates on activeIndex 3 */}
                         <motion.div
-                            key={i}
-                            className="rounded-full transition-all duration-500"
-                            style={{
-                                width: activeIndex === i ? 24 : 6,
-                                height: 6,
-                                backgroundColor: activeIndex >= i ? comp.color : "rgb(51,65,85)",
-                            }}
-                        />
-                    ))}
+                            animate={liftAnim(activeIndex === 3, COMPONENTS[3].color)}
+                            transition={{ type: "spring", stiffness: 80, damping: 18 }}
+                            className="rounded-xl bg-slate-900 border border-slate-800 p-3 origin-left"
+                        >
+                            <p className="text-[9px] text-slate-500 uppercase tracking-wider mb-2 font-semibold">Mileage</p>
+                            <div className="flex justify-between text-[9px] mb-1"><span className="text-slate-400">1,275 km</span><span className="text-slate-500">/ 1,500</span></div>
+                            <div className="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden"><div className="h-full w-[85%] bg-amber-500 rounded-full" /></div>
+                            <div className="flex gap-0.5 mt-2">{[315, 180, 265, 275, 190].map((km, i) => (<div key={i} className={`flex-1 h-4 rounded-sm ${km > 300 ? "bg-red-500" : "bg-emerald-500/70"}`} />))}</div>
+                            <div className="bg-red-500/10 border border-red-500/20 rounded-md p-1.5 mt-2">
+                                <p className="text-[9px] text-white font-medium">📸 Speed Camera</p>
+                                <p className="text-[8px] text-slate-500">25,000 JOD • Pending</p>
+                            </div>
+                        </motion.div>
+                    </div>
+
+                    {/* CENTER — Map */}
+                    <motion.div
+                        animate={liftAnim(activeIndex === 1, COMPONENTS[1].color)}
+                        transition={{ type: "spring", stiffness: 80, damping: 18 }}
+                        className="flex-1 rounded-xl bg-slate-900 border border-slate-800 flex flex-col overflow-hidden origin-center"
+                    >
+                        <div className="flex-1 relative overflow-hidden">
+                            <img src={MAP_BG} alt="" className="absolute inset-0 w-full h-full object-cover" style={{ filter: "brightness(0.35) saturate(0.7) hue-rotate(180deg)" }} />
+                            <div className="absolute" style={{ left: "50%", top: "40%" }}><div className="w-5 h-5 rounded-full bg-blue-600 border-2 border-white shadow-lg shadow-blue-500/50" /></div>
+                            {[{ x: "22%", y: "28%", c: "#22c55e" }, { x: "68%", y: "55%", c: "#22c55e" }, { x: "38%", y: "68%", c: "#f59e0b" }, { x: "78%", y: "32%", c: "#3b82f6" }].map((p, i) => (
+                                <div key={i} className="absolute w-2.5 h-2.5 rounded-full" style={{ left: p.x, top: p.y, background: p.c, boxShadow: `0 0 6px ${p.c}60` }} />
+                            ))}
+                        </div>
+                        <div className="flex items-center border-t border-slate-800 px-3 py-2 bg-slate-900 gap-3">
+                            {[{ v: "97", u: "km/h" }, { v: "NE", u: "" }, { v: "69%", u: "" }, { v: "8,665", u: "km" }].map((t, i) => (
+                                <div key={i} className="flex-1 text-center"><p className="text-sm font-bold text-white leading-none">{t.v}<span className="text-[7px] text-slate-500 ml-0.5">{t.u}</span></p></div>
+                            ))}
+                        </div>
+                    </motion.div>
+
+                    {/* RIGHT column */}
+                    <div className="w-[220px] shrink-0 flex flex-col gap-3">
+                        {/* CUSTOMER — elevates on activeIndex 2 */}
+                        <motion.div
+                            animate={liftAnim(activeIndex === 2, COMPONENTS[2].color)}
+                            transition={{ type: "spring", stiffness: 80, damping: 18 }}
+                            className="flex-1 rounded-xl bg-slate-900 border border-slate-800 p-3 origin-right"
+                        >
+                            <p className="text-[9px] text-slate-500 uppercase tracking-wider mb-2 font-semibold">Customer</p>
+                            <div className="flex items-center gap-2 mb-2">
+                                <div className="w-8 h-8 rounded-full bg-blue-600/20 flex items-center justify-center text-blue-400 text-[10px] font-bold">AR</div>
+                                <div><p className="text-[10px] font-bold text-white">Ahmad Al-Rasheed</p><p className="text-[8px] text-slate-500">Jordanian</p></div>
+                            </div>
+                            <div className="space-y-1 text-[9px] text-slate-400">
+                                <p>📞 +962 79 123 4567</p>
+                                <p>🪪 ID: 98-●●●●●</p>
+                            </div>
+                            <p className="text-[9px] text-slate-500 uppercase tracking-wider mt-3 mb-1.5 font-semibold">Drivers (1)</p>
+                            <div className="bg-slate-800/50 rounded-md p-1.5 flex items-center gap-2">
+                                <div className="w-5 h-5 rounded-full bg-emerald-600/20 flex items-center justify-center text-emerald-400 text-[8px] font-bold">AR</div>
+                                <p className="text-[9px] text-white">Ahmad</p>
+                                <span className="text-[7px] px-1 py-0.5 rounded bg-blue-500/20 text-blue-400 ml-auto">Primary</span>
+                            </div>
+                        </motion.div>
+
+                        {/* PAYMENT — elevates on activeIndex 4 */}
+                        <motion.div
+                            animate={liftAnim(activeIndex === 4, COMPONENTS[4].color)}
+                            transition={{ type: "spring", stiffness: 80, damping: 18 }}
+                            className="rounded-xl bg-slate-900 border border-slate-800 p-3 origin-right"
+                        >
+                            <p className="text-[9px] text-slate-500 uppercase tracking-wider mb-2 font-semibold">Payment</p>
+                            <div className="space-y-1 text-[9px]">
+                                <div className="flex justify-between"><span className="text-slate-500">5d × 35,000</span><span className="text-white">175,000</span></div>
+                                <div className="flex justify-between"><span className="text-slate-500">Insurance</span><span className="text-white">25,000</span></div>
+                                <div className="flex justify-between"><span className="text-slate-500">Tax</span><span className="text-white">14,000</span></div>
+                                <div className="flex justify-between font-bold pt-1 mt-1 border-t border-slate-800"><span className="text-white">Total</span><span className="text-white">200,000 JOD</span></div>
+                                <div className="flex justify-between"><span className="text-emerald-400">Balance</span><span className="text-emerald-400 font-bold">14,000 JOD</span></div>
+                            </div>
+                        </motion.div>
+                    </div>
                 </div>
             </div>
+
+            {/* Description — appears AFTER elevation */}
+            <AnimatePresence>
+                {activeComp && (
+                    <motion.div
+                        key={activeComp.id}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 20 }}
+                        transition={{ type: "spring", stiffness: 80, damping: 20, delay: 0.3 }}
+                        className="absolute bottom-10 left-1/2 -translate-x-1/2 z-40 max-w-2xl w-full px-6"
+                    >
+                        <div className="rounded-2xl border bg-slate-900/95 backdrop-blur-xl px-6 py-4" style={{ borderColor: `${activeComp.color}40`, boxShadow: `0 20px 60px -10px ${activeComp.color}30` }}>
+                            <div className="flex items-center gap-3 mb-2">
+                                <div className="w-3 h-3 rounded-full" style={{ backgroundColor: activeComp.color }} />
+                                <h3 className="text-lg font-bold text-white">{activeComp.title}</h3>
+                            </div>
+                            <p className="text-sm text-slate-400 leading-relaxed">{activeComp.desc}</p>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="absolute bottom-4 left-1/2 -translate-x-1/2 z-30 flex gap-1.5">
+                {COMPONENTS.map((comp, i) => (
+                    <div key={i} className="rounded-full transition-all duration-500" style={{ width: activeIndex === i ? 20 : 5, height: 5, backgroundColor: activeIndex === i ? comp.color : activeIndex > i ? `${comp.color}60` : "rgb(51,65,85)" }} />
+                ))}
+            </motion.div>
         </section>
     );
 }
