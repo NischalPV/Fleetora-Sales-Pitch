@@ -76,8 +76,8 @@ export function BookingPaymentsScreen() {
                     <span className="text-base font-bold text-white">Total</span>
                     <motion.span
                         initial={{ opacity: 0, scale: 0.8 }}
-                        animate={phase >= 4 ? { opacity: 1, scale: [0.95, 1.05, 1] } : { opacity: 0, scale: 0.8 }}
-                        transition={{ type: "spring", duration: 0.5 }}
+                        animate={phase >= 4 ? { opacity: 1, scale: 1.05 } : { opacity: 0, scale: 0.8 }}
+                        transition={{ type: "spring", stiffness: 200, damping: 15 }}
                         className="text-2xl font-bold text-white tabular-nums"
                     >{TOTAL}</motion.span>
                 </div>
