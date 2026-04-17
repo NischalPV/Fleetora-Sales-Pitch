@@ -13,6 +13,10 @@ import { S07Pos } from "./screens/s07-pos";
 import { S08Tracking } from "./screens/s08-tracking";
 import { S09FleetMap } from "./screens/s09-fleet-map";
 import { S10HqCockpit } from "./screens/s10-hq-cockpit";
+import { S11FleetBrain } from "./screens/s11-fleet-brain";
+import { S12Rebalance } from "./screens/s12-rebalance";
+import { S13Predict } from "./screens/s13-predict";
+import { S14Maintenance } from "./screens/s14-maintenance";
 
 // Placeholder for slides not yet built
 function Placeholder({ title, num, journey }: { title: string; num: number; journey: string }) {
@@ -40,10 +44,10 @@ const SCREENS = [
     { id: "fleet-map", Component: S09FleetMap },
     { id: "hq-cockpit", Component: S10HqCockpit },
     // Journey 4: The Intelligence (AI story)
-    { id: "fleet-brain", Component: () => <Placeholder title="Fleet Brain" num={11} journey="THE INTELLIGENCE" /> },
-    { id: "rebalance", Component: () => <Placeholder title="Smart Rebalancing" num={12} journey="THE INTELLIGENCE" /> },
-    { id: "predict", Component: () => <Placeholder title="Demand Prediction" num={13} journey="THE INTELLIGENCE" /> },
-    { id: "maintenance", Component: () => <Placeholder title="Maintenance Automation" num={14} journey="THE INTELLIGENCE" /> },
+    { id: "fleet-brain", Component: S11FleetBrain },
+    { id: "rebalance", Component: S12Rebalance },
+    { id: "predict", Component: S13Predict },
+    { id: "maintenance", Component: S14Maintenance },
     // Journey 5: The Money (Finance story)
     { id: "corporate", Component: () => <Placeholder title="Corporate Accounts" num={15} journey="THE MONEY" /> },
     { id: "invoicing", Component: () => <Placeholder title="Automated Invoicing" num={16} journey="THE MONEY" /> },
