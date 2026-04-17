@@ -91,26 +91,26 @@ const MAX_SCROLL = 3000; // Virtual scroll range
 
 // Unsplash Images
 const IMAGES = [
-    "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=300&q=80", // Red sports car
-    "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=300&q=80", // Porsche on road
-    "https://images.unsplash.com/photo-1542362567-b07e54358753?w=300&q=80", // Yellow Lamborghini
-    "https://images.unsplash.com/photo-1525609004556-c46c6c5104b8?w=300&q=80", // Black Mercedes
-    "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=300&q=80", // BMW side view
-    "https://images.unsplash.com/photo-1553440569-bcc63803a83d?w=300&q=80", // Red Ferrari
-    "https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=300&q=80", // BMW front
-    "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=300&q=80", // Audi on road
-    "https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=300&q=80", // Red sports car angle
-    "https://images.unsplash.com/photo-1502877338535-766e1452684a?w=300&q=80", // Classic car
-    "https://images.unsplash.com/photo-1514316454349-750a7fd3da3a?w=300&q=80", // Steering wheel
-    "https://images.unsplash.com/photo-1549317661-bd32c8ce0afa?w=300&q=80", // Car interior
-    "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?w=300&q=80", // Mercedes AMG
-    "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=300&q=80", // Corvette
-    "https://images.unsplash.com/photo-1504215680853-026ed2a45def?w=300&q=80", // Mustang
-    "https://images.unsplash.com/photo-1526726538690-5cbf956ae2fd?w=300&q=80", // Car at sunset
-    "https://images.unsplash.com/photo-1485291571150-772bcfc10da5?w=300&q=80", // Car on highway
-    "https://images.unsplash.com/photo-1517524008697-84bbe3c3fd98?w=300&q=80", // Luxury car
-    "https://images.unsplash.com/photo-1493238792000-8113da705763?w=300&q=80", // Vintage car
-    "https://images.unsplash.com/photo-1567818735868-e71b99932e29?w=300&q=80", // Tesla
+    "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=600&q=90", // Red sports car
+    "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=600&q=90", // Porsche on road
+    "https://images.unsplash.com/photo-1542362567-b07e54358753?w=600&q=90", // Yellow Lamborghini
+    "https://images.unsplash.com/photo-1525609004556-c46c6c5104b8?w=600&q=90", // Black Mercedes
+    "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=600&q=90", // BMW side view
+    "https://images.unsplash.com/photo-1553440569-bcc63803a83d?w=600&q=90", // Red Ferrari
+    "https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=600&q=90", // BMW front
+    "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=600&q=90", // Audi on road
+    "https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=600&q=90", // Red sports car angle
+    "https://images.unsplash.com/photo-1502877338535-766e1452684a?w=600&q=90", // Classic car
+    "https://images.unsplash.com/photo-1514316454349-750a7fd3da3a?w=600&q=90", // Steering wheel
+    "https://images.unsplash.com/photo-1549317661-bd32c8ce0afa?w=600&q=90", // Car interior
+    "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?w=600&q=90", // Mercedes AMG
+    "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=600&q=90", // Corvette
+    "https://images.unsplash.com/photo-1504215680853-026ed2a45def?w=600&q=90", // Mustang
+    "https://images.unsplash.com/photo-1526726538690-5cbf956ae2fd?w=600&q=90", // Car at sunset
+    "https://images.unsplash.com/photo-1485291571150-772bcfc10da5?w=600&q=90", // Car on highway
+    "https://images.unsplash.com/photo-1517524008697-84bbe3c3fd98?w=600&q=90", // Luxury car
+    "https://images.unsplash.com/photo-1493238792000-8113da705763?w=600&q=90", // Vintage car
+    "https://images.unsplash.com/photo-1567818735868-e71b99932e29?w=600&q=90", // Tesla
 ];
 
 // Helper for linear interpolation

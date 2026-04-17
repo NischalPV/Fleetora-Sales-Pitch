@@ -8,7 +8,6 @@ import { S02Intro } from "./screens/s02-intro";
 import { S03CmdBar } from "./screens/s03-cmd-bar";
 import { S04Customer } from "./screens/s04-customer";
 import { S05Checkout } from "./screens/s05-checkout";
-import { S06BookingDone } from "./screens/s06-booking-done";
 import { S07Pos } from "./screens/s07-pos";
 import { S08Tracking } from "./screens/s08-tracking";
 import { S09FleetMap } from "./screens/s09-fleet-map";
@@ -43,7 +42,7 @@ const SCREENS = [
     { id: "cmd-bar", Component: S03CmdBar },
     { id: "customer", Component: S04Customer },
     { id: "checkout", Component: S05Checkout },
-    { id: "booking-done", Component: S06BookingDone },
+    { id: "new-feature", Component: () => <Placeholder title="New Feature — TBD" num={6} journey="THE COUNTER" /> },
     // Journey 3: The Operations Floor (Franchise Head story)
     { id: "pos", Component: S07Pos },
     { id: "tracking", Component: S08Tracking },
