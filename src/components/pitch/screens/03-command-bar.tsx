@@ -212,6 +212,75 @@ export function CommandBarScreen() {
         <section className="h-screen w-full flex items-center justify-center px-8 relative overflow-hidden bg-slate-950">
             <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: "radial-gradient(circle, #fff 1px, transparent 1px)", backgroundSize: "32px 32px" }} />
 
+            {/* Animated connection arrows */}
+            <svg className="absolute inset-0 w-full h-full z-10 pointer-events-none" viewBox="0 0 1440 900" preserveAspectRatio="none">
+                <defs>
+                    <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+                        <path d="M0,0 L8,3 L0,6" fill="none" stroke="#3b82f6" strokeWidth="1" />
+                    </marker>
+                    <marker id="arrowhead-green" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+                        <path d="M0,0 L8,3 L0,6" fill="none" stroke="#10b981" strokeWidth="1" />
+                    </marker>
+                    <marker id="arrowhead-violet" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+                        <path d="M0,0 L8,3 L0,6" fill="none" stroke="#8b5cf6" strokeWidth="1" />
+                    </marker>
+                </defs>
+
+                {/* Arrow to customer card (top center) — curved upward */}
+                <AnimatePresence>
+                    {shownCards.includes(0) && (
+                        <motion.path
+                            d="M720 420 Q720 300 720 180"
+                            fill="none"
+                            stroke="#3b82f6"
+                            strokeWidth="1.5"
+                            strokeDasharray="4 4"
+                            markerEnd="url(#arrowhead)"
+                            initial={{ pathLength: 0, opacity: 0 }}
+                            animate={{ pathLength: 1, opacity: 0.6 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 0.6, ease: "easeOut" }}
+                        />
+                    )}
+                </AnimatePresence>
+
+                {/* Arrow to vehicle card (left side) — curved left */}
+                <AnimatePresence>
+                    {shownCards.includes(1) && (
+                        <motion.path
+                            d="M520 470 Q380 460 300 450"
+                            fill="none"
+                            stroke="#10b981"
+                            strokeWidth="1.5"
+                            strokeDasharray="4 4"
+                            markerEnd="url(#arrowhead-green)"
+                            initial={{ pathLength: 0, opacity: 0 }}
+                            animate={{ pathLength: 1, opacity: 0.6 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 0.6, ease: "easeOut" }}
+                        />
+                    )}
+                </AnimatePresence>
+
+                {/* Arrow to booking card (right side) — curved right */}
+                <AnimatePresence>
+                    {shownCards.includes(2) && (
+                        <motion.path
+                            d="M920 470 Q1060 460 1140 450"
+                            fill="none"
+                            stroke="#8b5cf6"
+                            strokeWidth="1.5"
+                            strokeDasharray="4 4"
+                            markerEnd="url(#arrowhead-violet)"
+                            initial={{ pathLength: 0, opacity: 0 }}
+                            animate={{ pathLength: 1, opacity: 0.6 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 0.6, ease: "easeOut" }}
+                        />
+                    )}
+                </AnimatePresence>
+            </svg>
+
             {/* Glass cards in their positions */}
             <AnimatePresence>
                 {shownCards.map((cardIdx) => (
