@@ -8,6 +8,11 @@ import { WhatIsScreen } from "./screens/02-what-is";
 import { CommandBarScreen } from "./screens/03-command-bar";
 import { WalkinFlowScreen } from "./screens/04-walkin-flow";
 import { PosDashboardScreen } from "./screens/05-pos-dashboard";
+import { BookingTrackingScreen } from "./screens/06-booking-tracking";
+import { BookingTimelineScreen } from "./screens/07-booking-timeline";
+import { BookingDriversScreen } from "./screens/08-booking-drivers";
+import { BookingMileageScreen } from "./screens/09-booking-mileage";
+import { BookingPaymentsScreen } from "./screens/10-booking-payments";
 
 // Placeholder for screens not yet built
 function PlaceholderScreen({ title, num }: { title: string; num: number }) {
@@ -25,11 +30,11 @@ const SCREENS = [
     { id: "command-bar", Component: CommandBarScreen },
     { id: "walkin", Component: WalkinFlowScreen },
     { id: "pos", Component: PosDashboardScreen },
-    { id: "booking-tracking", Component: () => <PlaceholderScreen title="Live GPS Tracking" num={6} /> },
-    { id: "booking-timeline", Component: () => <PlaceholderScreen title="Booking Timeline" num={7} /> },
-    { id: "booking-drivers", Component: () => <PlaceholderScreen title="Multi-Driver Management" num={8} /> },
-    { id: "booking-mileage", Component: () => <PlaceholderScreen title="Mileage, Swaps & Tickets" num={9} /> },
-    { id: "booking-payments", Component: () => <PlaceholderScreen title="Payment Breakdown" num={10} /> },
+    { id: "booking-tracking", Component: BookingTrackingScreen },
+    { id: "booking-timeline", Component: BookingTimelineScreen },
+    { id: "booking-drivers", Component: BookingDriversScreen },
+    { id: "booking-mileage", Component: BookingMileageScreen },
+    { id: "booking-payments", Component: BookingPaymentsScreen },
     { id: "hq-cockpit", Component: () => <PlaceholderScreen title="HQ Cockpit" num={11} /> },
     { id: "branch-analytics", Component: () => <PlaceholderScreen title="Branch Analytics" num={12} /> },
     { id: "fleet-brain-rebalance", Component: () => <PlaceholderScreen title="Fleet Brain — Rebalancing" num={13} /> },
