@@ -10,7 +10,6 @@ import { S04Customer } from "./screens/s04-customer";
 import { S05Checkout } from "./screens/s05-checkout";
 import { S06LivingBooking } from "./screens/s06-living-booking";
 import { S07Pos } from "./screens/s07-pos";
-import { S08Tracking } from "./screens/s08-tracking";
 import { S09FleetMap } from "./screens/s09-fleet-map";
 import { S10HqCockpit } from "./screens/s10-hq-cockpit";
 import { S11FleetBrain } from "./screens/s11-fleet-brain";
@@ -46,7 +45,6 @@ const SCREENS = [
     { id: "living-booking", Component: S06LivingBooking },
     // Journey 3: The Operations Floor (Franchise Head story)
     { id: "pos", Component: S07Pos },
-    { id: "tracking", Component: S08Tracking },
     { id: "fleet-map", Component: S09FleetMap },
     { id: "hq-cockpit", Component: S10HqCockpit },
     // Journey 4: The Intelligence (AI story)
@@ -76,7 +74,6 @@ const JOURNEY_TRANSITIONS = [
     { initial: { opacity: 0, scale: 0.9 }, animate: { opacity: 1, scale: 1 }, exit: { opacity: 0, scale: 1.1 } },
     // Journey 3: Operations Floor — zoom in (going deeper)
     { initial: { opacity: 0, scale: 0.85 }, animate: { opacity: 1, scale: 1 }, exit: { opacity: 0, scale: 1.1 } },
-    { initial: { opacity: 0, scale: 0.9 }, animate: { opacity: 1, scale: 1 }, exit: { opacity: 0, scale: 0.9 } },
     { initial: { opacity: 0, y: 60 }, animate: { opacity: 1, y: 0 }, exit: { opacity: 0, y: -40 } },
     { initial: { opacity: 0, scale: 0.85 }, animate: { opacity: 1, scale: 1 }, exit: { opacity: 0 } },
     // Journey 4: Intelligence — fade with blur (mystery/reveal)
