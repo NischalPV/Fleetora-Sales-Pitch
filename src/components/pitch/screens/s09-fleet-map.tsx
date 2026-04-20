@@ -220,7 +220,7 @@ export function S09FleetMap() {
                                     ? { type: "spring", stiffness: 260, damping: 16 }
                                     : node.type === "brain"
                                         ? { duration: 2.8, repeat: Infinity, ease: "easeInOut" }
-                                        : { type: "spring", stiffness: 160, damping: 18, delay: node.type === "brain" ? 0.3 : 0.5 + i * 0.025 },
+                                        : { type: "spring", stiffness: 160, damping: 18, delay: 0.5 + i * 0.025 },
                             }}
                             onMouseEnter={() => setHoveredId(node.id)}
                             onMouseLeave={() => setHoveredId(null)}
