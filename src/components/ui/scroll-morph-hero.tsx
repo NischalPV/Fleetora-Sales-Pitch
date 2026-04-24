@@ -59,15 +59,21 @@ function FlipCard({
             >
                 {/* Front Face */}
                 <div
-                    className="absolute inset-0 h-full w-full overflow-hidden rounded-xl bg-white"
-                    style={{ backfaceVisibility: "hidden", boxShadow: "0 4px 20px rgba(0,0,0,0.08)" }}
+                    className="absolute inset-0 h-full w-full overflow-hidden rounded-xl"
+                    style={{
+                        backfaceVisibility: "hidden",
+                        boxShadow: "0 4px 20px rgba(0,0,0,0.45)",
+                        background: "linear-gradient(135deg, #1e293b, #0f172a)",
+                    }}
                 >
                     <img
                         src={src}
-                        alt={`hero-${index}`}
+                        alt=""
+                        aria-hidden="true"
                         className="h-full w-full object-cover"
+                        onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
                     />
-                    <div className="absolute inset-0 bg-black/10 transition-colors group-hover:bg-transparent" />
+                    <div className="absolute inset-0 bg-black/20 transition-colors group-hover:bg-transparent" />
                 </div>
 
                 {/* Back Face */}
@@ -94,7 +100,7 @@ const IMAGES = [
     "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=600&q=90", // Red sports car
     "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=600&q=90", // Porsche on road
     "https://images.unsplash.com/photo-1542362567-b07e54358753?w=600&q=90", // Yellow Lamborghini
-    "https://images.unsplash.com/photo-1525609004556-c46c6c5104b8?w=600&q=90", // Black Mercedes
+    "https://images.unsplash.com/photo-1555215695-3004980ad54e?w=600&q=90", // Aston Martin DBS
     "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=600&q=90", // BMW side view
     "https://images.unsplash.com/photo-1553440569-bcc63803a83d?w=600&q=90", // Red Ferrari
     "https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=600&q=90", // BMW front
@@ -102,7 +108,7 @@ const IMAGES = [
     "https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=600&q=90", // Red sports car angle
     "https://images.unsplash.com/photo-1502877338535-766e1452684a?w=600&q=90", // Classic car
     "https://images.unsplash.com/photo-1514316454349-750a7fd3da3a?w=600&q=90", // Steering wheel
-    "https://images.unsplash.com/photo-1549317661-bd32c8ce0afa?w=600&q=90", // Car interior
+    "https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=600&q=90", // Modern car interior
     "https://images.unsplash.com/photo-1511919884226-fd3cad34687c?w=600&q=90", // Mercedes AMG
     "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=600&q=90", // Corvette
     "https://images.unsplash.com/photo-1504215680853-026ed2a45def?w=600&q=90", // Mustang
@@ -275,7 +281,7 @@ export default function IntroAnimation({ onComplete }: IntroAnimationProps) {
     }, [smoothMorph, smoothScrollRotate, smoothMouseX]);
 
     return (
-        <div ref={containerRef} className="relative w-full h-full bg-white overflow-hidden">
+        <div ref={containerRef} className="relative w-full h-full overflow-hidden" style={{ backgroundColor: "#0a1020" }}>
             {/* Container */}
             <div className="flex h-full w-full flex-col items-center justify-center perspective-1000">
 
@@ -285,17 +291,17 @@ export default function IntroAnimation({ onComplete }: IntroAnimationProps) {
                         initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
                         animate={introPhase === "circle" && morphValue < 0.5 ? { opacity: 1 - morphValue * 2, y: 0, filter: "blur(0px)" } : { opacity: 0, filter: "blur(10px)" }}
                         transition={{ duration: 1 }}
-                        className="text-2xl font-medium tracking-tight text-slate-900 md:text-4xl"
+                        className="text-xl md:text-[28px] font-semibold tracking-[-0.01em] text-white max-w-md leading-tight"
                     >
                         The operations brain for modern car rental.
                     </motion.h1>
                     <motion.p
                         initial={{ opacity: 0 }}
-                        animate={introPhase === "circle" && morphValue < 0.5 ? { opacity: 0.5 - morphValue } : { opacity: 0 }}
+                        animate={introPhase === "circle" && morphValue < 0.5 ? { opacity: 0.6 - morphValue } : { opacity: 0 }}
                         transition={{ duration: 1, delay: 0.2 }}
-                        className="mt-4 text-xs font-bold tracking-[0.2em] text-slate-400"
+                        className="mt-4 text-[10px] font-semibold tracking-[0.25em] text-slate-500"
                     >
-                        SCROLL TO BEGIN
+                        SCROLL · OR PRESS →
                     </motion.p>
                 </div>
 
@@ -307,7 +313,7 @@ export default function IntroAnimation({ onComplete }: IntroAnimationProps) {
                             style={{
                                 width: Math.min(containerSize.width, containerSize.height) * 0.8,
                                 height: Math.min(containerSize.width, containerSize.height) * 0.8,
-                                background: "radial-gradient(circle, rgba(37,99,235,0.05) 0%, transparent 70%)",
+                                background: "radial-gradient(circle, rgba(96,165,250,0.18) 0%, rgba(168,85,247,0.06) 45%, transparent 75%)",
                             }}
                         />
                     )}

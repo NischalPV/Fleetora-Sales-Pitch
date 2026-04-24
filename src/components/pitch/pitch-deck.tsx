@@ -19,6 +19,7 @@ import { S14Maintenance } from "./screens/s14-maintenance";
 import { S15Corporate } from "./screens/s15-corporate";
 import { S16Invoicing } from "./screens/s16-invoicing";
 import { S17Payments } from "./screens/s17-payments";
+import { S18PriceCompiler } from "./screens/s18-price-compiler";
 import { S18FinanceWs } from "./screens/s18-finance-ws";
 import { S19Roadmap } from "./screens/s19-roadmap";
 import { S20Close } from "./screens/s20-close";
@@ -56,6 +57,7 @@ const SCREENS = [
     { id: "corporate", Component: S15Corporate },
     { id: "invoicing", Component: S16Invoicing },
     { id: "payments", Component: S17Payments },
+    { id: "price-compiler", Component: S18PriceCompiler },
     { id: "finance-ws", Component: S18FinanceWs },
     // Journey 6: The Future
     { id: "roadmap", Component: S19Roadmap },
@@ -84,6 +86,7 @@ const JOURNEY_TRANSITIONS = [
     // Journey 5: Money — slide up (building value)
     { initial: { opacity: 0, y: 80 }, animate: { opacity: 1, y: 0 }, exit: { opacity: 0, y: -60 } },
     { initial: { opacity: 0, y: 60 }, animate: { opacity: 1, y: 0 }, exit: { opacity: 0, y: -40 } },
+    { initial: { opacity: 0, y: 40 }, animate: { opacity: 1, y: 0 }, exit: { opacity: 0, y: -40 } },
     { initial: { opacity: 0, y: 40 }, animate: { opacity: 1, y: 0 }, exit: { opacity: 0, y: -40 } },
     { initial: { opacity: 0, scale: 0.9 }, animate: { opacity: 1, scale: 1 }, exit: { opacity: 0 } },
     // Journey 6: Future — slow, confident
