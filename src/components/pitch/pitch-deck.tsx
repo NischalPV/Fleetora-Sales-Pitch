@@ -123,14 +123,59 @@ export function PitchDeck() {
         setCurrentSlide((prev) => Math.max(prev - 1, 0));
     }, []);
 
-    // Stop any in-flight speech / pending advance whenever slide changes or autoplay toggles off.
+    // Stop any in-flight speech / pending advance whenever the slide changes
+    // or the TTS-enabled flag flips. Crucially does NOT depend on `autoplay` —
+    // toggling autoplay must NOT pre-cancel the speech that the autoplay
+    // effect below is about to start for the current slide.
     useEffect(() => {
         if (advanceTimerRef.current) {
             clearTimeout(advanceTimerRef.current);
             advanceTimerRef.current = null;
         }
         stop();
-    }, [currentSlide, autoplay, ttsEnabled, stop]);
+    }, [currentSlide, ttsEnabled, stop]);
+
+    // Keep the screen awake while autoplay is active (Wake Lock API).
+    // Browsers may release the lock when the tab loses visibility — we
+    // re-acquire on visibilitychange if autoplay is still on.
+    useEffect(() => {
+        if (!autoplay) return;
+        if (typeof navigator === "undefined" || !("wakeLock" in navigator)) return;
+
+        type WakeLockSentinel = { release: () => Promise<void> };
+        let sentinel: WakeLockSentinel | null = null;
+        let cancelled = false;
+
+        const acquire = async () => {
+            try {
+                const nav = navigator as Navigator & {
+                    wakeLock: { request: (type: "screen") => Promise<WakeLockSentinel> };
+                };
+                sentinel = await nav.wakeLock.request("screen");
+            } catch {
+                // Ignore — some browsers/contexts (no HTTPS, no user gesture) reject.
+                sentinel = null;
+            }
+        };
+
+        const onVisibilityChange = () => {
+            if (document.visibilityState === "visible" && !cancelled) {
+                acquire();
+            }
+        };
+
+        acquire();
+        document.addEventListener("visibilitychange", onVisibilityChange);
+
+        return () => {
+            cancelled = true;
+            document.removeEventListener("visibilitychange", onVisibilityChange);
+            if (sentinel) {
+                sentinel.release().catch(() => {});
+                sentinel = null;
+            }
+        };
+    }, [autoplay]);
 
     // Mount-time warm-up: prefetch the narration for the slide the user is on
     // (typically S01) so the first Play click is instant, not a 5-10s cold start.
@@ -144,14 +189,22 @@ export function PitchDeck() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    // Autoplay loop: when autoplay is on, speak this slide's narration and advance.
-    // We prefetch the *next* slide's narration as soon as the current one starts
-    // speaking, so by the time we advance the audio is already cached and plays
-    // with no perceptible gap.
+    // Autoplay loop: speak the CURRENT slide's narration whenever autoplay flips on
+    // or the slide index changes while autoplay is active.
     useEffect(() => {
-        if (!autoplay) return;
+        const slideId = SCREENS[currentSlide].id;
+        console.log(`[autoplay effect] slide=${currentSlide} (${slideId}) autoplay=${autoplay}`);
 
-        const script = SCRIPT_BY_ID[SCREENS[currentSlide].id];
+        if (!autoplay) {
+            if (advanceTimerRef.current) {
+                clearTimeout(advanceTimerRef.current);
+                advanceTimerRef.current = null;
+            }
+            stop();
+            return;
+        }
+
+        const script = SCRIPT_BY_ID[slideId];
         if (!script) return;
 
         let cancelled = false;
@@ -159,32 +212,39 @@ export function PitchDeck() {
         const nextScript = !isLast ? SCRIPT_BY_ID[SCREENS[currentSlide + 1].id] : null;
 
         const advance = () => {
+            console.log(`[autoplay advance] from slide=${currentSlide} (${slideId}) cancelled=${cancelled}`);
             if (cancelled) return;
             if (isLast) {
                 setAutoplay(false);
                 return;
             }
-            // Tiny gap (80ms) just to let the slide-transition motion start; audio
-            // for the next slide is already in cache so it'll fire immediately.
             advanceTimerRef.current = setTimeout(() => {
-                if (!cancelled) goNext();
+                if (!cancelled) {
+                    console.log(`[autoplay goNext] firing from slide=${currentSlide}`);
+                    goNext();
+                }
             }, 80);
         };
 
         if (ttsEnabled) {
-            // Kick off prefetch for the next slide while the current one speaks.
             if (nextScript) prefetch(nextScript.narration);
-            speak(script.narration).then(() => {
-                if (!cancelled) advance();
-            });
+            speak(script.narration)
+                .then(() => {
+                    console.log(`[autoplay speak.then] completed for slide=${currentSlide} (${slideId}) cancelled=${cancelled}`);
+                    if (!cancelled) advance();
+                })
+                .catch((e) => {
+                    console.log(`[autoplay speak.catch] aborted for slide=${currentSlide} (${slideId}) — ${e?.message ?? e}`);
+                });
         } else {
             advanceTimerRef.current = setTimeout(advance, script.durationSec * 1000);
         }
 
         return () => {
+            console.log(`[autoplay cleanup] slide=${currentSlide} (${slideId}) — cancelled flag set`);
             cancelled = true;
         };
-    }, [autoplay, currentSlide, ttsEnabled, speak, prefetch, goNext]);
+    }, [autoplay, currentSlide, ttsEnabled, speak, prefetch, goNext, stop]);
 
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
@@ -268,6 +328,29 @@ export function PitchDeck() {
             <div className="absolute bottom-6 right-6 z-40">
                 <span className="text-xs font-medium text-white/20 tabular-nums">{String(currentSlide + 1).padStart(2, "0")} / {String(SCREENS.length).padStart(2, "0")}</span>
             </div>
+
+            {/* Subtle "Watch presentation" CTA — only on hero (S01), only when autoplay isn't already running.
+                Optional entry point; the bottom-right controls remain the primary play/pause UI. */}
+            {currentSlide === 0 && !autoplay && (
+                <button
+                    onClick={() => setAutoplay(true)}
+                    className="absolute z-30 left-1/2 -translate-x-1/2 group flex items-center gap-2 rounded-full px-4 py-2 backdrop-blur-md transition-all hover:scale-[1.03]"
+                    style={{
+                        bottom: "20%",
+                        background: "rgba(15,22,38,0.55)",
+                        border: "1px solid rgba(148,163,184,0.22)",
+                        color: "rgba(226,232,240,0.85)",
+                    }}
+                    aria-label="Watch presentation with narration"
+                >
+                    <svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor" className="opacity-70 group-hover:opacity-100 transition-opacity">
+                        <path d="M2 1 L9 5 L2 9 Z" />
+                    </svg>
+                    <span className="text-[11px] font-mono uppercase tracking-[0.28em]">
+                        Watch presentation
+                    </span>
+                </button>
+            )}
 
             {/* Floating controls — autoplay / TTS / transcript */}
             <Controls

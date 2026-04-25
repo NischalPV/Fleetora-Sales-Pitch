@@ -68,6 +68,8 @@ export function useTTS(options: UseTTSOptions = {}) {
 
     // ── stop(): cancel everything in flight ───────────────
     const stop = useCallback(() => {
+        const had = !!(currentAbort.current || audioRef.current || currentResolve.current);
+        if (had) console.log("[TTS stop] aborting in-flight speech");
         cancelledRef.current = true;
         if (currentAbort.current) {
             currentAbort.current.abort();
@@ -163,20 +165,36 @@ export function useTTS(options: UseTTSOptions = {}) {
     );
 
     // ── speakWithSarvam(text): play base64 chunks sequentially ──
+    // Returns "completed" if all chunks played to natural end, "aborted" if
+    // stop() / a new speak() interrupted us, "failed" to fall back to browser TTS.
     const speakWithSarvam = useCallback(
-        async (text: string, abort: AbortController): Promise<boolean> => {
-            // Returns true if played to completion via Sarvam, false to fall back.
+        async (text: string, abort: AbortController): Promise<"completed" | "aborted" | "failed"> => {
             const audios = await fetchSarvam(text, abort);
-            if (!audios) return false;
+            if (abort.signal.aborted) return "aborted";
+            if (!audios) return "failed";
 
-            for (const b64 of audios) {
-                if (cancelledRef.current) return true;
+            const totalChunks = audios.length;
+            for (let i = 0; i < audios.length; i++) {
+                const b64 = audios[i];
+                if (abort.signal.aborted) {
+                    console.log(`[TTS sarvam] aborted before chunk ${i + 1}/${totalChunks}`);
+                    return "aborted";
+                }
 
                 const blob = b64ToBlob(b64, "audio/wav");
                 const url = URL.createObjectURL(blob);
                 const audio = new Audio(url);
                 audio.playbackRate = rate;
                 audioRef.current = audio;
+                console.log(`[TTS sarvam] playing chunk ${i + 1}/${totalChunks}`);
+
+                let aborted = false;
+                const onAbort = () => {
+                    aborted = true;
+                    audio.pause();
+                    audio.src = "";
+                };
+                abort.signal.addEventListener("abort", onAbort, { once: true });
 
                 await new Promise<void>((resolve) => {
                     currentResolve.current = resolve;
@@ -193,15 +211,31 @@ export function useTTS(options: UseTTSOptions = {}) {
                         resolve();
                     });
                 });
+
+                abort.signal.removeEventListener("abort", onAbort);
+
+                // If we were aborted, OR another speak() displaced us as the current
+                // audio holder, bail without continuing to subsequent chunks.
+                if (aborted || abort.signal.aborted || audioRef.current !== audio) {
+                    console.log(`[TTS sarvam] aborted after chunk ${i + 1}/${totalChunks} (aborted=${aborted}, signalAborted=${abort.signal.aborted}, audioDisplaced=${audioRef.current !== audio})`);
+                    return "aborted";
+                }
+                console.log(`[TTS sarvam] chunk ${i + 1}/${totalChunks} ended naturally`);
             }
-            return true;
+            console.log(`[TTS sarvam] all ${totalChunks} chunks completed`);
+            return "completed";
         },
         [fetchSarvam, rate]
     );
 
     // ── speak(text): public entry point ───────────────────
+    // Resolves only when speech truly completes naturally. If aborted (by stop()
+    // or by a subsequent speak() call), this Promise rejects with an "aborted"
+    // marker so the caller's .then() chain doesn't fire.
     const speak = useCallback(
         async (text: string): Promise<void> => {
+            const snippet = text.slice(0, 60).replace(/\s+/g, " ");
+            console.log(`[TTS speak] start: "${snippet}..."`);
             stop(); // cancel any prior
             cancelledRef.current = false;
 
@@ -212,21 +246,28 @@ export function useTTS(options: UseTTSOptions = {}) {
             currentAbort.current = abort;
 
             // Try Sarvam first
-            const sarvamOk = await speakWithSarvam(text, abort);
-            if (sarvamOk) {
+            const result = await speakWithSarvam(text, abort);
+            console.log(`[TTS speak] sarvam result=${result} for "${snippet}..."`);
+            if (result === "completed") {
                 setProvider("sarvam");
                 setIsSpeaking(false);
-                return;
+                return; // natural end → caller's .then advances
+            }
+            if (result === "aborted") {
+                // A newer speak() or stop() displaced us. Don't toggle isSpeaking
+                // (the new speak owns it now) and reject so .then doesn't run.
+                throw new Error("aborted");
             }
 
-            if (cancelledRef.current) {
-                setIsSpeaking(false);
-                return;
+            // result === "failed" → fall back to browser TTS
+            if (abort.signal.aborted) {
+                throw new Error("aborted");
             }
-
-            // Fallback: browser Web Speech API
             setProvider("browser");
             await speakWithBrowser(text);
+            if (abort.signal.aborted) {
+                throw new Error("aborted");
+            }
             setIsSpeaking(false);
         },
         [speakWithSarvam, speakWithBrowser, stop]
