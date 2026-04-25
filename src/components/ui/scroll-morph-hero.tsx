@@ -287,19 +287,45 @@ export default function IntroAnimation({ onComplete }: IntroAnimationProps) {
 
                 {/* Intro Text (Fades out) */}
                 <div className="absolute z-0 flex flex-col items-center justify-center text-center pointer-events-none top-1/2 -translate-y-1/2">
+                    {/* Brand wordmark */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 12, filter: "blur(8px)" }}
+                        animate={introPhase === "circle" && morphValue < 0.5 ? { opacity: 1 - morphValue * 2, y: 0, filter: "blur(0px)" } : { opacity: 0, filter: "blur(8px)" }}
+                        transition={{ duration: 1 }}
+                        className="flex items-center gap-2.5 mb-5"
+                    >
+                        <div className="relative">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#34d399" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="M14 16H9m10 0h3v-3.15a1 1 0 0 0-.84-.99L16 11l-2.7-3.6a1 1 0 0 0-.8-.4H5.24a2 2 0 0 0-1.8 1.1l-.8 1.63A6 6 0 0 0 2 12.42V16h2"/>
+                                <circle cx="6.5" cy="16.5" r="2.5"/>
+                                <circle cx="16.5" cy="16.5" r="2.5"/>
+                            </svg>
+                            <div className="absolute -inset-1.5 bg-emerald-400/20 rounded-full blur-md -z-10" />
+                        </div>
+                        <span className="text-[22px] font-semibold tracking-tight text-white">Fleetora</span>
+                    </motion.div>
+
                     <motion.h1
                         initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
                         animate={introPhase === "circle" && morphValue < 0.5 ? { opacity: 1 - morphValue * 2, y: 0, filter: "blur(0px)" } : { opacity: 0, filter: "blur(10px)" }}
-                        transition={{ duration: 1 }}
-                        className="text-xl md:text-[28px] font-semibold tracking-[-0.01em] text-white max-w-md leading-tight"
+                        transition={{ duration: 1, delay: 0.15 }}
+                        className="text-2xl md:text-[34px] font-semibold tracking-[-0.015em] text-white max-w-lg leading-[1.1]"
                     >
                         The operations brain for modern car rental.
                     </motion.h1>
                     <motion.p
                         initial={{ opacity: 0 }}
+                        animate={introPhase === "circle" && morphValue < 0.5 ? { opacity: 0.55 - morphValue } : { opacity: 0 }}
+                        transition={{ duration: 1, delay: 0.3 }}
+                        className="mt-3 text-[11px] text-slate-400 max-w-sm leading-relaxed"
+                    >
+                        Branch ops, fleet intelligence, finance — one platform.
+                    </motion.p>
+                    <motion.p
+                        initial={{ opacity: 0 }}
                         animate={introPhase === "circle" && morphValue < 0.5 ? { opacity: 0.6 - morphValue } : { opacity: 0 }}
-                        transition={{ duration: 1, delay: 0.2 }}
-                        className="mt-4 text-[10px] font-semibold tracking-[0.25em] text-slate-500"
+                        transition={{ duration: 1, delay: 0.5 }}
+                        className="mt-6 text-[10px] font-semibold tracking-[0.32em] text-slate-500"
                     >
                         SCROLL · OR PRESS →
                     </motion.p>

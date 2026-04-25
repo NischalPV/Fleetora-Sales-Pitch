@@ -36,7 +36,7 @@ function easeInOut(x: number) {
 }
 function lerp(a: number, b: number, t: number) { return a + (b - a) * t; }
 
-// Segment × class baseline rates (AED/day)
+// Segment × class baseline rates (JOD/day)
 type Segment = "Retail" | "Corporate" | "VIP" | "Enterprise";
 type VClass = "Economy" | "Mid-size" | "SUV" | "Luxury";
 
@@ -59,7 +59,7 @@ interface Scenario {
     label: string;     // short label
     reason: string;    // one-liner reason
     impact: {
-        revMo: number;     // AED / month
+        revMo: number;     // JOD / month
         marginPts: number; // points
         utilPct: number;   // %
         cashDays: number;  // runway days
@@ -270,7 +270,7 @@ export function S17Payments() {
 
             <div
                 className="absolute top-0 left-0 right-0 z-30 flex items-center justify-between pointer-events-none"
-                style={{ padding: "32px 72px 0 72px" }}
+                style={{ padding: "32px 72px 0 160px" }}
             >
                 <div className="flex items-center gap-3">
                     <span className="text-[10px] font-semibold tracking-[0.35em] uppercase text-slate-400">Fleetora · Finance</span>
@@ -420,7 +420,7 @@ function MatrixPanel({
                         Rate matrix · APR 2026 · weekday base
                     </p>
                 </div>
-                <span className="text-[9px] font-mono text-slate-500">AED / day</span>
+                <span className="text-[9px] font-mono text-slate-500">JOD / day</span>
             </div>
 
             <div className="relative rounded-xl border p-4 flex-1 flex flex-col"
@@ -527,7 +527,7 @@ function MatrixPanel({
                             return <div key={i} style={{ width: 6, height: "100%", background: cssRGB(col, 0.85) }} />;
                         })}
                     </div>
-                    <span>AED 140 — 580</span>
+                    <span>JOD 140 — 580</span>
                 </div>
 
                 {/* Pricing calendar — Apr 2026 with day-level modifiers (weekends, festivals, demand) */}
@@ -640,7 +640,7 @@ function ProjectionPanel({
                     <span className="text-[8px] font-mono text-slate-600">APR 2026</span>
                 </div>
                 <div className="grid grid-cols-4 gap-3">
-                    <KPI label="Revenue / mo" value={`AED ${(projRev / 1000).toFixed(0)}K`} delta={totalRevMo} deltaPrefix="AED" deltaScale="k" />
+                    <KPI label="Revenue / mo" value={`JOD ${(projRev / 1000).toFixed(0)}K`} delta={totalRevMo} deltaPrefix="JOD" deltaScale="k" />
                     <KPI label="Gross margin" value={`${projMargin.toFixed(1)}%`} delta={totalMarginPts} deltaPrefix="" deltaSuffix=" pts" precision={1} />
                     <KPI label="Utilization" value={`${projUtil.toFixed(0)}%`} delta={totalUtilPct} deltaPrefix="" deltaSuffix="%" precision={1} />
                     <KPI label="Cash runway" value={`${projRunway.toFixed(0)} d`} delta={totalCashDays} deltaPrefix="" deltaSuffix=" d" precision={1} />
@@ -706,7 +706,7 @@ function ProjectionPanel({
                     <span className="text-[9px] font-mono uppercase tracking-[0.2em] text-slate-500">AR receivables · 30-day projection</span>
                     <span className="text-[9px] tabular-nums text-slate-400">
                         <span className="text-slate-500">Apr end · </span>
-                        <span className="font-semibold text-white">AED {Math.round(projectedAR[projectedAR.length - 1])}K</span>
+                        <span className="font-semibold text-white">JOD {Math.round(projectedAR[projectedAR.length - 1])}K</span>
                     </span>
                 </div>
                 <div className="relative flex-1 min-h-[72px]">
@@ -757,7 +757,7 @@ function ProjectionPanel({
                         className="tabular-nums font-bold"
                         style={{ fontSize: 18, color: totalRevMo >= 0 ? "#34d399" : "#fb7185" }}
                     >
-                        {totalRevMo >= 0 ? "+" : "−"}AED {Math.abs(Math.round(totalRevMo / 1000)).toLocaleString()}K/mo
+                        {totalRevMo >= 0 ? "+" : "−"}JOD {Math.abs(Math.round(totalRevMo / 1000)).toLocaleString()}K/mo
                     </p>
                     <p className="text-[8.5px] font-mono tabular-nums text-slate-500">
                         {totalCashDays > 0 ? "+" : ""}{totalCashDays.toFixed(0)} days cash runway
@@ -1005,7 +1005,7 @@ function SampleQuotes({
                                     {Math.round(rate)} × {s.days}
                                 </span>
                                 <span className="tabular-nums font-semibold text-white text-[13px]">
-                                    AED {Math.round(total).toLocaleString()}
+                                    JOD {Math.round(total).toLocaleString()}
                                 </span>
                             </div>
                         </div>

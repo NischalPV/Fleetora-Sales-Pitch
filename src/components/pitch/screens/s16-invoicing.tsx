@@ -131,7 +131,7 @@ function InstrBilling({ p, lit, tone }: { p: number; lit: boolean; tone: string 
                             >
                                 <span className="text-slate-500">{r.id}</span>
                                 <span className="text-slate-300 truncate">{r.who}</span>
-                                <span className="ml-auto text-white">AED {r.amt}</span>
+                                <span className="ml-auto text-white">JOD {r.amt}</span>
                             </div>
                         );
                     })}
@@ -155,7 +155,7 @@ function InstrBilling({ p, lit, tone }: { p: number; lit: boolean; tone: string 
                     <div className="flex items-baseline gap-2">
                         <span className="text-[11px] text-slate-400">Consolidated</span>
                         <span className="ml-auto tabular-nums font-semibold text-white" style={{ fontSize: 18 }}>
-                            AED {total.toLocaleString()}
+                            JOD {total.toLocaleString()}
                         </span>
                     </div>
                     <div className="mt-2 flex items-center gap-1.5">
@@ -166,7 +166,7 @@ function InstrBilling({ p, lit, tone }: { p: number; lit: boolean; tone: string 
                                 background: `linear-gradient(to right, ${tone}, ${tone}99)`,
                             }} />
                         </div>
-                        <span className="text-[8px] tabular-nums text-slate-500">credit · AED 15,000</span>
+                        <span className="text-[8px] tabular-nums text-slate-500">credit · JOD 15,000</span>
                     </div>
                 </div>
             </div>
@@ -591,7 +591,7 @@ export function S16Invoicing() {
 
             <div
                 className="absolute top-0 left-0 right-0 z-30 flex items-center justify-between pointer-events-none"
-                style={{ padding: "32px 72px 0 72px" }}
+                style={{ padding: "32px 72px 0 160px" }}
             >
                 <div className="flex items-center gap-3">
                     <span className="text-[10px] font-semibold tracking-[0.35em] uppercase text-slate-400">Fleetora · Finance</span>

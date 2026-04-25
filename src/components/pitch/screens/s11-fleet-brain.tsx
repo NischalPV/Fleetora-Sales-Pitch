@@ -357,7 +357,7 @@ export function S11FleetBrain() {
                 style={{ background: "radial-gradient(ellipse 90% 60% at 50% 0%, rgba(30,41,59,0.5), transparent 60%)" }}
             />
 
-            <div className="absolute inset-0 z-10 flex flex-col" style={{ paddingTop: 48, paddingBottom: 96, paddingLeft: 96, paddingRight: 96 }}>
+            <div className="absolute inset-0 z-10 flex flex-col" style={{ paddingTop: 48, paddingBottom: 96, paddingLeft: 160, paddingRight: 96 }}>
 
                 {/* ── Eyebrow row: chapter left · kicker right ── */}
                 <motion.div

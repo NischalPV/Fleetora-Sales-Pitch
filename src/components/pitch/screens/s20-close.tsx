@@ -60,18 +60,18 @@ export function S20Close() {
                 transition={{ duration: 1, ease: "easeOut" }}
                 className="text-base text-slate-400 mb-8 text-center font-light tracking-wide"
             >
-                2-week pilot. One branch. Real results.
+                4-week pilot. One branch. Real results.
             </motion.p>
 
             {/* Contact */}
             <motion.a
-                href="mailto:sales@monexatech.com"
+                href="mailto:nischal.varasada@gmail.com"
                 initial={{ opacity: 0 }}
                 animate={phase >= 3 ? { opacity: 1 } : {}}
                 transition={{ duration: 0.8, ease: "easeOut" }}
                 className="text-sm text-slate-500 mb-12 hover:text-blue-400 transition-colors duration-300"
             >
-                sales@monexatech.com
+                nischal.varasada@gmail.com
             </motion.a>
 
             {/* Final question */}

@@ -1,8 +1,12 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Car } from "lucide-react";
 import { ProgressBar } from "./shared/progress-bar";
+import { Controls } from "./controls";
+import { useTTS } from "./use-tts";
+import { SCRIPT_BY_ID } from "./slide-scripts";
 import { S01Hero } from "./screens/s01-hero";
 import { S02Intro } from "./screens/s02-intro";
 import { S03CmdBar } from "./screens/s03-cmd-bar";
@@ -21,6 +25,8 @@ import { S16Invoicing } from "./screens/s16-invoicing";
 import { S17Payments } from "./screens/s17-payments";
 import { S18PriceCompiler } from "./screens/s18-price-compiler";
 import { S18FinanceWs } from "./screens/s18-finance-ws";
+import { S19AddonsMarketplace } from "./screens/s19-addons-marketplace";
+import { S19VehicleMarketplace } from "./screens/s19-vehicle-marketplace";
 import { S19Roadmap } from "./screens/s19-roadmap";
 import { S20Close } from "./screens/s20-close";
 
@@ -59,7 +65,10 @@ const SCREENS = [
     { id: "payments", Component: S17Payments },
     { id: "price-compiler", Component: S18PriceCompiler },
     { id: "finance-ws", Component: S18FinanceWs },
-    // Journey 6: The Future
+    // Chapter VI: The Marketplace
+    { id: "addons-marketplace", Component: S19AddonsMarketplace },
+    { id: "vehicle-marketplace", Component: S19VehicleMarketplace },
+    // Journey 7: The Future
     { id: "roadmap", Component: S19Roadmap },
     { id: "close", Component: S20Close },
 ];
@@ -89,13 +98,22 @@ const JOURNEY_TRANSITIONS = [
     { initial: { opacity: 0, y: 40 }, animate: { opacity: 1, y: 0 }, exit: { opacity: 0, y: -40 } },
     { initial: { opacity: 0, y: 40 }, animate: { opacity: 1, y: 0 }, exit: { opacity: 0, y: -40 } },
     { initial: { opacity: 0, scale: 0.9 }, animate: { opacity: 1, scale: 1 }, exit: { opacity: 0 } },
-    // Journey 6: Future — slow, confident
+    // Chapter VI: Marketplace — horizontal sweep (browsing)
+    { initial: { opacity: 0, x: 40 }, animate: { opacity: 1, x: 0 }, exit: { opacity: 0, x: -40 } },
+    { initial: { opacity: 0, x: 40 }, animate: { opacity: 1, x: 0 }, exit: { opacity: 0, x: -40 } },
+    // Journey 7: Future — slow, confident
     { initial: { opacity: 0 }, animate: { opacity: 1 }, exit: { opacity: 0 } },
     { initial: { opacity: 0 }, animate: { opacity: 1 }, exit: { opacity: 0 } },
 ];
 
 export function PitchDeck() {
     const [currentSlide, setCurrentSlide] = useState(0);
+    const [autoplay, setAutoplay] = useState(false);
+    const [ttsEnabled, setTTSEnabled] = useState(true);
+    const advanceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+    // Voice unset → server tries v3 with priya, falls back to v2 with anushka, then browser TTS.
+    const { speak, prefetch, stop, isSpeaking, provider } = useTTS({ rate: 1.0 });
 
     const goNext = useCallback(() => {
         setCurrentSlide((prev) => Math.min(prev + 1, SCREENS.length - 1));
@@ -105,14 +123,87 @@ export function PitchDeck() {
         setCurrentSlide((prev) => Math.max(prev - 1, 0));
     }, []);
 
+    // Stop any in-flight speech / pending advance whenever slide changes or autoplay toggles off.
+    useEffect(() => {
+        if (advanceTimerRef.current) {
+            clearTimeout(advanceTimerRef.current);
+            advanceTimerRef.current = null;
+        }
+        stop();
+    }, [currentSlide, autoplay, ttsEnabled, stop]);
+
+    // Mount-time warm-up: prefetch the narration for the slide the user is on
+    // (typically S01) so the first Play click is instant, not a 5-10s cold start.
+    // We also prefetch the next slide for good measure.
+    useEffect(() => {
+        const first = SCRIPT_BY_ID[SCREENS[currentSlide].id];
+        if (first) prefetch(first.narration);
+        const next = SCREENS[currentSlide + 1] && SCRIPT_BY_ID[SCREENS[currentSlide + 1].id];
+        if (next) prefetch(next.narration);
+        // Only on mount — subsequent prefetches happen inside the autoplay effect.
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    // Autoplay loop: when autoplay is on, speak this slide's narration and advance.
+    // We prefetch the *next* slide's narration as soon as the current one starts
+    // speaking, so by the time we advance the audio is already cached and plays
+    // with no perceptible gap.
+    useEffect(() => {
+        if (!autoplay) return;
+
+        const script = SCRIPT_BY_ID[SCREENS[currentSlide].id];
+        if (!script) return;
+
+        let cancelled = false;
+        const isLast = currentSlide === SCREENS.length - 1;
+        const nextScript = !isLast ? SCRIPT_BY_ID[SCREENS[currentSlide + 1].id] : null;
+
+        const advance = () => {
+            if (cancelled) return;
+            if (isLast) {
+                setAutoplay(false);
+                return;
+            }
+            // Tiny gap (80ms) just to let the slide-transition motion start; audio
+            // for the next slide is already in cache so it'll fire immediately.
+            advanceTimerRef.current = setTimeout(() => {
+                if (!cancelled) goNext();
+            }, 80);
+        };
+
+        if (ttsEnabled) {
+            // Kick off prefetch for the next slide while the current one speaks.
+            if (nextScript) prefetch(nextScript.narration);
+            speak(script.narration).then(() => {
+                if (!cancelled) advance();
+            });
+        } else {
+            advanceTimerRef.current = setTimeout(advance, script.durationSec * 1000);
+        }
+
+        return () => {
+            cancelled = true;
+        };
+    }, [autoplay, currentSlide, ttsEnabled, speak, prefetch, goNext]);
+
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
+            // Don't intercept when typing in an input
+            const tag = (e.target as HTMLElement)?.tagName;
+            if (tag === "INPUT" || tag === "TEXTAREA") return;
+
             if (e.key === "ArrowRight" || e.key === "ArrowDown" || e.key === " ") {
                 e.preventDefault();
                 goNext();
             } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
                 e.preventDefault();
                 goPrev();
+            } else if (e.key === "p" || e.key === "P") {
+                e.preventDefault();
+                setAutoplay((v) => !v);
+            } else if (e.key === "m" || e.key === "M") {
+                e.preventDefault();
+                setTTSEnabled((v) => !v);
             }
         };
         window.addEventListener("keydown", handleKeyDown);
@@ -123,9 +214,28 @@ export function PitchDeck() {
     const { Component } = SCREENS[currentSlide];
     const variant = JOURNEY_TRANSITIONS[currentSlide] || JOURNEY_TRANSITIONS[0];
 
+    // Show the persistent corner logo on every slide except the close (which
+    // displays the brand at hero size itself). Slides whose own chapter chrome
+    // collides with the corner logo have their chrome's left-padding adjusted
+    // in their own files so the two coexist cleanly.
+    const showPersistentLogo = currentSlide !== SCREENS.length - 1;
+
     return (
         <div className="relative h-screen w-full overflow-hidden bg-slate-950">
             <ProgressBar scrollProgress={scrollProgress} />
+
+            {/* Persistent Fleetora wordmark — top-left, subtle, on every slide except hero/close */}
+            {showPersistentLogo && (
+                <div className="absolute top-5 left-6 z-40 flex items-center gap-1.5 pointer-events-none select-none">
+                    <div className="relative">
+                        <Car className="h-4 w-4 text-emerald-400" />
+                        <div className="absolute -inset-1 bg-emerald-400/20 rounded-full blur-[6px] -z-10" />
+                    </div>
+                    <span className="text-[13px] font-semibold tracking-tight text-white/85">
+                        Fleetora
+                    </span>
+                </div>
+            )}
 
             <AnimatePresence mode="wait">
                 <motion.div
@@ -158,6 +268,16 @@ export function PitchDeck() {
             <div className="absolute bottom-6 right-6 z-40">
                 <span className="text-xs font-medium text-white/20 tabular-nums">{String(currentSlide + 1).padStart(2, "0")} / {String(SCREENS.length).padStart(2, "0")}</span>
             </div>
+
+            {/* Floating controls — autoplay / TTS / transcript */}
+            <Controls
+                autoplay={autoplay}
+                onToggleAutoplay={() => setAutoplay((v) => !v)}
+                ttsEnabled={ttsEnabled}
+                onToggleTTS={() => setTTSEnabled((v) => !v)}
+                isSpeaking={isSpeaking}
+                provider={provider}
+            />
 
             <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-40 flex gap-1">
                 {SCREENS.map((_, i) => (

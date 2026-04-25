@@ -8,7 +8,7 @@ import { useEffect, useRef, useState } from "react";
 // priced quote.  Booking enters as a ticket on top; a
 // waterfall chart builds rule by rule (base bar, then
 // uplifts / discounts as floating bars, with a running
-// total stair-line) until the final AED figure lands as
+// total stair-line) until the final JOD figure lands as
 // a stamped bar on the right.
 // ─────────────────────────────────────────────────────────
 
@@ -90,12 +90,12 @@ const BOOKINGS: Booking[] = [
         period: "Apr 15 → 17 · Wed–Fri",
         pickup: "DXB Airport T3",
         rules: compile([
-            { name: "Base rate",         condition: "SUV · AED 300/day × 3",       deltaLabel: "AED 900",  amount: 900,  type: "flat", isBase: true },
+            { name: "Base rate",         condition: "SUV · JOD 300/day × 3",       deltaLabel: "JOD 900",  amount: 900,  type: "flat", isBase: true },
             { name: "Corporate tier",    condition: "Fleet Corp · negotiated",     deltaLabel: "−10%",     amount: -10,  type: "pct"  },
             { name: "Peak demand",       condition: "Apr 14–16 · SUV scarce",      deltaLabel: "+8%",      amount: 8,    type: "pct"  },
-            { name: "Airport pickup",    condition: "T3 convenience fee",          deltaLabel: "+AED 25",  amount: 25,   type: "flat" },
+            { name: "Airport pickup",    condition: "T3 convenience fee",          deltaLabel: "+JOD 25",  amount: 25,   type: "flat" },
             { name: "Mileage allowance", condition: "300 km/day · included",       deltaLabel: "±0",       amount: 0,    type: "flat" },
-            { name: "Insurance · basic", condition: "Corp default · CDW",          deltaLabel: "+AED 30",  amount: 30,   type: "flat" },
+            { name: "Insurance · basic", condition: "Corp default · CDW",          deltaLabel: "+JOD 30",  amount: 30,   type: "flat" },
             { name: "VAT · UAE 5%",      condition: "Applied to total",            deltaLabel: "+5%",      amount: 5,    type: "pct", isTax: true },
         ]),
     },
@@ -109,12 +109,12 @@ const BOOKINGS: Booking[] = [
         period: "Apr 19 → 25 · Sun–Sat",
         pickup: "Downtown · Al Wasl",
         rules: compile([
-            { name: "Base rate",         condition: "Economy · AED 180/day × 7",   deltaLabel: "AED 1,260", amount: 1260, type: "flat", isBase: true },
+            { name: "Base rate",         condition: "Economy · JOD 180/day × 7",   deltaLabel: "JOD 1,260", amount: 1260, type: "flat", isBase: true },
             { name: "Retail tier",       condition: "Walk-in · standard",          deltaLabel: "±0",        amount: 0,    type: "flat" },
             { name: "7-day discount",    condition: "Long-rental incentive",       deltaLabel: "−8%",       amount: -8,   type: "pct"  },
-            { name: "Weekend uplift",    condition: "Fri–Sat · +15% × 2d",         deltaLabel: "+AED 50",   amount: 50,   type: "flat" },
+            { name: "Weekend uplift",    condition: "Fri–Sat · +15% × 2d",         deltaLabel: "+JOD 50",   amount: 50,   type: "flat" },
             { name: "Mileage allowance", condition: "300 km/day · included",       deltaLabel: "±0",        amount: 0,    type: "flat" },
-            { name: "Insurance · basic", condition: "CDW included",                deltaLabel: "+AED 30",   amount: 30,   type: "flat" },
+            { name: "Insurance · basic", condition: "CDW included",                deltaLabel: "+JOD 30",   amount: 30,   type: "flat" },
             { name: "VAT · UAE 5%",      condition: "Applied to total",            deltaLabel: "+5%",       amount: 5,    type: "pct", isTax: true },
         ]),
     },
@@ -128,12 +128,12 @@ const BOOKINGS: Booking[] = [
         period: "Apr 11 → 12 · Eid holiday",
         pickup: "Palm Jumeirah villa",
         rules: compile([
-            { name: "Base rate",           condition: "Luxury · AED 560/day × 2",    deltaLabel: "AED 1,120", amount: 1120, type: "flat", isBase: true },
+            { name: "Base rate",           condition: "Luxury · JOD 560/day × 2",    deltaLabel: "JOD 1,120", amount: 1120, type: "flat", isBase: true },
             { name: "VIP tier",            condition: "Concierge · premium",         deltaLabel: "+5%",       amount: 5,    type: "pct"  },
             { name: "Eid festival peak",   condition: "Apr 11 festival window",      deltaLabel: "+20%",      amount: 20,   type: "pct"  },
-            { name: "Weekend uplift",      condition: "Sat Apr 11 · +15%",           deltaLabel: "+AED 106",  amount: 105.84, type: "flat" },
-            { name: "Villa valet",         condition: "Palm Jumeirah door-to-door",  deltaLabel: "+AED 45",   amount: 45,   type: "flat" },
-            { name: "Insurance · full",    condition: "VIP comprehensive",           deltaLabel: "+AED 60",   amount: 60,   type: "flat" },
+            { name: "Weekend uplift",      condition: "Sat Apr 11 · +15%",           deltaLabel: "+JOD 106",  amount: 105.84, type: "flat" },
+            { name: "Villa valet",         condition: "Palm Jumeirah door-to-door",  deltaLabel: "+JOD 45",   amount: 45,   type: "flat" },
+            { name: "Insurance · full",    condition: "VIP comprehensive",           deltaLabel: "+JOD 60",   amount: 60,   type: "flat" },
             { name: "VAT · UAE 5%",        condition: "Applied to total",            deltaLabel: "+5%",       amount: 5,    type: "pct", isTax: true },
         ]),
     },
@@ -233,7 +233,7 @@ export function S18PriceCompiler() {
             }} />
 
             {/* Chapter tag */}
-            <div className="absolute top-6 left-0 right-0 z-30 flex items-center justify-between pointer-events-none" style={{ padding: "0 72px" }}>
+            <div className="absolute top-6 left-0 right-0 z-30 flex items-center justify-between pointer-events-none" style={{ padding: "0 72px 0 160px" }}>
                 <div className="flex items-center gap-3">
                     <span className="text-[10px] font-semibold tracking-[0.35em] uppercase text-slate-400">Chapter V · The Money</span>
                 </div>
@@ -473,7 +473,7 @@ function Waterfall({
                         </g>
                     );
                 })}
-                <text x={PAD_L - 52} y={PAD_T - 8} fontSize={8.5} fill="#64748b" fontFamily="monospace" letterSpacing="1.5">AED</text>
+                <text x={PAD_L - 52} y={PAD_T - 8} fontSize={8.5} fill="#64748b" fontFamily="monospace" letterSpacing="1.5">JOD</text>
 
                 {/* Bars */}
                 {bars.map(({ s, i, xCenter, x, yTop, yBot, h, prev }) => {
@@ -595,13 +595,18 @@ function Waterfall({
                     );
                 })}
 
-                {/* FINAL bar */}
+                {/* FINAL bar — grows up from baseline */}
                 {finalStampT > 0.01 && (() => {
                     const xCenter = PAD_L + slotW * (N + 0.5);
                     const x = xCenter - barW / 2;
-                    const y = yFor(finalTotal);
-                    const h = H - PAD_B - y;
-                    const stamp = easeOutBack(clamp(finalStampT / 0.7));
+                    const yFinal = yFor(finalTotal);
+                    const yBaseline = H - PAD_B;
+                    const fullH = yBaseline - yFinal;
+                    const growT = ease(clamp(finalStampT / 0.65));
+                    const animH = fullH * growT;
+                    const animY = yBaseline - animH;
+                    const labelOpacity = clamp((finalStampT - 0.55) / 0.3);
+                    const numberRunning = finalTotal * growT;
                     return (
                         <g>
                             {/* Divider line between rules and final */}
@@ -615,14 +620,13 @@ function Waterfall({
                                 strokeDasharray="3 3"
                             />
                             <rect
-                                x={x} y={y}
-                                width={barW} height={h}
+                                x={x} y={animY}
+                                width={barW} height={Math.max(1, animH)}
                                 fill="url(#barFinal)"
                                 stroke={PALETTE.final}
                                 strokeWidth={1.5}
                                 rx={2}
-                                opacity={stamp}
-                                style={{ filter: `drop-shadow(0 0 ${8 * finalStampT}px rgba(251,191,36,0.35))` }}
+                                style={{ filter: `drop-shadow(0 0 ${8 * growT}px rgba(251,191,36,0.35))` }}
                             />
                             <text
                                 x={xCenter}
@@ -631,7 +635,7 @@ function Waterfall({
                                 fontSize={9.5}
                                 fill="#fbbf24"
                                 fontWeight={700}
-                                opacity={stamp}
+                                opacity={growT}
                             >
                                 FINAL QUOTE
                             </text>
@@ -643,24 +647,25 @@ function Waterfall({
                                 fill="#fbbf24"
                                 fontFamily="monospace"
                                 fontWeight={700}
-                                opacity={stamp}
+                                opacity={labelOpacity}
                             >
-                                AED {finalTotal.toFixed(2)}
+                                JOD {finalTotal.toFixed(2)}
                             </text>
-                            {/* Big AED label above final bar */}
-                            <g opacity={stamp}>
+                            {/* Number tickering up at the top of the growing bar */}
+                            {growT > 0.05 && (
                                 <text
                                     x={xCenter}
-                                    y={y - 10}
+                                    y={animY - 8}
                                     textAnchor="middle"
                                     fontSize={14}
                                     fill="#fde68a"
                                     fontFamily="monospace"
                                     fontWeight={700}
+                                    opacity={growT}
                                 >
-                                    {finalTotal >= 1000 ? `${(finalTotal / 1000).toFixed(2)}k` : finalTotal.toFixed(0)}
+                                    {numberRunning >= 1000 ? `${(numberRunning / 1000).toFixed(2)}k` : numberRunning.toFixed(0)}
                                 </text>
-                            </g>
+                            )}
                         </g>
                     );
                 })()}
@@ -717,7 +722,7 @@ function FinalQuoteCard({
             <div className="flex-1 flex flex-col p-4 gap-2">
                 <div>
                     <p className="text-[8px] font-mono uppercase tracking-[0.22em] text-slate-500">Base</p>
-                    <p className="text-[12px] font-mono tabular-nums text-slate-200 mt-0.5">AED {booking.rules[0].runningAfter.toFixed(2)}</p>
+                    <p className="text-[12px] font-mono tabular-nums text-slate-200 mt-0.5">JOD {booking.rules[0].runningAfter.toFixed(2)}</p>
                 </div>
 
                 {/* Progress bar for rule application */}
@@ -738,7 +743,7 @@ function FinalQuoteCard({
                 <div className="border-t border-dashed pt-2 mt-1" style={{ borderColor: "rgba(148,163,184,0.15)" }}>
                     <div className="flex items-baseline justify-between">
                         <p className="text-[8.5px] font-mono uppercase tracking-[0.22em] text-slate-500">Running</p>
-                        <p className="text-[13px] font-mono tabular-nums font-semibold text-white">AED {runningTotal.toFixed(2)}</p>
+                        <p className="text-[13px] font-mono tabular-nums font-semibold text-white">JOD {runningTotal.toFixed(2)}</p>
                     </div>
                 </div>
 
@@ -746,51 +751,70 @@ function FinalQuoteCard({
                     <>
                         <div className="flex items-baseline justify-between" style={{ opacity: ease(clamp((finalStampT - 0.1) / 0.3)) }}>
                             <p className="text-[8.5px] font-mono uppercase tracking-[0.22em] text-slate-500">Subtotal</p>
-                            <p className="text-[10px] font-mono tabular-nums text-slate-300">AED {subtotalBeforeVat.toFixed(2)}</p>
+                            <p className="text-[10px] font-mono tabular-nums text-slate-300">JOD {subtotalBeforeVat.toFixed(2)}</p>
                         </div>
                         <div className="flex items-baseline justify-between" style={{ opacity: ease(clamp((finalStampT - 0.2) / 0.3)) }}>
                             <p className="text-[8.5px] font-mono uppercase tracking-[0.22em] text-slate-500">VAT · 5%</p>
-                            <p className="text-[10px] font-mono tabular-nums text-slate-300">AED {vat.toFixed(2)}</p>
+                            <p className="text-[10px] font-mono tabular-nums text-slate-300">JOD {vat.toFixed(2)}</p>
                         </div>
                     </>
                 )}
 
-                <div
-                    className="mt-auto rounded-md px-3 py-3 flex flex-col relative"
-                    style={{
-                        background: "rgba(251,191,36,0.08)",
-                        border: "1px solid rgba(251,191,36,0.45)",
-                        opacity: ease(clamp((finalStampT - 0.3) / 0.3)),
-                        transform: `scale(${lerp(0.92, 1, ease(clamp(finalStampT / 0.5)))})`,
-                    }}
-                >
-                    <p className="text-[8px] font-mono uppercase tracking-[0.22em] text-amber-300/90">Total · charged</p>
-                    <p className="tabular-nums font-bold text-amber-300 leading-none mt-1.5" style={{ fontSize: 26, letterSpacing: "-0.02em" }}>
-                        AED {finalTotal.toFixed(2)}
-                    </p>
-                    <p className="text-[8px] font-mono text-slate-500 mt-1.5">Net-30 · deterministic · replayable</p>
-
-                    {finalStampT > 0.7 && (
+                {(() => {
+                    // The hero "Total charged" tile is permanent (no opacity gate);
+                    // its number ticks up from 0 → finalTotal in lock-step with the
+                    // FINAL waterfall bar growing on the chart.
+                    const tickerT = ease(clamp(finalStampT / 0.65));
+                    const tickerVal = finalTotal * tickerT;
+                    const labelOpacity = clamp((finalStampT - 0.6) / 0.3);
+                    return (
                         <div
-                            className="absolute -top-2 -right-2 rounded-full border flex items-center justify-center font-semibold uppercase"
+                            className="mt-auto rounded-md px-3 py-3 flex flex-col relative overflow-hidden"
                             style={{
-                                width: 42, height: 42,
-                                borderColor: "rgba(251,191,36,0.7)",
-                                color: "#fbbf24",
-                                background: "rgba(15,22,38,0.95)",
-                                fontSize: 7,
-                                letterSpacing: "0.14em",
-                                transform: `scale(${stampScale}) rotate(-8deg)`,
-                                opacity: stampScale,
+                                background: "rgba(251,191,36,0.06)",
+                                border: "1px solid rgba(251,191,36,0.32)",
                             }}
                         >
-                            <div className="text-center leading-tight">
-                                <div>PRICED</div>
-                                <div className="text-[5.5px] mt-0.5 opacity-70" style={{ letterSpacing: "0.1em" }}>42ms</div>
-                            </div>
+                            <p className="text-[8px] font-mono uppercase tracking-[0.22em] text-amber-300/90">Total · charged</p>
+
+                            {/* Vertical fill that grows from bottom up, mirroring the bar */}
+                            <div
+                                className="absolute left-0 right-0 bottom-0 pointer-events-none"
+                                style={{
+                                    height: `${tickerT * 100}%`,
+                                    background: "linear-gradient(180deg, rgba(251,191,36,0.0) 0%, rgba(251,191,36,0.18) 100%)",
+                                    transition: "height 0.05s linear",
+                                }}
+                            />
+
+                            <p className="tabular-nums font-bold text-amber-300 leading-none mt-1.5 relative" style={{ fontSize: 26, letterSpacing: "-0.02em" }}>
+                                JOD {tickerVal.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                            </p>
+                            <p className="text-[8px] font-mono text-slate-500 mt-1.5 relative" style={{ opacity: labelOpacity }}>Net-30 · deterministic · replayable</p>
+
+                            {finalStampT > 0.7 && (
+                                <div
+                                    className="absolute -top-2 -right-2 rounded-full border flex items-center justify-center font-semibold uppercase"
+                                    style={{
+                                        width: 42, height: 42,
+                                        borderColor: "rgba(251,191,36,0.7)",
+                                        color: "#fbbf24",
+                                        background: "rgba(15,22,38,0.95)",
+                                        fontSize: 7,
+                                        letterSpacing: "0.14em",
+                                        transform: `scale(${stampScale}) rotate(-8deg)`,
+                                        opacity: stampScale,
+                                    }}
+                                >
+                                    <div className="text-center leading-tight">
+                                        <div>PRICED</div>
+                                        <div className="text-[5.5px] mt-0.5 opacity-70" style={{ letterSpacing: "0.1em" }}>42ms</div>
+                                    </div>
+                                </div>
+                            )}
                         </div>
-                    )}
-                </div>
+                    );
+                })()}
             </div>
         </div>
     );

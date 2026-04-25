@@ -149,7 +149,7 @@ export function S13Predict() {
                 style={{ background: "radial-gradient(ellipse 85% 50% at 50% 0%, rgba(167,139,250,0.07) 0%, rgba(30,41,59,0.25) 45%, transparent 75%)" }}
             />
 
-            <div className="absolute inset-0 z-10 flex flex-col" style={{ paddingTop: 48, paddingBottom: 96, paddingLeft: 96, paddingRight: 96 }}>
+            <div className="absolute inset-0 z-10 flex flex-col" style={{ paddingTop: 48, paddingBottom: 96, paddingLeft: 160, paddingRight: 96 }}>
 
                 {/* Publication header */}
                 <motion.div

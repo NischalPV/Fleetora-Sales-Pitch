@@ -381,7 +381,7 @@ function VisOrgTree({ p, tone }: { p: number; tone: string }) {
                 <div className="flex items-baseline justify-between mb-1">
                     <span className="text-[8.5px] uppercase tracking-[0.2em] text-slate-500 font-medium">Consolidated credit</span>
                     <span className="text-[10px] tabular-nums">
-                        <span className="text-white font-semibold">AED {Math.round(180 * ease(clamp((p - 0.75) / 0.25)))}K</span>
+                        <span className="text-white font-semibold">JOD {Math.round(180 * ease(clamp((p - 0.75) / 0.25)))}K</span>
                         <span className="text-slate-600"> / 250K</span>
                     </span>
                 </div>
@@ -416,7 +416,7 @@ function VisRevRec({ p, tone }: { p: number; tone: string }) {
                 }}
             >
                 <p className="text-[9px] uppercase tracking-[0.2em] text-slate-500 font-medium mb-2">
-                    Booking BK-1047 · 3-day rental · Total AED {totalAmount}
+                    Booking BK-1047 · 3-day rental · Total JOD {totalAmount}
                 </p>
                 <div className="flex h-5 rounded overflow-hidden" style={{ background: "rgba(148,163,184,0.1)" }}>
                     {days.map((d) => (
@@ -461,7 +461,7 @@ function VisRevRec({ p, tone }: { p: number; tone: string }) {
                                 Apr {11 + d} · Revenue recognized
                             </span>
                             <span className="text-[10px] font-semibold tabular-nums" style={{ color: tone }}>
-                                + AED {amt.toLocaleString()}
+                                + JOD {amt.toLocaleString()}
                             </span>
                         </div>
                     );
@@ -474,7 +474,7 @@ function VisRevRec({ p, tone }: { p: number; tone: string }) {
                     }}
                 >
                     <span className="text-[9px] uppercase tracking-wider text-slate-500 font-semibold">Total recognized</span>
-                    <span className="text-[13px] font-bold tabular-nums" style={{ color: tone }}>AED 900</span>
+                    <span className="text-[13px] font-bold tabular-nums" style={{ color: tone }}>JOD 900</span>
                 </div>
             </div>
         </div>
@@ -577,7 +577,7 @@ function VisTax({ p, tone }: { p: number; tone: string }) {
                         >
                             <span className="text-[10px] text-slate-400">{s.label}</span>
                             <span className="text-[12px] font-semibold text-white tabular-nums">
-                                {s.sign} AED {displayVal.toLocaleString()}
+                                {s.sign} JOD {displayVal.toLocaleString()}
                             </span>
                         </div>
                     );
@@ -588,7 +588,7 @@ function VisTax({ p, tone }: { p: number; tone: string }) {
                 >
                     <span className="text-[10px] uppercase tracking-[0.22em] font-bold" style={{ color: tone }}>Total due</span>
                     <span className="text-[22px] font-black text-white tabular-nums leading-none">
-                        AED {total.toLocaleString()}
+                        JOD {total.toLocaleString()}
                     </span>
                 </div>
             </div>
@@ -619,7 +619,7 @@ function VisAging({ p, tone }: { p: number; tone: string }) {
         <div className="h-full flex flex-col justify-center gap-2.5 px-8">
             <div className="flex items-baseline justify-between" style={{ opacity: ease(clamp(p / 0.1)) }}>
                 <p className="text-[10px] uppercase tracking-[0.22em] font-semibold text-slate-400">AR aging · Fleet Corp</p>
-                <p className="text-[9px] tabular-nums text-slate-500">Total outstanding AED 210,200</p>
+                <p className="text-[9px] tabular-nums text-slate-500">Total outstanding JOD 210,200</p>
             </div>
             {buckets.map((b, i) => {
                 const bP = ease(clamp((p - 0.12 - i * 0.12) / 0.3));
@@ -627,7 +627,7 @@ function VisAging({ p, tone }: { p: number; tone: string }) {
                     <div key={b.label} className="flex flex-col gap-1" style={{ opacity: bP }}>
                         <div className="flex items-baseline justify-between">
                             <span className="text-[10px] text-slate-300">{b.label}</span>
-                            <span className="text-[10px] tabular-nums text-white font-semibold">AED {b.amount.toLocaleString()}</span>
+                            <span className="text-[10px] tabular-nums text-white font-semibold">JOD {b.amount.toLocaleString()}</span>
                         </div>
                         <div className="h-[8px] rounded overflow-hidden" style={{ background: "rgba(148,163,184,0.08)" }}>
                             <div
@@ -656,7 +656,7 @@ function VisAging({ p, tone }: { p: number; tone: string }) {
                 </svg>
                 <div className="flex-1 min-w-0">
                     <p className="text-[9.5px] font-semibold" style={{ color: tone }}>Dunning sent · Level 2 escalation</p>
-                    <p className="text-[9px] text-slate-400">INV-2026-0746 · 62 days · AED 4,100 · Fleet Corp AP notified</p>
+                    <p className="text-[9px] text-slate-400">INV-2026-0746 · 62 days · JOD 4,100 · Fleet Corp AP notified</p>
                 </div>
             </div>
         </div>
@@ -1049,7 +1049,7 @@ export function S15Corporate() {
             {/* Header chrome */}
             <div
                 className="absolute top-0 left-0 right-0 z-30 flex items-center justify-between pointer-events-none"
-                style={{ padding: "32px 72px 0 72px" }}
+                style={{ padding: "32px 72px 0 160px" }}
             >
                 <div className="flex items-center gap-3">
                     <span className="text-[10px] font-semibold tracking-[0.35em] uppercase text-slate-400">Fleetora · Finance</span>

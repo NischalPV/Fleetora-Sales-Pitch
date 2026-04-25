@@ -236,7 +236,7 @@ export function S12Rebalance() {
                 style={{ background: "radial-gradient(circle at 50% 50%, rgba(30,41,59,0.25) 0%, transparent 70%)" }}
             />
 
-            <div className="absolute inset-0 z-10 flex flex-col" style={{ paddingTop: 48, paddingBottom: 96, paddingLeft: 72, paddingRight: 72 }}>
+            <div className="absolute inset-0 z-10 flex flex-col" style={{ paddingTop: 48, paddingBottom: 96, paddingLeft: 160, paddingRight: 72 }}>
 
                 {/* Publication-style header */}
                 <motion.div
