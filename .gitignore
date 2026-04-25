@@ -40,4 +40,17 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 .claude-flow/*.png
+.debug/
 .debug/*.jpeg
+
+# playwright + dev screenshots
+.playwright-mcp/
+*.png
+*.jpg
+*.jpeg
+!public/**/*.png
+!public/**/*.jpg
+!public/**/*.jpeg
+!src/**/*.png
+!src/**/*.jpg
+!src/**/*.jpeg
